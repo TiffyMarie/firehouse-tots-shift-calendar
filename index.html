@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Shift Calendar"><meta name="theme-color" content="#D7263D">
+<title>Firehouse Tots · Firefighter Family Shift Calendar</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚒</text></svg>">
+<style>
+:root{--red:#D7263D;--yel:#FFC93C;--navy:#1B2A4A;--cream:#FFF8E7}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--cream);color:var(--navy)}
+header{background:var(--red);color:#fff;text-align:center;padding:16px 10px 12px;border-bottom:8px solid var(--yel)}
+h1{margin:0;font-size:clamp(20px,4vw,30px)}header p{margin:4px 0 0}
+main{max-width:980px;margin:auto;padding:12px}
+.card{background:#fff;border:2px solid var(--navy);border-radius:14px;padding:12px;margin:12px 0}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+label{font-weight:700;font-size:14px;display:flex;flex-direction:column;gap:4px}
+input,select,textarea{font-size:16px;padding:10px;border:2px solid var(--navy);border-radius:10px;min-height:44px}
+button{font-size:16px;font-weight:700;min-height:48px;padding:10px 16px;border:0;border-radius:12px;background:var(--navy);color:#fff;cursor:pointer}
+button.red{background:var(--red)}button.yel{background:var(--yel);color:var(--navy)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.dow{background:var(--navy);color:#fff;text-align:center;font-weight:700;padding:6px 0;border-radius:6px;font-size:13px}
+.day{min-height:84px;background:#fff;border:2px solid #d9cfb8;border-radius:10px;padding:4px;cursor:pointer;position:relative;user-select:none}
+.day.shift{background:#ffe3e6;border-color:var(--red)}.day.home{background:#fff5d6;border-color:var(--yel)}
+.day.today{outline:3px solid var(--navy)}.day.empty{background:transparent;border:0;cursor:default}
+.num{font-weight:800}.ico{font-size:26px;text-align:center}.stk{font-size:18px;text-align:center;min-height:20px}
+.nd{position:absolute;top:3px;right:5px;font-size:15px}
+.big{font-size:clamp(28px,7vw,52px);font-weight:900;text-align:center;color:var(--red)}
+.timer{display:flex;justify-content:center;gap:10px}.timer div{background:var(--navy);color:#fff;border-radius:12px;padding:8px 14px;text-align:center;min-width:80px}
+.timer b{display:block;font-size:clamp(26px,6vw,40px)}
+.flames{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;padding:14px 4px;background:linear-gradient(#fff,#ffe9c7);border-radius:12px}
+.fl{position:relative;width:78px;height:96px;border:0;background:none;padding:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.fl .f{position:absolute;left:50%;bottom:10px;width:54px;height:54px;margin-left:-27px;border-radius:50% 0 50% 50%;transform:rotate(-45deg);background:radial-gradient(circle at 70% 30%,#FFE066,#FF9F1C 45%,#D7263D 80%);box-shadow:0 0 18px #ff9f1c88;animation:flick .45s ease-in-out infinite alternate;transition:all .5s}
+.fl .f::after{content:"";position:absolute;left:30%;top:30%;width:45%;height:45%;border-radius:50% 0 50% 50%;background:#FFF3B0}
+.fl:nth-child(2n) .f{animation-duration:.38s}.fl:nth-child(3n) .f{animation-duration:.52s}
+@keyframes flick{0%{transform:rotate(-45deg) scale(1)}50%{transform:rotate(-40deg) scale(1.07,0.95)}100%{transform:rotate(-50deg) scale(.95,1.08)}}
+.fl .log{position:absolute;bottom:2px;left:12px;width:54px;height:10px;background:#8a5a2b;border-radius:5px}
+.fl .n{position:absolute;top:0;right:2px;font:800 13px system-ui;color:var(--navy)}
+.fl .w{position:absolute;inset:0;pointer-events:none}
+.fl .w i{position:absolute;top:-6px;left:50%;width:9px;height:14px;background:#4aa8ff;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;opacity:0;animation:drop .55s ease-in forwards}
+@keyframes drop{0%{opacity:1;transform:translate(var(--x),-30px)}100%{opacity:0;transform:translate(calc(var(--x)*.3),70px)}}
+.fl.out .f{transform:rotate(-45deg) scale(0);opacity:0;animation:none}
+.fl .s{position:absolute;bottom:20px;left:50%;font-size:34px;transform:translateX(-50%);opacity:0}
+.fl.out .s{animation:smoke 1.2s ease-out forwards}
+@keyframes smoke{0%{opacity:.9;transform:translate(-50%,0) scale(.6)}100%{opacity:0;transform:translate(-50%,-50px) scale(1.6)}}
+.fl.done{cursor:default}.fl.done .log{background:#bbb}.fl.done .ok{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:30px}
+.gauge{display:flex;align-items:center;gap:8px}.gauge .hose{font-size:30px}
+.prog{flex:1;height:26px;background:#e6eef7;border-radius:13px;overflow:hidden;border:3px solid var(--navy)}.prog i{display:block;height:100%;background:repeating-linear-gradient(45deg,#3a8eea 0 12px,#5fb0ff 12px 24px);background-size:34px 34px;animation:flow 1s linear infinite;transition:width .5s}
+@keyframes flow{to{background-position:34px 0}}
+#cele{position:fixed;inset:0;background:#1b2a4ae6;display:none;z-index:50;align-items:center;justify-content:center;flex-direction:column;color:#fff;text-align:center;overflow:hidden}
+#cele.on{display:flex}#cele h2{font-size:clamp(30px,8vw,64px);margin:10px;color:var(--yel)}
+#cele .tk{font-size:90px;animation:drive 2.4s ease-out}
+@keyframes drive{0%{transform:translateX(120vw)}70%{transform:translateX(-10px)}100%{transform:translateX(0)}}
+#conf{position:absolute;inset:0;pointer-events:none}
+.brand{display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--red);font-weight:900;border-radius:999px;padding:4px 14px;font-size:14px;letter-spacing:.5px;margin-bottom:6px}
+#expmod{position:fixed;inset:0;background:#1b2a4acc;display:none;z-index:40;align-items:center;justify-content:center;padding:16px}#expmod.on{display:flex}
+#expmod .box{background:#fff;border-radius:16px;padding:18px;max-width:440px;width:100%;border-top:8px solid var(--red)}#expmod .box{max-height:92vh;overflow:auto}.cals{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cals button,.cals .cbtn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:96px;padding:10px;border-radius:14px;font-size:15px;font-weight:800;text-align:center;text-decoration:none;background:var(--navy);color:#fff;border:0}
+.cals .cbtn{background:#fff;color:var(--navy);border:3px solid var(--navy)}.cals span{font-size:30px}.cals small{font-weight:400;font-size:12px;color:inherit;opacity:.85}
+#expmod .close{width:100%;margin-top:8px;background:#888}@media(max-width:360px){.cals{grid-template-columns:1fr}}
+.tip{background:#fff5d6;border-left:5px solid var(--yel);padding:8px;border-radius:8px;font-size:14px}
+footer{text-align:center;padding:16px;color:var(--navy);font-size:14px}footer b{color:var(--red)}
+.stkbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.stkbar span{width:100%;text-align:center}.stkbar button{font-size:28px;background:#fff;border:3px solid var(--navy);color:var(--navy);min-width:64px}
+.stkbar button.sel{background:var(--yel)}
+.note{background:#fff5d6;border-left:6px solid var(--red);padding:8px 10px;border-radius:8px;margin:6px 0}
+small{color:#555}.hide{display:none}
+@media(max-width:600px){.day{min-height:64px}.ico{font-size:20px}.fl{width:64px;height:84px}}
+@media print{.noprint{display:none!important}body{background:#fff}.card{border:0}.day{min-height:90px}}
+</style></head><body>
+<header><div class="brand">🚒 FIREHOUSE TOTS</div><h1>🚒 Our Firefighter Family Shift Calendar</h1><p>Pick a pattern, see when your hero is home, and help put out the flames!</p></header>
+<main>
+<div class="card noprint" id="setup">
+<div class="row">
+<label>Firefighter name<input id="pname" placeholder="Mom / Dad"></label>
+<label>Shift pattern<select id="pat">
+<option value="24on48">24 on / 48 off</option><option value="4896">48 on / 96 off</option>
+<option value="kelly">Kelly (on-off-on-off-on, 4 off)</option><option value="2472">24 on / 72 off</option>
+<option value="custom">Custom</option></select></label>
+<label>First shift start date<input type="date" id="start"></label>
+<label>Shift starts at<input type="time" id="stime" value="07:00"></label>
+<label>Shift ends at (next day)<input type="time" id="etime" value="07:00"></label>
+<label id="custl" class="hide">Custom (1=on 0=off, by day)<input id="cust" value="1100" placeholder="e.g. 110000"></label>
+</div>
+<div class="row" style="margin-top:10px">
+<label>Month<input type="month" id="month"></label>
+<button class="yel" onclick="exportICS()">📅 Export to calendar (.ics)</button>
+<button onclick="window.print()">🖨️ Print</button>
+</div>
+<small>Export works with Google Calendar, Apple Calendar, and Outlook. Exports 3 months of shifts starting with the month shown.</small>
+</div>
+
+<div class="card" id="countcard">
+<div class="big" id="sleeps"></div>
+<div class="timer noprint"><div><b id="td">0</b>days</div><div><b id="th">0</b>hours</div><div><b id="tm">0</b>min</div></div>
+</div>
+
+<div class="card noprint">
+<h2 style="margin:0 0 6px">🔥 Put out the flames! 🧯</h2>
+<p style="margin:0 0 8px">Tap one flame each night (or every 2 hours). When every flame is out, your firefighter is home!</p>
+<div class="row"><label>One flame for each<select id="bmode"><option value="sleep">sleep</option><option value="hour">2 hours</option></select></label><button class="red" onclick="resetBub()">Light new flames</button></div>
+<div class="gauge" style="margin-top:10px"><span class="hose">🧑‍🚒</span><div class="prog"><i id="pbar" style="width:0"></i></div><b id="gtxt">0/0</b></div>
+<div class="flames" id="flames"></div>
+</div>
+
+<div class="card">
+<h2 style="margin:0 0 6px" id="mtitle"></h2>
+<div class="stkbar noprint" style="margin-bottom:8px"><span style="align-self:center;font-weight:700">Tap a sticker, then tap a day:</span>
+<button data-s="⭐" class="sel">⭐</button><button data-s="❤️">❤️</button><button data-s="🤗">🤗</button><button data-s="✖">🧽</button></div>
+<div class="cal" id="cal"></div>
+<p><b>🚒 = shift day &nbsp; 🏠 = home day &nbsp; 💌 = note from your firefighter</b></p>
+</div>
+
+<div class="card">
+<h2 style="margin:0 0 6px">💌 Notes from my firefighter</h2>
+<div id="shownotes"></div>
+<div class="noprint" style="margin-top:10px">
+<div class="row"><label>For day<input type="date" id="ndate"></label><label>Show at<input type="time" id="ntime" value="17:00"></label>
+<label style="flex:1">Note<input id="ntext" placeholder="Brush your teeth, superstar! Love you!"></label>
+<button onclick="addNote()">Add note</button></div>
+<div class="row" style="margin-top:10px"><button class="red" onclick="shareNotes()">🔗 Share notes link</button><small style="flex:1">Text this link to the home phone/tablet. Opening it adds the notes there. (No internet server is used; notes travel inside the link.)</small></div>
+<input id="shareout" readonly class="hide" style="width:100%;margin-top:8px">
+</div></div>
+</main><footer><b>Firehouse Tots</b> · Made by a firefighter-paramedic family, for fire families ❤️<br><small>Tip: on iPhone/iPad tap Share → "Add to Home Screen" to use it like an app. Your info stays on this device.</small></footer>
+<div id="expmod"><div class="box"><h2 style="margin:0 0 6px">📅 Add shifts to your calendar</h2>
+<p style="margin:0 0 8px;font-size:14px">Adds 3 months of shifts plus your notes. Works with Apple, Google, and Outlook calendars.</p>
+<div id="expPrev" class="tip hide" style="border-color:var(--red)"><b>Opened from Messages, Files, or a chat preview?</b> Tap <b>Share ⬆️ → Open in Safari</b> first, then tap Export again. Previews can't add to Calendar.</div>
+<div class="cals">
+<button class="red" id="bShare" onclick="expShare()"><span>🍎</span>Apple / iPhone Calendar<small>Adds every shift (Add All)</small></button>
+<a class="cbtn" id="lGoogle" target="_blank" rel="noopener"><span>🟦</span>Google Calendar<small>Adds the next shift</small></a>
+<a class="cbtn" id="lOutlook" target="_blank" rel="noopener"><span>📧</span>Outlook.com<small>Adds the next shift</small></a>
+<a class="cbtn" id="lO365" target="_blank" rel="noopener"><span>💼</span>Office 365 / work Outlook<small>Adds the next shift</small></a>
+<a class="cbtn" id="lYahoo" target="_blank" rel="noopener"><span>🟪</span>Yahoo Calendar<small>Adds the next shift</small></a>
+<button id="bDl" onclick="expDl()"><span>📁</span>Other calendar apps (.ics file)<small>Whole schedule, any app</small></button>
+</div>
+<details class="tip" style="margin-top:6px"><summary><b>Want ALL shifts in Google, Outlook, or Yahoo?</b></summary>
+Tap <b>Other calendar apps</b> to save the .ics file, then on a computer:<br>• <b>Google:</b> calendar.google.com → ⚙️ Settings → Import &amp; export → Import<br>• <b>Outlook:</b> Calendar → Add calendar → Upload from file<br>• <b>Yahoo:</b> Calendar → Actions → Import</details>
+<div id="expIOS" class="tip hide">iPhone/iPad: in Safari, "Apple / iPhone Calendar" shows Apple's <b>Add All</b> sheet. If you see a preview instead, tap Share → Open in Safari.</div>
+<p id="expmsg" style="font-weight:700;min-height:1em"></p>
+<button class="close" onclick="$('expmod').classList.remove('on')">Close</button></div></div>
+<div id="cele" onclick="this.classList.remove('on')"><canvas id="conf"></canvas><div class="tk">🚒💨</div><h2 id="ctxt">Mom/Dad is home!</h2><p style="font-size:20px">All the flames are out. Great job, junior firefighter! 🧑‍🚒</p><button class="yel">Yay! 🎉</button></div>
+<script>
+const $=id=>document.getElementById(id),K='ffcal_v1';
+let S=JSON.parse(localStorage.getItem(K)||'{}');S.stk=S.stk||{};S.notes=S.notes||[];S.bub=S.bub||null;
+let cur='⭐';
+const PAT={'24on48':[1,0,0],'4896':[1,1,0,0,0,0],'kelly':[1,0,1,0,1,0,0,0,0],'2472':[1,0,0,0]};
+function save(){localStorage.setItem(K,JSON.stringify(S))}
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function pd(s){const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)}
+function pattern(){return $('pat').value=='custom'?($('cust').value.replace(/[^01]/g,'').split('').map(Number)||[1,0]):PAT[$('pat').value]}
+function isShift(d){const p=pattern();if(!p.length||!$('start').value)return false;const n=Math.round((d-pd($('start').value))/864e5);if(n<0)return false;return p[n%p.length]==1}
+function shiftEnd(dayStart){ // returns Date when a shift starting that day ends (handles 48s)
+ const[sh,sm]=$('stime').value.split(':').map(Number),[eh,em]=$('etime').value.split(':').map(Number);
+ let d=new Date(dayStart);let len=1;while(isShift(new Date(d.getFullYear(),d.getMonth(),d.getDate()+len)))len++;
+ const e=new Date(d.getFullYear(),d.getMonth(),d.getDate()+len,eh,em);return e}
+function curShift(){ // find shift block containing now, or next one
+ const now=new Date();const[sh,sm]=$('stime').value.split(':').map(Number);
+ for(let i=-3;i<60;i++){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i);
+  if(isShift(d)&&!isShift(new Date(d.getFullYear(),d.getMonth(),d.getDate()-1))){const st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),sh,sm),en=shiftEnd(d);
+   if(en>now)return{st,en}}}return null}
+function render(){
+ S.cfg={pname:$('pname').value,pat:$('pat').value,start:$('start').value,stime:$('stime').value,etime:$('etime').value,cust:$('cust').value,month:$('month').value,bmode:$('bmode').value};save();
+ $('custl').classList.toggle('hide',$('pat').value!='custom');
+ const[y,m]=$('month').value.split('-').map(Number);const first=new Date(y,m-1,1),days=new Date(y,m,0).getDate();
+ $('mtitle').textContent=first.toLocaleString(undefined,{month:'long',year:'numeric'});
+ const c=$('cal');c.innerHTML='';['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>c.innerHTML+=`<div class="dow">${d}</div>`);
+ for(let i=0;i<first.getDay();i++)c.innerHTML+='<div class="day empty"></div>';
+ const today=ymd(new Date());
+ for(let d=1;d<=days;d++){const dt=new Date(y,m-1,d),k=ymd(dt),sh=isShift(dt);const hasN=S.notes.some(n=>n.d==k);
+  c.innerHTML+=`<div class="day ${sh?'shift':'home'} ${k==today?'today':''}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}<div class="ico">${sh?'🚒':'🏠'}</div><div class="stk">${(S.stk[k]||[]).join('')}</div></div>`}
+ c.querySelectorAll('.day[data-k]').forEach(el=>el.onclick=()=>{const k=el.dataset.k;if(cur=='✖')delete S.stk[k];else{(S.stk[k]=S.stk[k]||[]).push(cur);if(S.stk[k].length>4)S.stk[k].shift()}save();render();chime(660)});
+ tick();renderNotes();renderBub()}
+function tick(){const now=new Date(),s=curShift(),n=$('pname').value||'Mom/Dad';
+ if(!s||!$('start').value){$('sleeps').textContent='Set the shift pattern above ⬆️';return}
+ if(s.st>now){$('sleeps').textContent=`🏠 ${n} is home today! Next shift: ${s.st.toLocaleDateString(undefined,{weekday:'long'})}`;setT(0);return}
+ const ms=s.en-now;let sl=0;for(let d=new Date(now.getFullYear(),now.getMonth(),now.getDate());d<new Date(s.en.getFullYear(),s.en.getMonth(),s.en.getDate());d.setDate(d.getDate()+1))sl++;
+ $('sleeps').textContent=sl?`${sl} sleep${sl>1?'s':''} until ${n} is home! 🚒➡️🏠`:`${n} comes home today! 🎉`;setT(ms)}
+function setT(ms){$('td').textContent=Math.floor(ms/864e5);$('th').textContent=Math.floor(ms/36e5)%24;$('tm').textContent=Math.floor(ms/6e4)%60}
+// flames
+function resetBub(){const s=curShift(),now=new Date();let n=2;
+ if(s&&s.st<=now){const ms=s.en-now;n=$('bmode').value=='hour'?Math.max(1,Math.ceil(ms/72e5)):Math.max(1,Math.ceil(ms/864e5))}
+ else if(s){n=$('bmode').value=='hour'?Math.ceil((s.en-s.st)/72e5):Math.ceil((s.en-s.st)/864e5)}
+ S.bub={n:Math.min(n,40),popped:[]};save();renderBub()}
+function renderBub(){if(!S.bub)resetBub();const b=$('flames');b.innerHTML='';
+ for(let i=0;i<S.bub.n;i++){const done=S.bub.popped.includes(i);const e=document.createElement('button');e.className='fl'+(done?' done':'');e.setAttribute('aria-label',(done?'flame out ':'flame ')+(i+1));e.dataset.i=i;
+  e.innerHTML=done?'<span class="log"></span><span class="ok">💧</span><span class="n">'+(i+1)+'</span>':'<span class="f"></span><span class="log"></span><span class="s">💨</span><span class="w"></span><span class="n">'+(i+1)+'</span>';
+  if(!done)e.onclick=()=>douse(e,i);b.appendChild(e)}
+ const p=S.bub.popped.length;$('pbar').style.width=(100*p/S.bub.n)+'%';$('gtxt').textContent=p+'/'+S.bub.n}
+function douse(e,i){if(e.classList.contains('out'))return;const w=e.querySelector('.w');
+ for(let k=0;k<12;k++){const d=document.createElement('i');d.style.setProperty('--x',(Math.random()*50-25)+'px');d.style.animationDelay=(k*35)+'ms';w.appendChild(d)}
+ hiss();setTimeout(()=>e.classList.add('out'),300);S.bub.popped.push(i);save();
+ setTimeout(()=>{renderBub();if(S.bub.popped.length==S.bub.n)celebrate()},1300)}
+function celebrate(){$('ctxt').textContent=($('pname').value||'Mom/Dad')+' is home!';$('cele').classList.add('on');chime(523);chime(659,.15);chime(784,.3);chime(1047,.45);confetti()}
+function confetti(){const cv=$('conf'),x=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;const C=['#D7263D','#FFC93C','#fff','#4aa8ff'];
+ const P=Array.from({length:160},()=>({x:Math.random()*cv.width,y:-Math.random()*cv.height,v:2+Math.random()*4,s:5+Math.random()*7,c:C[Math.random()*4|0],r:Math.random()*6}));let t=0;
+ (function f(){x.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.y+=p.v;p.x+=Math.sin(t/20+p.r);x.fillStyle=p.c;x.fillRect(p.x,p.y,p.s,p.s*.6)});if(++t<300&&$('cele').classList.contains('on'))requestAnimationFrame(f);else x.clearRect(0,0,cv.width,cv.height)})()}
+let AC;function ac(){return AC=AC||new (window.AudioContext||window.webkitAudioContext)()}
+function hiss(){try{const a=ac(),t=a.currentTime,len=a.sampleRate*1.1,buf=a.createBuffer(1,len,a.sampleRate),d=buf.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;
+ const n=a.createBufferSource();n.buffer=buf;const bp=a.createBiquadFilter();bp.type='bandpass';bp.Q.value=.8;bp.frequency.setValueAtTime(600,t);bp.frequency.exponentialRampToValueAtTime(5000,t+.3);bp.frequency.exponentialRampToValueAtTime(7000,t+1);
+ const g=a.createGain();g.gain.setValueAtTime(.001,t);g.gain.exponentialRampToValueAtTime(.6,t+.08);g.gain.setValueAtTime(.35,t+.35);g.gain.exponentialRampToValueAtTime(.001,t+1.05);n.connect(bp).connect(g).connect(a.destination);n.start(t);n.stop(t+1.1)}catch(e){}}
+function chime(f,dl=0){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime+dl;o.frequency.value=f;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(a.destination);o.start(t);o.stop(t+.3)}catch(e){}}
+// notes
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function addNote(){if(!$('ndate').value||!$('ntext').value.trim())return alert('Pick a day and write a note');S.notes.push({id:Date.now()+''+Math.random().toString(36).slice(2,6),d:$('ndate').value,t:$('ntime').value,x:$('ntext').value.trim()});$('ntext').value='';save();render()}
+function delNote(id){S.notes=S.notes.filter(n=>n.id!=id);save();render()}
+function renderNotes(){const now=new Date();const list=S.notes.slice().sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t));
+ $('shownotes').innerHTML=list.length?list.map(n=>{const at=new Date(n.d+'T'+(n.t||'00:00'));const ready=at<=now;
+  return `<div class="note"><b>${pd(n.d).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})} ${n.t||''}</b> ${ready?'💌 '+esc(n.x):'🔒 <i>A surprise note opens then!</i>'} <button class="noprint" style="min-height:32px;padding:2px 8px;float:right" onclick="delNote('${n.id}')">✕</button></div>`}).join(''):'<small>No notes yet.</small>'}
+function shareNotes(){const data={n:S.notes,c:S.cfg};const enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+ const url=location.href.split('#')[0]+'#notes='+enc;const o=$('shareout');o.value=url;o.classList.remove('hide');o.select();
+ if(navigator.share)navigator.share({title:'Notes from your firefighter',url}).catch(()=>{});else navigator.clipboard&&navigator.clipboard.writeText(url).then(()=>alert('Link copied! Text it to home.'))}
+function importHash(){const m=location.hash.match(/notes=([^&]+)/);if(!m)return;try{const d=JSON.parse(decodeURIComponent(escape(atob(m[1]))));let add=0;
+ (d.n||[]).forEach(n=>{if(!S.notes.some(x=>x.id==n.id)){S.notes.push(n);add++}});if(d.c&&!S.cfg)S.cfg=d.c;save();history.replaceState(null,'',location.pathname);if(add)alert(`💌 ${add} new note(s) from your firefighter!`)}catch(e){alert('That notes link looks broken.')}}
+// ics
+function icsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n')}
+function dt(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00'}
+function exportICS(){if(!$('start').value)return alert('Pick the first shift date first');const[y,m]=$('month').value.split('-').map(Number);const[sh,sm]=$('stime').value.split(':').map(Number);
+ const n=$('pname').value||'Firefighter';const stamp=dt(new Date());let L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Firehouse Tots//Shift Calendar//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsEsc(n+' Shifts')];
+ const end=new Date(y,m+2,1);
+ for(let d=new Date(y,m-1,1);d<end;d.setDate(d.getDate()+1)){const day=new Date(d);
+  if(isShift(day)&&!isShift(new Date(day.getFullYear(),day.getMonth(),day.getDate()-1))){const st=new Date(day.getFullYear(),day.getMonth(),day.getDate(),sh,sm),en=shiftEnd(day);
+   const ns=S.notes.filter(x=>{const t=pd(x.d);return t>=new Date(st.getFullYear(),st.getMonth(),st.getDate())&&t<=en});
+   const desc='Home: '+en.toLocaleString()+(ns.length?'\nNotes for the kids:\n'+ns.map(x=>x.d+' '+x.t+' - '+x.x).join('\n'):'');
+   L.push('BEGIN:VEVENT','UID:shift-'+dt(st)+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(st),'DTEND:'+dt(en),'SUMMARY:'+icsEsc('🚒 '+n+' on shift'),'DESCRIPTION:'+icsEsc(desc),'END:VEVENT')}}
+ S.notes.forEach(x=>{const st=new Date(x.d+'T'+(x.t||'08:00'));const en=new Date(st.getTime()+15*6e4);L.push('BEGIN:VEVENT','UID:note-'+x.id+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(st),'DTEND:'+dt(en),'SUMMARY:'+icsEsc('💌 Note from '+n),'DESCRIPTION:'+icsEsc(x.x),'END:VEVENT')});
+ L.push('END:VCALENDAR');ICS=L.join('\r\n');openExport()}
+let ICS='';const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const inPreview=isIOS&&!/Safari/.test(navigator.userAgent)&&!navigator.standalone;
+function icsFile(){return new File([ICS],'firefighter-shifts.ics',{type:'text/calendar'})}
+function z(d){return d.toISOString().replace(/[-:]|\.\d{3}/g,'')}
+function calLinks(){const sh=curShift(),n=$('pname').value||'Firefighter';if(!sh){['lGoogle','lOutlook','lO365','lYahoo'].forEach(i=>$(i).removeAttribute('href'));return}
+ const t='🚒 '+n+' on shift',ns=S.notes.filter(x=>{const d=new Date(x.d+'T'+(x.t||'00:00'));return d>=sh.st&&d<=sh.en}).map(x=>x.d+' '+x.t+' - '+x.x).join('\n');
+ const det='Home: '+sh.en.toLocaleString()+(ns?'\nNotes for the kids:\n'+ns:'')+'\n(Firehouse Tots shift calendar)',E=encodeURIComponent;
+ $('lGoogle').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+E(t)+'&dates='+z(sh.st)+'/'+z(sh.en)+'&details='+E(det);
+ const oq='?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&subject='+E(t)+'&startdt='+E(sh.st.toISOString())+'&enddt='+E(sh.en.toISOString())+'&body='+E(det);
+ $('lOutlook').href='https://outlook.live.com/calendar/0/deeplink/compose'+oq;$('lO365').href='https://outlook.office.com/calendar/0/deeplink/compose'+oq;
+ $('lYahoo').href='https://calendar.yahoo.com/?v=60&title='+E(t)+'&st='+z(sh.st)+'&et='+z(sh.en)+'&desc='+E(det)}
+function openExport(){calLinks();$('expIOS').classList.toggle('hide',!isIOS);$('expPrev').classList.toggle('hide',!inPreview);$('expmod').classList.add('on')}
+async function expShare(){const f=icsFile();if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Firefighter shifts'});expMsg('Shared! Pick Calendar (or Save to Files, then open it).');return}catch(e){if(e.name==='AbortError')return}}expCal()}
+function expCal(){const url='data:text/calendar;charset=utf-8,'+encodeURIComponent(ICS);if(isIOS){window.__lastNav=url;location.href=url;expMsg('Calendar should open with "Add All". Nothing happened? Tap Share > Open in Safari, then try again.')}else expDl()}
+function expDl(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ICS],{type:'text/calendar'}));a.download='firefighter-shifts.ics';document.body.appendChild(a);a.click();a.remove();expMsg('Downloaded firefighter-shifts.ics. Open it, or import it in Google Calendar (Settings > Import) or Outlook.')}
+function expMsg(t){$('expmsg').textContent=t}
+
+// init
+importHash();const c=S.cfg||{};const t=new Date();
+$('pname').value=c.pname||'';$('pat').value=c.pat||'24on48';$('start').value=c.start||ymd(t);$('stime').value=c.stime||'07:00';$('etime').value=c.etime||'07:00';$('cust').value=c.cust||'1100';$('month').value=c.month||ymd(t).slice(0,7);$('bmode').value=c.bmode||'sleep';$('ndate').value=ymd(t);
+['pname','pat','start','stime','etime','cust','month'].forEach(i=>$(i).addEventListener('input',render));$('bmode').onchange=()=>{render();resetBub()};
+document.querySelectorAll('.stkbar button').forEach(b=>b.onclick=()=>{cur=b.dataset.s;document.querySelectorAll('.stkbar button').forEach(x=>x.classList.toggle('sel',x==b))});
+render();setInterval(()=>{tick();renderNotes()},30000);
+</script></body></html>
