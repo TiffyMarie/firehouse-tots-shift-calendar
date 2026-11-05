@@ -149,6 +149,35 @@ body.editing .day[data-k]{outline:1.5px dashed var(--red);outline-offset:-3px}
 footer{color:var(--muted)}footer b{color:var(--red)}
 @media(max-width:600px){.dico{width:30px;height:21px}.card{padding:14px}.cal{gap:3px}}
 @media print{body{background:#fff}.day{border:1px solid #999}}
+
+body:not(.duo) .duoonly{display:none!important}
+input.sw{width:64px;padding:2px;height:40px}
+.duotog{display:flex!important;flex-direction:row!important;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border:1px dashed var(--line);border-radius:10px;background:#FFFDF8;cursor:pointer;text-transform:none!important;letter-spacing:0!important}
+.duotog input{width:20px;height:20px;accent-color:var(--navy)}.duotog span{display:flex;flex-direction:column;color:var(--ink)}.duotog small{color:var(--muted);font-weight:400}
+.p2box{margin-top:10px;padding:10px 12px;border-left:3px solid var(--brass);background:#FBF7EE;border-radius:8px}.p2h{font-weight:700;color:var(--navy);margin-bottom:6px;font-size:14px}
+.pb{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;color:#fff;font:700 11px Inter,system-ui,sans-serif;flex:none;box-shadow:0 0 0 1.5px #fff}
+.pbs{position:absolute;top:3px;right:3px;display:flex;gap:2px}
+.day.duo-on{background:color-mix(in srgb,var(--pc) 13%,#fff);border-color:color-mix(in srgb,var(--pc) 45%,#fff)}
+.day.both{background:linear-gradient(135deg,color-mix(in srgb,var(--c1) 22%,#fff) 0 50%,color-mix(in srgb,var(--c2) 22%,#fff) 50% 100%);border:2px solid var(--navy)}
+.bothtag{position:absolute;left:3px;bottom:3px;font:700 8.5px Inter,system-ui,sans-serif;letter-spacing:.5px;background:var(--navy);color:#fff;padding:1px 4px;border-radius:3px}
+.ovbs{position:absolute;bottom:3px;right:3px;display:flex;flex-direction:column;align-items:flex-end;gap:1px}.ovbs .ovb{position:static}
+.bothwarn{background:#FFF6E0;border:1px solid var(--brass);border-left:4px solid var(--red);border-radius:8px;padding:8px 12px;margin:0 0 10px;font-size:14px;color:var(--ink)}.bothwarn b{color:var(--red2)}
+#duocd{display:grid;gap:8px;margin:6px auto 0;max-width:560px}
+.cdrow{display:flex;align-items:center;gap:10px;background:#FFFDF8;border:1px solid var(--line);border-left:5px solid var(--pc);border-radius:10px;padding:8px 12px}
+.cdrow .pb{width:30px;height:30px;font-size:15px}.cdrow .t{flex:1;font:700 clamp(17px,4.4vw,24px) "Rockwell","Roboto Slab",Georgia,serif;color:var(--navy)}.cdrow small{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.everyone{text-align:center;font:700 clamp(24px,6vw,40px) "Rockwell","Roboto Slab",Georgia,serif;color:var(--red)}
+body.duo #countcard .timer,body.duo #sleeps{display:none}body.duo.allhome #sleeps{display:block}
+.fset+.fset{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}.fh{display:flex;align-items:center;gap:8px;font:700 17px "Rockwell","Roboto Slab",Georgia,serif;color:var(--navy)}
+.ntag{display:inline-block;color:#fff;font:600 11px Inter,system-ui,sans-serif;padding:1px 7px;border-radius:999px;margin-right:4px;vertical-align:1px}
+.ovwho{display:flex;gap:10px;align-items:center;margin:0 0 8px;font-size:14px;flex-wrap:wrap}.ovwho label{display:flex;gap:5px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 10px;text-transform:none;letter-spacing:0}
+.expwho{margin:0 0 8px}.expwho select{width:100%}
+body.duo .cbtn.solo{display:none}.lduo{grid-column:1/-1;display:grid;gap:6px}.lrow{border:1px solid var(--line);border-left:4px solid var(--pc);border-radius:8px;padding:6px 10px;font-size:13px}.lrow b{display:block;color:var(--navy);margin-bottom:3px}.lrow a{margin-right:10px;color:var(--navy);font-weight:600}
+.wdl{flex-basis:100%;display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}.wdp{display:flex;gap:4px;flex-wrap:wrap}.wdp label{display:flex!important;flex-direction:row!important;align-items:center;gap:4px;border:1px solid var(--line);border-radius:8px;padding:5px 9px;background:#fff;text-transform:none!important;letter-spacing:0!important;color:var(--ink);font-weight:600;cursor:pointer}.wdp label:has(input:checked){background:var(--navy);color:#fff;border-color:var(--navy)}.wdp input{margin:0;accent-color:var(--brass)}
+.depl{flex-basis:100%;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}.depl small{color:var(--muted)}
+svg.ji{width:26px;height:26px;color:var(--navy);stroke-width:1.6}.day .ico .ji+.ji,.day .ico .dico+.ji,.day .ico .ji+.dico{margin-left:2px}
+.day .ico svg.ji.p0{color:var(--jc0,var(--navy))}.day .ico svg.ji.p1{color:var(--jc1,var(--navy))}
+.wdl.hide,.depl.hide{display:none!important}
+@media(max-width:520px){.ovbs .ovb{font-size:8px;padding:1px 3px;white-space:nowrap}}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
@@ -166,7 +195,7 @@ footer{color:var(--muted)}footer b{color:var(--red)}
 <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
 <symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 22c4 0 7-3 7-7 0-5-5-7-5-12-3 2-5 5-5 8-1-1-2-2-2-4-1.5 2-2 4-2 8 0 4 3 7 7 7z"/></symbol>
-<symbol id="truck" viewBox="0 0 64 40"><rect x="2" y="12" width="38" height="18" rx="3" fill="#B23A3A"/><path d="M40 16h12l8 8v6H40z" fill="#B23A3A"/><path d="M44 18h7l5 6H44z" fill="#F4EBD9"/><rect x="6" y="6" width="30" height="3" rx="1.5" fill="#C9A24A"/><path d="M8 9v3M16 9v3M24 9v3M32 9v3" stroke="#C9A24A" stroke-width="2"/><rect x="2" y="24" width="58" height="3" fill="#8E2C2C"/><circle cx="14" cy="32" r="5" fill="#1F2A44"/><circle cx="14" cy="32" r="2" fill="#C9A24A"/><circle cx="48" cy="32" r="5" fill="#1F2A44"/><circle cx="48" cy="32" r="2" fill="#C9A24A"/><rect x="50" y="11" width="5" height="3" rx="1" fill="#C9A24A"/></symbol>
+<symbol id="j-helmet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15a8 8 0 0 1 16 0"/><path d="M2 15h20v2H2z"/><path d="M12 7v5"/><path d="M9 8.5 12 7l3 1.5"/></symbol><symbol id="j-cross" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M12 7.5v9M7.5 12h9"/></symbol><symbol id="j-badge" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 19 5v6c0 4.5-3 8-7 10.5C8 19 5 15.5 5 11V5z"/><path d="m12 8 1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z"/></symbol><symbol id="j-ems" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></symbol><symbol id="j-apple" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7c-2-1.5-6-1-6 4 0 4 2.5 9 4.5 9 .8 0 1-.5 1.5-.5s.7.5 1.5.5C15.5 20 18 15 18 11c0-5-4-5.5-6-4z"/><path d="M12 7c0-2 1-3.5 3-4"/></symbol><symbol id="j-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6-4.5-4.1 6-.7z"/></symbol><symbol id="j-brief" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 12h18"/></symbol><symbol id="j-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="truck" viewBox="0 0 64 40"><rect x="2" y="12" width="38" height="18" rx="3" fill="#B23A3A"/><path d="M40 16h12l8 8v6H40z" fill="#B23A3A"/><path d="M44 18h7l5 6H44z" fill="#F4EBD9"/><rect x="6" y="6" width="30" height="3" rx="1.5" fill="#C9A24A"/><path d="M8 9v3M16 9v3M24 9v3M32 9v3" stroke="#C9A24A" stroke-width="2"/><rect x="2" y="24" width="58" height="3" fill="#8E2C2C"/><circle cx="14" cy="32" r="5" fill="#1F2A44"/><circle cx="14" cy="32" r="2" fill="#C9A24A"/><circle cx="48" cy="32" r="5" fill="#1F2A44"/><circle cx="48" cy="32" r="2" fill="#C9A24A"/><rect x="50" y="11" width="5" height="3" rx="1" fill="#C9A24A"/></symbol>
 <symbol id="house" viewBox="0 0 48 40"><path d="M6 19L24 5l18 14" fill="none" stroke="#1F2A44" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 17v19h28V17L24 7z" fill="#E9C46A"/><rect x="20" y="24" width="8" height="12" rx="1" fill="#1F2A44"/><rect x="13" y="21" width="5" height="5" fill="#F7F1E3"/><rect x="30" y="21" width="5" height="5" fill="#F7F1E3"/><rect x="31" y="6" width="4" height="8" fill="#B23A3A"/></symbol>
 <symbol id="swap" viewBox="0 0 48 40" fill="none" stroke="#5A4FA0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14h26l-6-6M38 26H12l6 6"/></symbol>
 <symbol id="sun" viewBox="0 0 48 40" fill="none" stroke="#3E7D56" stroke-width="3" stroke-linecap="round"><circle cx="24" cy="20" r="7" fill="#E9C46A" stroke="#C9A24A"/><path d="M24 4v5M24 31v5M8 20h5M35 20h5M12.7 8.7l3.5 3.5M31.8 27.8l3.5 3.5M12.7 31.3l3.5-3.5M31.8 12.2l3.5-3.5"/></symbol>
@@ -175,16 +204,24 @@ footer{color:var(--muted)}footer b{color:var(--red)}
 <main>
 <div class="card noprint panel" id="setup"><div class="ph"><svg class="i" aria-hidden="true"><use href="#i-gear"/></svg><div><h3>Schedule settings</h3><small>Set the regular rotation once. Use Edit shifts on the calendar for overtime, trades, or time off.</small></div></div>
 <div class="row">
-<label>Firefighter name<input id="pname" placeholder="Mom / Dad"></label>
-<label>Shift pattern<select id="pat">
-<option value="24on48">24 on / 48 off</option><option value="4896">48 on / 96 off</option>
-<option value="kelly">Kelly (on-off-on-off-on, 4 off)</option><option value="2472">24 on / 72 off</option>
-<option value="custom">Custom</option></select></label>
+<label>Parent name<input id="pname" placeholder="Mom / Dad"></label>
+<label class="duoonly">Color<input type="color" id="pcolor" value="#B23A3A" class="sw"></label>
+<label>Job<select id="job"><option value="fire">Firefighter</option><option value="nurse">Nurse / Hospital</option><option value="police">Police / Law enforcement</option><option value="ems">EMS / Dispatch</option><option value="teacher">Teacher / School</option><option value="military">Military</option><option value="office">Standard 9–5</option><option value="custom">Custom</option></select></label><label>Schedule<select id="pat"></select></label>
 <label>First shift start date<input type="date" id="start"></label>
 <label>Shift starts at<input type="time" id="stime" value="07:00"></label>
-<label>Shift ends at (next day)<input type="time" id="etime" value="07:00"></label>
-<label id="custl" class="hide">Custom (1=on 0=off, by day)<input id="cust" value="1100" placeholder="e.g. 110000"></label>
+<label>Shift ends at<input type="time" id="etime" value="07:00"></label>
+<div class="wdl hide" id="wdl"><span>Work days</span><div class="wdp" id="wd"><label><input type="checkbox" value="0">Sun</label><label><input type="checkbox" value="1">Mon</label><label><input type="checkbox" value="2">Tue</label><label><input type="checkbox" value="3">Wed</label><label><input type="checkbox" value="4">Thu</label><label><input type="checkbox" value="5">Fri</label><label><input type="checkbox" value="6">Sat</label></div></div><div class="depl hide" id="depl"><label>Deployment from<input type="date" id="dep"></label><label>to<input type="date" id="depe"></label><small>Shown as away every day in this range.</small></div><label id="custl" class="hide">Repeating cycle (1=on, 0=off, N=night)<input id="cust" value="1100" placeholder="e.g. 110000"></label>
 </div>
+<label class="duotog"><input type="checkbox" id="duo"><span><b>Add a second parent</b><small>Two working parents on different schedules (fire, hospital, police, school, 9–5, anything)</small></span></label>
+<div id="p2box" class="duoonly p2box"><div class="p2h">Second parent</div><div class="row">
+<label>Name<input id="pname2" placeholder="Dad"></label>
+<label>Color<input type="color" id="pcolor2" value="#2F5D8A" class="sw"></label>
+<label>Job<select id="job2"><option value="fire">Firefighter</option><option value="nurse">Nurse / Hospital</option><option value="police">Police / Law enforcement</option><option value="ems">EMS / Dispatch</option><option value="teacher">Teacher / School</option><option value="military">Military</option><option value="office">Standard 9–5</option><option value="custom">Custom</option></select></label><label>Schedule<select id="pat2"></select></label>
+<label>First shift start date<input type="date" id="start2"></label>
+<label>Shift starts at<input type="time" id="stime2" value="07:00"></label>
+<label>Shift ends at<input type="time" id="etime2" value="07:00"></label>
+<div class="wdl hide" id="wdl2"><span>Work days</span><div class="wdp" id="wd2"><label><input type="checkbox" value="0">Sun</label><label><input type="checkbox" value="1">Mon</label><label><input type="checkbox" value="2">Tue</label><label><input type="checkbox" value="3">Wed</label><label><input type="checkbox" value="4">Thu</label><label><input type="checkbox" value="5">Fri</label><label><input type="checkbox" value="6">Sat</label></div></div><div class="depl hide" id="depl2"><label>Deployment from<input type="date" id="dep2"></label><label>to<input type="date" id="depe2"></label><small>Shown as away every day in this range.</small></div><label id="custl2" class="hide">Repeating cycle (1=on, 0=off, N=night)<input id="cust2" value="1100"></label>
+</div></div>
 <div class="row" style="margin-top:10px">
 <label>Month<input type="month" id="month"></label>
 <button class="btn primary" onclick="exportICS()"><svg class="i" aria-hidden="true"><use href="#i-cal"/></svg>Export to calendar (.ics)</button>
@@ -194,7 +231,7 @@ footer{color:var(--muted)}footer b{color:var(--red)}
 </div>
 
 <div class="card" id="countcard">
-<div class="big" id="sleeps"></div>
+<div class="big" id="sleeps"></div><div id="duocd" class="duoonly"></div>
 <div class="timer noprint"><div><b id="td">0</b>days</div><div><b id="th">0</b>hours</div><div><b id="tm">0</b>min</div></div>
 </div>
 
@@ -202,8 +239,12 @@ footer{color:var(--muted)}footer b{color:var(--red)}
 <h2 class="kidh">Put out the flames!</h2>
 <p style="margin:0 0 8px">Tap one flame each night (or every 2 hours). When every flame is out, your firefighter is home!</p>
 <div class="row"><label>One flame for each<select id="bmode"><option value="sleep">sleep</option><option value="hour">2 hours</option></select></label><button class="btn ghost" onclick="resetBub()"><svg class="i" aria-hidden="true"><use href="#i-flame"/></svg>Light new flames</button></div>
+<div class="fset"><div class="fh duoonly" id="fh1"></div>
 <div class="gauge" style="margin-top:10px"><span class="hose">🧑‍🚒</span><div class="prog"><i id="pbar" style="width:0"></i></div><b id="gtxt">0/0</b></div>
-<div class="flames" id="flames"></div>
+<div class="flames" id="flames"></div></div>
+<div class="fset duoonly" id="fset2"><div class="fh" id="fh2"></div>
+<div class="gauge" style="margin-top:10px"><span class="hose">🧑‍🚒</span><div class="prog"><i id="pbar2" style="width:0"></i></div><b id="gtxt2">0/0</b></div>
+<div class="flames" id="flames2"></div></div>
 </div>
 
 <div class="card">
@@ -211,8 +252,9 @@ footer{color:var(--muted)}footer b{color:var(--red)}
 <div class="noprint" style="text-align:center;margin-bottom:6px"><button id="bEdit" class="btn ghost" onclick="toggleEdit()"><svg class="i" aria-hidden="true"><use href="#i-edit"/></svg><span>Edit shifts (parent)</span></button><div id="edhint" class="hide" class="edhint">Parent mode: tap any day to add overtime, a trade, or a day off.</div></div>
 <div class="stkbar noprint" style="margin-bottom:8px"><span style="align-self:center;font-weight:700">Tap a sticker, then tap a day:</span>
 <button data-s="⭐" class="sel">⭐</button><button data-s="❤️">❤️</button><button data-s="🤗">🤗</button><button data-s="✖" title="Eraser"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></div>
+<div id="bothwarn" class="bothwarn hide"></div>
 <div class="cal" id="cal"></div>
-<p class="legend"><span><svg class="lg"><use href="#truck"/></svg> Shift day</span><span><svg class="lg"><use href="#house"/></svg> Home day</span><span>💌 Note</span><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
+<p class="legend duoonly" id="duoleg"></p><p class="legend"><span><svg class="lg"><use href="#truck"/></svg> Shift day</span><span><svg class="lg"><use href="#house"/></svg> Home day</span><span>💌 Note</span><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
 </div>
 
 <div class="card panel" id="famcard">
@@ -238,14 +280,14 @@ footer{color:var(--muted)}footer b{color:var(--red)}
 <div class="ph"><svg class="i" aria-hidden="true"><use href="#i-note"/></svg><div><h3>Notes from my firefighter</h3><small>Locked until the time you choose, then revealed to the kids.</small></div></div>
 <div id="shownotes"></div>
 <div class="noprint" style="margin-top:10px">
-<div class="row"><label>For day<input type="date" id="ndate"></label><label>Show at<input type="time" id="ntime" value="17:00"></label>
+<div class="row"><label>For day<input type="date" id="ndate"></label><label>Show at<input type="time" id="ntime" value="17:00"></label><label class="duoonly">From<select id="nfrom"><option value="0">Parent 1</option><option value="1">Parent 2</option></select></label>
 <label style="flex:1">Note<input id="ntext" placeholder="Brush your teeth, superstar! Love you!"></label>
 <button class="btn primary" onclick="addNote()">Add note</button></div>
 <div class="row" style="margin-top:10px"><button class="btn accent" onclick="shareNotes()"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg>Share notes link</button><small style="flex:1">Text this link to the home phone/tablet. Opening it adds the notes there. (No internet server is used; notes travel inside the link.)</small></div>
 <input id="shareout" readonly class="hide" style="width:100%;margin-top:8px">
 </div></div>
 </main><footer><b>Firehouse Tots</b> · Made by a firefighter-paramedic family, for fire families.<br><small>Tip: on iPhone/iPad tap Share → "Add to Home Screen" to use it like an app. Your info stays on this device.</small></footer>
-<div id="ovmod"><div class="box"><h2 style="margin:0">Change this day</h2><p id="ovday" style="margin:4px 0 8px"></p>
+<div id="ovmod"><div class="box"><h2 style="margin:0">Change this day</h2><p id="ovday" style="margin:4px 0 8px"></p><div class="duoonly ovwho" id="ovwho"><span>Whose shift?</span><label><input type="radio" name="ovp" value="0" onchange="ovPick(0)"><b id="ovp0">Parent 1</b></label><label><input type="radio" name="ovp" value="1" onchange="ovPick(1)"><b id="ovp1">Parent 2</b></label></div>
 <label class="ovopt"><input type="radio" name="ovt" value="ot" onchange="ovSync()">Extra shift / Overtime</label>
 <label class="ovopt"><input type="radio" name="ovt" value="swap" onchange="ovSync()">Trade: working someone's shift</label>
 <div id="ovtime" class="row hide" style="margin:4px 0 8px"><label>Starts at<input type="time" id="ovs"></label><label>Length<select id="ovh"><option value="8">8 hours</option><option value="10">10 hours</option><option value="12">12 hours</option><option value="24">24 hours</option><option value="48">48 hours</option></select></label></div>
@@ -258,13 +300,15 @@ footer{color:var(--muted)}footer b{color:var(--red)}
 <button class="btn ghost wide" onclick="$('ovmod').classList.remove('on')">Cancel</button></div></div>
 <div id="expmod"><div class="box"><h2 style="margin:0 0 6px">Add shifts to your calendar</h2>
 <p style="margin:0 0 8px;font-size:14px">Adds 3 months of shifts plus your notes. Works with Apple, Google, and Outlook calendars.</p>
+<div class="duoonly expwho"><label>Which schedule?<select id="expwho" onchange="exportICS(true)"><option value="all">Both firefighters (combined)</option><option value="0">Parent 1</option><option value="1">Parent 2</option></select></label></div>
 <div id="expPrev" class="tip hide" style="border-color:var(--red)"><b>Opened from Messages, Files, or a chat preview?</b> Tap <b>Share ⬆️ → Open in Safari</b> first, then tap Export again. Previews can't add to Calendar.</div>
 <div class="cals">
 <button class="red" id="bShare" onclick="expShare()"><span><svg class="ci" aria-hidden="true"><use href="#i-cal"/></svg></span>Apple / iPhone Calendar<small>Adds every shift (Add All)</small></button>
-<a class="cbtn" id="lGoogle" target="_blank" rel="noopener"><span class="g">G</span>Google Calendar<small>Adds the next shift</small></a>
-<a class="cbtn" id="lOutlook" target="_blank" rel="noopener"><span class="o">O</span>Outlook.com<small>Adds the next shift</small></a>
-<a class="cbtn" id="lO365" target="_blank" rel="noopener"><span class="o">365</span>Office 365 / work Outlook<small>Adds the next shift</small></a>
-<a class="cbtn" id="lYahoo" target="_blank" rel="noopener"><span class="y">Y!</span>Yahoo Calendar<small>Adds the next shift</small></a>
+<div id="lduo" class="duoonly lduo"></div>
+<a class="cbtn solo" id="lGoogle" target="_blank" rel="noopener"><span class="g">G</span>Google Calendar<small>Adds the next shift</small></a>
+<a class="cbtn solo" id="lOutlook" target="_blank" rel="noopener"><span class="o">O</span>Outlook.com<small>Adds the next shift</small></a>
+<a class="cbtn solo" id="lO365" target="_blank" rel="noopener"><span class="o">365</span>Office 365 / work Outlook<small>Adds the next shift</small></a>
+<a class="cbtn solo" id="lYahoo" target="_blank" rel="noopener"><span class="y">Y!</span>Yahoo Calendar<small>Adds the next shift</small></a>
 <button id="bDl" onclick="expDl()"><span><svg class="ci" aria-hidden="true"><use href="#i-file"/></svg></span>Other calendar apps (.ics file)<small>Whole schedule, any app</small></button>
 </div>
 <details class="tip" style="margin-top:6px"><summary><b>Want ALL shifts in Google, Outlook, or Yahoo?</b></summary>
@@ -272,61 +316,107 @@ Tap <b>Other calendar apps</b> to save the .ics file, then on a computer:<br>•
 <div id="expIOS" class="tip hide">iPhone/iPad: in Safari, "Apple / iPhone Calendar" shows Apple's <b>Add All</b> sheet. If you see a preview instead, tap Share → Open in Safari.</div>
 <p id="expmsg" style="font-weight:700;min-height:1em"></p>
 <button class="close" onclick="$('expmod').classList.remove('on')">Close</button></div></div>
-<div id="cele" onclick="this.classList.remove('on')"><canvas id="conf"></canvas><div class="tk"><svg width="200" height="125"><use href="#truck"/></svg></div><h2 id="ctxt">Mom/Dad is home!</h2><p style="font-size:20px">All the flames are out. Great job, junior firefighter! 🧑‍🚒</p><button class="yel">Yay! 🎉</button></div>
+<div id="cele" onclick="this.classList.remove('on')"><canvas id="conf"></canvas><div class="tk"><svg width="200" height="125"><use href="#truck"/></svg></div><h2 id="ctxt">Mom/Dad is home!</h2><p style="font-size:20px" id="csub">All the flames are out. Great job, junior firefighter! 🧑‍🚒</p><button class="yel">Yay! 🎉</button></div>
 <script>
 const $=id=>document.getElementById(id),K='ffcal_v1';
 let S=JSON.parse(localStorage.getItem(K)||'{}');S.stk=S.stk||{};S.notes=S.notes||[];S.bub=S.bub||null;
 let cur='⭐';
-const PAT={'24on48':[1,0,0],'4896':[1,1,0,0,0,0],'kelly':[1,0,1,0,1,0,0,0,0],'2472':[1,0,0,0]};
+const PRE={
+'24on48':{l:'24 on / 48 off',c:'100',st:'07:00',en:'07:00'},'4896':{l:'48 on / 96 off',c:'110000',st:'07:00',en:'07:00'},'kelly':{l:'Kelly (on-off-on-off-on, 4 off)',c:'101010000',st:'07:00',en:'07:00'},'2472':{l:'24 on / 72 off',c:'1000',st:'07:00',en:'07:00'},
+'n3d':{l:'3×12 day shifts (pick days)',wk:[1,3,5],st:'07:00',en:'19:00'},'n3n':{l:'3×12 night shifts (pick days)',wk:[1,3,5],st:'19:00',en:'07:00'},'n410':{l:'4×10 (pick days)',wk:[1,2,3,4],st:'07:00',en:'17:00'},'nrot':{l:'Rotating 12s (2-week cycle)',c:'11100001100000',st:'07:00',en:'19:00'},
+'p44':{l:'4 on / 4 off (12h)',c:'11110000',st:'06:00',en:'18:00'},'pitman':{l:'Pitman 2-2-3 (12h)',c:'11001110011000',st:'06:00',en:'18:00'},'dupont':{l:'DuPont (12h days & nights, 4 weeks)',c:'NNNN000DDD0NNN000DDDD0000000',st:'06:00',en:'18:00'},'p52':{l:'5 on / 2 off (pick days + shift time)',wk:[1,2,3,4,5],st:'08:00',en:'16:00'},
+'e12':{l:'12h 2-2-3 (Pitman)',c:'11001110011000',st:'07:00',en:'19:00'},
+'school':{l:'Mon–Fri school hours',wk:[1,2,3,4,5],st:'07:30',en:'15:30'},'mil':{l:'Duty days + deployment',wk:[1,2,3,4,5],st:'07:00',en:'16:00',dep:1},
+'m95':{l:'Weekdays 9–5 (pick days)',wk:[1,2,3,4,5],st:'09:00',en:'17:00'},'wk':{l:'Custom: pick weekdays',wk:[1,2,3,4,5],st:'09:00',en:'17:00'},'custom':{l:'Custom: repeating on/off cycle',c:'',st:'07:00',en:'07:00'}};
+const JOBS={fire:{n:'Firefighter',ic:'truck',e:'🚒',p:['24on48','4896','kelly','2472','custom']},nurse:{n:'Nurse',ic:'j-cross',e:'🏥',p:['n3d','n3n','n410','nrot','wk','custom']},police:{n:'Police',ic:'j-badge',e:'👮',p:['p44','pitman','dupont','p52','custom']},ems:{n:'EMS',ic:'j-ems',e:'🚑',p:['24on48','e12','n410','custom']},teacher:{n:'Teacher',ic:'j-apple',e:'🍎',p:['school','wk']},military:{n:'Military',ic:'j-star',e:'🎖️',p:['mil','custom']},office:{n:'9–5',ic:'j-brief',e:'💼',p:['m95','wk']},custom:{n:'Custom',ic:'j-clock',e:'🗓️',p:['wk','custom']}};
+function fillPat(p,val){const j=JOBS[F('job',p).value]||JOBS.fire,sel=F('pat',p);sel.innerHTML=j.p.map(k=>`<option value="${k}">${PRE[k].l}</option>`).join('');if(val&&j.p.includes(val))sel.value=val}
+function setWd(p,a){F('wd',p).querySelectorAll('input').forEach(x=>x.checked=a.includes(+x.value))}
+function wdays(p){return[...F('wd',p).querySelectorAll('input:checked')].map(x=>+x.value)}
+function applyPre(p){const r=PRE[F('pat',p).value];if(!r)return;F('stime',p).value=r.st;F('etime',p).value=r.en;if(r.wk)setWd(p,r.wk)}
+function JOB(p){return JOBS[F('job',p).value]||JOBS.fire}
+function JI(p,cls=''){const j=JOB(p);return j.ic=='truck'?TRUCK:`<svg class="dico ji p${p} ${cls}" aria-label="${j.n}"><use href="#${j.ic}"/></svg>`}
+function durMs(p){const[a,b]=hm(F('stime',p).value),[c,d]=hm(F('etime',p).value);let m=(c*60+d)-(a*60+b);if(m<=0)m+=1440;return m*6e4}
+function inDep(d,p){if(!PRE[F('pat',p).value]?.dep)return false;const a=F('dep',p).value,b=F('depe',p).value;if(!a||!b)return false;const k=ymd(d);return k>=a&&k<=b}
 function save(){localStorage.setItem(K,JSON.stringify(S))}
 function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function pd(s){const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)}
-function pattern(){return $('pat').value=='custom'?($('cust').value.replace(/[^01]/g,'').split('').map(Number)||[1,0]):PAT[$('pat').value]}
-function patShift(d){const p=pattern();if(!p.length||!$('start').value)return false;const n=Math.round((d-pd($('start').value))/864e5);if(n<0)return false;return p[n%p.length]==1}
+function F(id,p){return $(p?id+'2':id)}
+function DUO(){return $('duo').checked}
+function OV(p){return p?S.ov2:S.ov}
+function NM(p){return F('pname',p).value.trim()||(p?'Parent 2':'Mom/Dad')}
+function XN(p){return F('pname',p).value.trim()||(p?'Parent 2':'Firefighter')}
+function COL(p){return F('pcolor',p).value}
+function INI(p){return (F('pname',p).value.trim()||(p?'2':'1'))[0].toUpperCase()}
+function pattern(p=0){const r=PRE[F('pat',p).value]||PRE['24on48'],src=F('pat',p).value=='custom'?F('cust',p).value.toUpperCase().replace(/[^01DN]/g,''):r.c;return src.split('').map(c=>c=='N'?'N':(c=='1'||c=='D')?1:0)}
+function patShift(d,q=0){const r=PRE[F('pat',q).value];if(r&&r.wk){const s0=F('start',q).value;if(r.dep&&s0&&ymd(d)<s0)return 0;return wdays(q).includes(d.getDay())?1:0}const p=pattern(q);if(!p.length||!F('start',q).value)return false;const n=Math.round((d-pd(F('start',q).value))/864e5);if(n<0)return false;return p[n%p.length]||0}
 function hm(v){return v.split(':').map(Number)}
 function addD(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n)}
-function dayInt(d){const o=S.ov[ymd(d)],[sh,sm]=hm($('stime').value);
+function dayInt(d,p=0){const o=OV(p)[ymd(d)],[sh,sm]=hm(F('stime',p).value);
  if(o&&(o.t=='off'||o.t=='give'))return null;
- if(o&&(o.t=='ot'||o.t=='swap')){const[a,b]=hm(o.s||$('stime').value),st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),a,b);return{st,en:new Date(st.getTime()+(o.h||24)*36e5),k:o.t}}
- if(patShift(d)){const[eh,em]=hm($('etime').value),n=addD(d,1);return{st:new Date(d.getFullYear(),d.getMonth(),d.getDate(),sh,sm),en:new Date(n.getFullYear(),n.getMonth(),n.getDate(),eh,em),k:'reg'}}return null}
-function stints(from,to){const I=[];for(let d=addD(from,-3);d<=to;d=addD(d,1)){const i=dayInt(d);if(i)I.push(i)}I.sort((a,b)=>a.st-b.st);const R=[];
+ if(o&&(o.t=='ot'||o.t=='swap')){const[a,b]=hm(o.s||F('stime',p).value),st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),a,b);return{st,en:new Date(st.getTime()+(o.h||24)*36e5),k:o.t}}
+ if(inDep(d,p))return{st:new Date(d.getFullYear(),d.getMonth(),d.getDate()),en:addD(d,1),k:'dep'};
+ const v=patShift(d,p);if(v){const st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),sh+(v=='N'?12:0),sm);return{st,en:new Date(st.getTime()+durMs(p)),k:'reg'}}return null}
+function stints(from,to,p=0){const I=[];for(let d=addD(from,-3);d<=to;d=addD(d,1)){const i=dayInt(d,p);if(i)I.push(i)}I.sort((a,b)=>a.st-b.st);const R=[];
  I.forEach(i=>{const l=R[R.length-1];if(l&&i.st-l.en<=6e4){if(i.en>l.en)l.en=i.en;l.parts.push(i)}else R.push({st:i.st,en:i.en,parts:[i]})});return R}
-function isShift(d){if(dayInt(d))return true;const noon=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);return stints(addD(d,-2),addD(d,-1)).some(x=>x.st<noon&&x.en>noon)}
-function curShift(){const now=new Date();return stints(addD(now,-3),addD(now,60)).find(x=>x.en>now)||null}
+function isShift(d,p=0){if(dayInt(d,p))return true;const noon=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);return stints(addD(d,-2),addD(d,-1),p).some(x=>x.st<noon&&x.en>noon)}
+function curShift(p=0){const now=new Date();return stints(addD(now,-3),addD(now,60),p).find(x=>x.en>now)||null}
+function overlaps(from,to){if(!DUO())return[];const A=stints(from,to,0),B=stints(from,to,1),O=[];A.forEach(a=>B.forEach(b=>{const st=new Date(Math.max(a.st,b.st)),en=new Date(Math.min(a.en,b.en));if(en>st)O.push({st,en})}));return O.sort((x,y)=>x.st-y.st)}
+function fmtT(d){return d.toLocaleString(undefined,{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})}
 function render(){extCache();
- S.cfg={pname:$('pname').value,pat:$('pat').value,start:$('start').value,stime:$('stime').value,etime:$('etime').value,cust:$('cust').value,month:$('month').value,bmode:$('bmode').value};save();
- $('custl').classList.toggle('hide',$('pat').value!='custom');
+ S.ver=2;S.cfg2={job:$('job2').value,wd:wdays(1).join(''),dep:$('dep2').value,depe:$('depe2').value,pname:$('pname2').value,pcolor:$('pcolor2').value,pat:$('pat2').value,start:$('start2').value,stime:$('stime2').value,etime:$('etime2').value,cust:$('cust2').value};
+ S.cfg={job:$('job').value,wd:wdays(0).join(''),dep:$('dep').value,depe:$('depe').value,duo:DUO(),pcolor:$('pcolor').value,pname:$('pname').value,pat:$('pat').value,start:$('start').value,stime:$('stime').value,etime:$('etime').value,cust:$('cust').value,month:$('month').value,bmode:$('bmode').value};save();
+ [0,1].forEach(p=>{const r=PRE[F('pat',p).value]||{};F('custl',p).classList.toggle('hide',F('pat',p).value!='custom');F('wdl',p).classList.toggle('hide',!r.wk);F('depl',p).classList.toggle('hide',!r.dep)});
+ const duo=DUO();document.body.classList.toggle('duo',duo);
+ [0,1].forEach(p=>{$('nfrom').options[p].text=NM(p);$('ovp'+p).textContent=NM(p);$('expwho').options[p+1].text=NM(p)+' only';$('fh'+(p+1)).innerHTML=`<span class="pb" style="background:${COL(p)}">${INI(p)}</span>${esc(NM(p))}'s flames`});
+ $('duoleg').innerHTML=duo?[0,1].map(p=>`<span><span class="pb" style="background:${COL(p)}">${INI(p)}</span> ${esc(NM(p))} on shift</span>`).join('')+'<span><span class="bothtag" style="position:static">BOTH</span> both on shift (plan childcare)</span>':'';
+ if(duo){const now=new Date(),O=overlaps(new Date(now.getFullYear(),now.getMonth(),now.getDate()),addD(now,31)).filter(x=>x.en>now);
+  $('bothwarn').innerHTML=O.length?`<b>Both on shift</b> in the next 30 days. Plan childcare for: `+O.slice(0,6).map(x=>fmtT(x.st)+' to '+x.en.toLocaleString(undefined,{weekday:'short',hour:'numeric',minute:'2-digit'})).join('; ')+(O.length>6?` (+${O.length-6} more)`:''):'<b>No overlap:</b> one of you is home every day for the next 30 days.';
+  $('bothwarn').classList.remove('hide')}else $('bothwarn').classList.add('hide');
  const[y,m]=$('month').value.split('-').map(Number);const first=new Date(y,m-1,1),days=new Date(y,m,0).getDate();
  $('mtitle').textContent=first.toLocaleString(undefined,{month:'long',year:'numeric'});
  const c=$('cal');c.innerHTML='';['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>c.innerHTML+=`<div class="dow">${d}</div>`);
  for(let i=0;i<first.getDay();i++)c.innerHTML+='<div class="day empty"></div>';
  const today=ymd(new Date());
  for(let d=1;d<=days;d++){const dt=new Date(y,m-1,d),k=ymd(dt),sh=isShift(dt);const hasN=S.notes.some(n=>n.d==k);
-  const o=S.ov[k],cls=o?OVC[o.t]:'',ico=o?OVI[o.t]:(sh?TRUCK:HOUSE),bd=o?`<span class="ovb ${o.t}">${OVB(o)}</span>`:'';
-  c.innerHTML+=`<div class="day ${sh?'shift':'home'} ${cls} ${k==today?'today':''}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}${bd}<div class="ico">${ico}</div><div class="stk">${(S.stk[k]||[]).join('')}</div>${chipsFor(dt)}</div>`}
+  const dep0=inDep(dt,0);let o=S.ov[k],cls=o?OVC[o.t]:'',ico=o?(o.t=='ot'?JI(0):OVI[o.t]):(sh?JI(0):HOUSE),bd=o?`<span class="ovb ${o.t}">${OVB(o)}</span>`:dep0?'<span class="ovb">AWAY</span>':'',sty='';
+  if(duo){const s2=isShift(dt,1),o2=S.ov2[k],on=[sh,s2];const both=sh&&s2;
+   cls=(both?'both':(sh||s2)?'duo-on':'')+' '+(on[0]?'p0on':'')+' '+(on[1]?'p1on':'');sty=both?`--c1:${COL(0)};--c2:${COL(1)}`:sh?`--pc:${COL(0)}`:s2?`--pc:${COL(1)}`:'';
+   ico=(sh||s2)?[sh&&JI(0),s2&&JI(1)].filter(Boolean).filter((x,i,a)=>!(x==TRUCK&&a.indexOf(x)<i)).join(''):HOUSE;const obs=[[o,0],[o2,1]].filter(x=>x[0]);
+   bd=`<span class="pbs">${on.map((x,p)=>x?`<span class="pb" style="background:${COL(p)}" title="${esc(NM(p))} on shift">${INI(p)}</span>`:'').join('')}</span>`+(both?'<span class="bothtag">BOTH</span>':'')+(obs.length?`<span class="ovbs">${obs.map(([x,p])=>`<span class="ovb ${x.t}" data-p="${p}">${INI(p)} ${OVB(x).replace('VACATION','VAC')}</span>`).join('')}</span>`:'')}
+  c.innerHTML+=`<div class="day ${sh||(duo&&isShift(dt,1))?'shift':'home'} ${cls} ${k==today?'today':''}" style="${sty}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}${bd}<div class="ico">${ico}</div><div class="stk">${(S.stk[k]||[]).join('')}</div>${chipsFor(dt)}</div>`}
  c.querySelectorAll('.day[data-k]').forEach(el=>el.onclick=()=>{const k=el.dataset.k;if(EDIT)return openOv(k);if(cur=='✖')delete S.stk[k];else{(S.stk[k]=S.stk[k]||[]).push(cur);if(S.stk[k].length>4)S.stk[k].shift()}save();render();chime(660)});
- tick();renderNotes();renderBub();renderExt()}
-function tick(){const now=new Date(),s=curShift(),n=$('pname').value||'Mom/Dad';
+ $('cal').style.setProperty('--jc0',COL(0));$('cal').style.setProperty('--jc1',COL(1));tick();renderNotes();renderBub(0);if(duo)renderBub(1);renderExt()}
+function cd(p){const now=new Date(),s=curShift(p),n=NM(p);if(!s||!F('start',p).value)return{t:`Set ${n}'s shift pattern above`,ms:0,home:true};
+ if(s.st>now)return{t:`${n} is home today!`,ms:0,home:true,next:s.st};
+ let sl=0;for(let d=new Date(now.getFullYear(),now.getMonth(),now.getDate());d<new Date(s.en.getFullYear(),s.en.getMonth(),s.en.getDate());d.setDate(d.getDate()+1))sl++;
+ return{t:sl?`${sl} sleep${sl>1?'s':''} until ${n} is home!`:`${n} comes home today!`,ms:s.en-now,home:false}}
+function dhm(ms){return Math.floor(ms/864e5)+'d '+Math.floor(ms/36e5)%24+'h '+Math.floor(ms/6e4)%60+'m'}
+function tick(){if(DUO())return tickDuo();const now=new Date(),s=curShift(),n=$('pname').value||'Mom/Dad';
  if(!s||!$('start').value){$('sleeps').textContent='Set the shift pattern above';return}
  if(s.st>now){$('sleeps').textContent=`${n} is home today! Next shift: ${s.st.toLocaleDateString(undefined,{weekday:'long'})}`;setT(0);return}
  const ms=s.en-now;let sl=0;for(let d=new Date(now.getFullYear(),now.getMonth(),now.getDate());d<new Date(s.en.getFullYear(),s.en.getMonth(),s.en.getDate());d.setDate(d.getDate()+1))sl++;
  $('sleeps').textContent=sl?`${sl} sleep${sl>1?'s':''} until ${n} is home!`:`${n} comes home today!`;setT(ms)}
+function tickDuo(){const C=[cd(0),cd(1)],all=C[0].home&&C[1].home;document.body.classList.toggle('allhome',all);
+ $('sleeps').innerHTML=all?'':'';$('duocd').innerHTML=(all?`<div class="everyone">Everyone's home!</div>`:'')+C.map((x,p)=>`<div class="cdrow" data-p="${p}" style="--pc:${COL(p)}"><span class="pb" style="background:${COL(p)}">${INI(p)}</span><span class="t">${esc(x.t)}</span><small>${x.home?(x.next?'next shift '+x.next.toLocaleDateString(undefined,{weekday:'short'}):''):dhm(x.ms)}</small></div>`).join('')}
 function setT(ms){$('td').textContent=Math.floor(ms/864e5);$('th').textContent=Math.floor(ms/36e5)%24;$('tm').textContent=Math.floor(ms/6e4)%60}
 // flames
-function resetBub(){const s=curShift(),now=new Date();let n=2;
+function BK(p){return p?'bub2':'bub'}
+function resetBub(p=0){if(typeof p!='number')p=0;const s=curShift(p),now=new Date();let n=2;
  if(s&&s.st<=now){const ms=s.en-now;n=$('bmode').value=='hour'?Math.max(1,Math.ceil(ms/72e5)):Math.max(1,Math.ceil(ms/864e5))}
  else if(s){n=$('bmode').value=='hour'?Math.ceil((s.en-s.st)/72e5):Math.ceil((s.en-s.st)/864e5)}
- S.bub={n:Math.min(n,40),popped:[]};save();renderBub()}
-function renderBub(){if(!S.bub)resetBub();const b=$('flames');b.innerHTML='';
- for(let i=0;i<S.bub.n;i++){const done=S.bub.popped.includes(i);const e=document.createElement('button');e.className='fl'+(done?' done':'');e.setAttribute('aria-label',(done?'flame out ':'flame ')+(i+1));e.dataset.i=i;
+ S[BK(p)]={n:Math.min(n,40),popped:[]};save();renderBub(p)}
+function renderBub(p=0){if(!S[BK(p)])return resetBub(p);const B=S[BK(p)],b=F('flames',p);b.innerHTML='';
+ for(let i=0;i<B.n;i++){const done=B.popped.includes(i);const e=document.createElement('button');e.className='fl'+(done?' done':'');e.setAttribute('aria-label',(done?'flame out ':'flame ')+(i+1));e.dataset.i=i;
   e.innerHTML=done?'<span class="log"></span><span class="ok">💧</span><span class="n">'+(i+1)+'</span>':'<span class="f"></span><span class="log"></span><span class="s">💨</span><span class="w"></span><span class="n">'+(i+1)+'</span>';
-  if(!done)e.onclick=()=>douse(e,i);b.appendChild(e)}
- const p=S.bub.popped.length;$('pbar').style.width=(100*p/S.bub.n)+'%';$('gtxt').textContent=p+'/'+S.bub.n}
-function douse(e,i){if(e.classList.contains('out'))return;const w=e.querySelector('.w');
+  if(!done)e.onclick=()=>douse(e,i,p);b.appendChild(e)}
+ const q=B.popped.length;F('pbar',p).style.width=(100*q/B.n)+'%';F('gtxt',p).textContent=q+'/'+B.n}
+function douse(e,i,p=0){if(e.classList.contains('out'))return;const w=e.querySelector('.w');
  for(let k=0;k<12;k++){const d=document.createElement('i');d.style.setProperty('--x',(Math.random()*50-25)+'px');d.style.animationDelay=(k*35)+'ms';w.appendChild(d)}
- hiss();setTimeout(()=>e.classList.add('out'),300);S.bub.popped.push(i);save();
- setTimeout(()=>{renderBub();if(S.bub.popped.length==S.bub.n)celebrate()},1300)}
-function celebrate(){$('ctxt').textContent=($('pname').value||'Mom/Dad')+' is home!';$('cele').classList.add('on');chime(523);chime(659,.15);chime(784,.3);chime(1047,.45);confetti()}
+ hiss();setTimeout(()=>e.classList.add('out'),300);const B=S[BK(p)];B.popped.push(i);save();
+ setTimeout(()=>{renderBub(p);if(B.popped.length==B.n)celebrate(p)},1300)}
+function celebrate(p=0){let t=NM(p)+' is home!',sub='All the flames are out. Great job, junior firefighter! 🧑‍🚒';
+ if(DUO()){const o=1-p,ob=S[BK(o)];if(cd(o).home||(ob&&ob.popped.length>=ob.n)){t="Everyone's home!";sub=NM(0)+' and '+NM(1)+' are both home. Family night! 🧑‍🚒'}else sub=`All of ${NM(p)}'s flames are out. Great job, junior firefighter! 🧑‍🚒`}
+ $('ctxt').textContent=t;$('csub').textContent=sub;$('cele').classList.add('on');chime(523);chime(659,.15);chime(784,.3);chime(1047,.45);confetti()}
 function confetti(){const cv=$('conf'),x=cv.getContext('2d');cv.width=innerWidth;cv.height=innerHeight;const C=['#D7263D','#FFC93C','#fff','#4aa8ff'];
  const P=Array.from({length:160},()=>({x:Math.random()*cv.width,y:-Math.random()*cv.height,v:2+Math.random()*4,s:5+Math.random()*7,c:C[Math.random()*4|0],r:Math.random()*6}));let t=0;
  (function f(){x.clearRect(0,0,cv.width,cv.height);P.forEach(p=>{p.y+=p.v;p.x+=Math.sin(t/20+p.r);x.fillStyle=p.c;x.fillRect(p.x,p.y,p.s,p.s*.6)});if(++t<300&&$('cele').classList.contains('on'))requestAnimationFrame(f);else x.clearRect(0,0,cv.width,cv.height)})()}
@@ -336,16 +426,17 @@ function hiss(){try{const a=ac(),t=a.currentTime,len=a.sampleRate*1.1,buf=a.crea
  const g=a.createGain();g.gain.setValueAtTime(.001,t);g.gain.exponentialRampToValueAtTime(.6,t+.08);g.gain.setValueAtTime(.35,t+.35);g.gain.exponentialRampToValueAtTime(.001,t+1.05);n.connect(bp).connect(g).connect(a.destination);n.start(t);n.stop(t+1.1)}catch(e){}}
 function chime(f,dl=0){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime+dl;o.frequency.value=f;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(a.destination);o.start(t);o.stop(t+.3)}catch(e){}}
 // overrides
-S.ov=S.ov||{};let EDIT=false,OVK=null;
+S.ov=S.ov||{};S.ov2=S.ov2||{};S.bub2=S.bub2||null;let EDIT=false,OVK=null,OVP=0;
 const TRUCK='<svg class="dico"><use href="#truck"/></svg>',HOUSE='<svg class="dico"><use href="#house"/></svg>';const OVC={ot:'ot',swap:'ot swap',give:'give',off:'off'},OVI={ot:TRUCK,swap:'<svg class="dico"><use href="#swap"/></svg>',give:HOUSE,off:'<svg class="dico"><use href="#sun"/></svg>'};
 function OVB(o){return o.t=='ot'?'OT'+(o.h&&o.h!=24?' '+o.h+'h':''):o.t=='swap'?'TRADE':o.t=='give'?'TRADED':({vac:'VACATION',sick:'SICK'}[o.r]||'OFF')}
 function toggleEdit(){EDIT=!EDIT;document.body.classList.toggle('editing',EDIT);$('bEdit').innerHTML=EDIT?'<svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span>Done editing</span>':'<svg class="i" aria-hidden="true"><use href="#i-edit"/></svg><span>Edit shifts (parent)</span>';$('edhint').classList.toggle('hide',!EDIT)}
-function openOv(k){OVK=k;const o=S.ov[k]||{};$('ovday').textContent=pd(k).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+(patShift(pd(k))?' · regular shift day':' · regular day off');
- document.querySelectorAll('input[name=ovt]').forEach(r=>r.checked=r.value==(o.t?(o.t=='off'?'off_'+(o.r||'off'):o.t):'clear'));$('ovs').value=o.s||$('stime').value;$('ovh').value=String(o.h||24);ovSync();$('ovmod').classList.add('on')}
+function openOv(k,p){OVK=k;if(p!==undefined)OVP=p;else if(!DUO())OVP=0;document.querySelectorAll('input[name=ovp]').forEach(r=>r.checked=+r.value==OVP);const o=OV(OVP)[k]||{};$('ovday').textContent=pd(k).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+(DUO()?' · '+NM(OVP):'')+(patShift(pd(k),OVP)?' · regular shift day':' · regular day off');
+ document.querySelectorAll('input[name=ovt]').forEach(r=>r.checked=r.value==(o.t?(o.t=='off'?'off_'+(o.r||'off'):o.t):'clear'));$('ovs').value=o.s||F('stime',OVP).value;$('ovh').value=String(o.h||24);ovSync();$('ovmod').classList.add('on')}
+function ovPick(p){openOv(OVK,p)}
 function ovSync(){const v=(document.querySelector('input[name=ovt]:checked')||{}).value||'';$('ovtime').classList.toggle('hide',!(v=='ot'||v=='swap'))}
 function saveOv(){const v=(document.querySelector('input[name=ovt]:checked')||{}).value||'clear';
- if(v=='clear')delete S.ov[OVK];else if(v=='ot'||v=='swap')S.ov[OVK]={t:v,s:$('ovs').value,h:+$('ovh').value};else if(v=='give')S.ov[OVK]={t:'give'};else S.ov[OVK]={t:'off',r:v.split('_')[1]};
- $('ovmod').classList.remove('on');save();resetBub();render()}
+ const M=OV(OVP);if(v=='clear')delete M[OVK];else if(v=='ot'||v=='swap')M[OVK]={t:v,s:$('ovs').value,h:+$('ovh').value};else if(v=='give')M[OVK]={t:'give'};else M[OVK]={t:'off',r:v.split('_')[1]};
+ $('ovmod').classList.remove('on');save();resetBub(OVP);render()}
 // family calendars (external .ics)
 S.ext=S.ext||[];S.proxy=S.proxy||'';
 function icsParse(txt){const L=txt.replace(/\r\n[ \t]/g,'').replace(/\n[ \t]/g,'').split(/\r?\n/),E=[];let e=null;
@@ -396,33 +487,39 @@ async function refreshCal(id,show){const c=S.ext.find(x=>x.id==id);if(!c||!c.url
  save();render();if(show)$('exmsg').textContent=c.err||''}
 // notes
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
-function addNote(){if(!$('ndate').value||!$('ntext').value.trim())return alert('Pick a day and write a note');S.notes.push({id:Date.now()+''+Math.random().toString(36).slice(2,6),d:$('ndate').value,t:$('ntime').value,x:$('ntext').value.trim()});$('ntext').value='';save();render()}
+function addNote(){if(!$('ndate').value||!$('ntext').value.trim())return alert('Pick a day and write a note');S.notes.push({id:Date.now()+''+Math.random().toString(36).slice(2,6),d:$('ndate').value,t:$('ntime').value,x:$('ntext').value.trim(),f:DUO()?+$('nfrom').value:0});$('ntext').value='';save();render()}
 function delNote(id){S.notes=S.notes.filter(n=>n.id!=id);save();render()}
 function renderNotes(){const now=new Date();const list=S.notes.slice().sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t));
  $('shownotes').innerHTML=list.length?list.map(n=>{const at=new Date(n.d+'T'+(n.t||'00:00'));const ready=at<=now;
-  return `<div class="note"><b>${pd(n.d).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})} ${n.t||''}</b> ${ready?'💌 '+esc(n.x):'🔒 <i>A surprise note opens then!</i>'} <button class="noprint" style="min-height:32px;padding:2px 8px;float:right" onclick="delNote('${n.id}')">✕</button></div>`}).join(''):'<small>No notes yet.</small>'}
-function shareNotes(){const data={n:S.notes,c:S.cfg,o:S.ov};const enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  return `<div class="note"><b>${pd(n.d).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})} ${n.t||''}</b> ${DUO()?`<span class="ntag" style="background:${COL(n.f||0)}">From ${esc(NM(n.f||0))}</span>`:''}${ready?'💌 '+esc(n.x):'🔒 <i>A surprise note opens then!</i>'} <button class="noprint" style="min-height:32px;padding:2px 8px;float:right" onclick="delNote('${n.id}')">✕</button></div>`}).join(''):'<small>No notes yet.</small>'}
+function shareNotes(){const data={n:S.notes,c:S.cfg,o:S.ov};if(S.cfg.duo){data.c2=S.cfg2;data.o2=S.ov2}const enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
  const url=location.href.split('#')[0]+'#notes='+enc;const o=$('shareout');o.value=url;o.classList.remove('hide');o.select();
  if(navigator.share)navigator.share({title:'Notes from your firefighter',url}).catch(()=>{});else navigator.clipboard&&navigator.clipboard.writeText(url).then(()=>alert('Link copied! Text it to home.'))}
 function importHash(){const m=location.hash.match(/notes=([^&]+)/);if(!m)return;try{const d=JSON.parse(decodeURIComponent(escape(atob(m[1]))));let add=0;
- (d.n||[]).forEach(n=>{if(!S.notes.some(x=>x.id==n.id)){S.notes.push(n);add++}});if(d.c&&!S.cfg)S.cfg=d.c;let oc=0;if(d.o){S.ov=d.o;oc=Object.keys(d.o).length;S.bub=null}save();history.replaceState(null,'',location.pathname);if(add||oc)alert((add?`💌 ${add} new note(s) from your firefighter!`:'')+(oc?` 📅 Schedule updated (${oc} extra/changed day${oc>1?'s':''}).`:''))}catch(e){alert('That notes link looks broken.')}}
+ (d.n||[]).forEach(n=>{if(!S.notes.some(x=>x.id==n.id)){S.notes.push(n);add++}});if(d.c&&!S.cfg)S.cfg=d.c;if(d.c2){if(!S.cfg2||!S.cfg2.start||!(S.cfg&&S.cfg.duo))S.cfg2=d.c2;S.cfg.duo=true}let oc=0;if(d.o){S.ov=d.o;oc=Object.keys(d.o).length;S.bub=null}if(d.o2){S.ov2=d.o2;oc+=Object.keys(d.o2).length;S.bub2=null}save();history.replaceState(null,'',location.pathname);if(add||oc)alert((add?`💌 ${add} new note(s) from your firefighter!`:'')+(oc?` 📅 Schedule updated (${oc} extra/changed day${oc>1?'s':''}).`:''))}catch(e){alert('That notes link looks broken.')}}
 // ics
 function icsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n')}
 function dt(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00'}
-function exportICS(){if(!$('start').value)return alert('Pick the first shift date first');const[y,m]=$('month').value.split('-').map(Number);const[sh,sm]=$('stime').value.split(':').map(Number);
- const n=$('pname').value||'Firefighter';const stamp=dt(new Date());let L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Firehouse Tots//Shift Calendar//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsEsc(n+' Shifts')];
+function exportICS(re){if(!$('start').value)return alert('Pick the first shift date first');const[y,m]=$('month').value.split('-').map(Number);
+ const duo=DUO(),w=duo?$('expwho').value:'0',P=w=='all'?[0,1]:[+w];const cn=P.map(XN).join(' & ');const stamp=dt(new Date());let L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Firehouse Tots//Shift Calendar//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsEsc(cn+' Shifts')];
  const end=new Date(y,m+2,1),from=new Date(y,m-1,1);
- stints(from,end).filter(x=>x.en>from&&x.st<end).forEach(sx=>{const ns=S.notes.filter(x=>{const t=pd(x.d);return t>=new Date(sx.st.getFullYear(),sx.st.getMonth(),sx.st.getDate())&&t<=sx.en});
+ P.forEach(q=>{const n=XN(q),nts=S.notes.filter(x=>!duo||(x.f||0)==q||w!='all');
+ stints(from,end,q).filter(x=>x.en>from&&x.st<end).forEach(sx=>{const ns=nts.filter(x=>{const t=pd(x.d);return t>=new Date(sx.st.getFullYear(),sx.st.getMonth(),sx.st.getDate())&&t<=sx.en});
   const desc='Home: '+sx.en.toLocaleString()+(sx.parts.length>1?' (back-to-back shifts)':'')+(ns.length?'\nNotes for the kids:\n'+ns.map(x=>x.d+' '+x.t+' - '+x.x).join('\n'):'');
-  sx.parts.forEach(p=>{const lab=p.k=='ot'?'🚒 '+n+' overtime (OT)':p.k=='swap'?'🔁 '+n+' shift trade':'🚒 '+n+' on shift';
-   L.push('BEGIN:VEVENT','UID:'+p.k+'-'+dt(p.st)+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(p.st),'DTEND:'+dt(p.en),'SUMMARY:'+icsEsc(lab),'DESCRIPTION:'+icsEsc(desc),'END:VEVENT')})});
- S.notes.forEach(x=>{const st=new Date(x.d+'T'+(x.t||'08:00'));const en=new Date(st.getTime()+15*6e4);L.push('BEGIN:VEVENT','UID:note-'+x.id+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(st),'DTEND:'+dt(en),'SUMMARY:'+icsEsc('💌 Note from '+n),'DESCRIPTION:'+icsEsc(x.x),'END:VEVENT')});
- L.push('END:VCALENDAR');ICS=L.join('\r\n');openExport()}
+  sx.parts.forEach(p=>{const E0=JOB(q).e,lab=p.k=='ot'?E0+' '+n+' overtime (OT)':p.k=='swap'?'🔁 '+n+' shift trade':p.k=='dep'?E0+' '+n+' deployed':E0+' '+n+' on shift';
+   L.push('BEGIN:VEVENT','UID:'+(duo?'p'+q+'-':'')+p.k+'-'+dt(p.st)+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(p.st),'DTEND:'+dt(p.en),'SUMMARY:'+icsEsc(lab),'DESCRIPTION:'+icsEsc(desc),'END:VEVENT')})})});
+ S.notes.filter(x=>!duo||w=='all'||(x.f||0)==+w).forEach(x=>{const st=new Date(x.d+'T'+(x.t||'08:00'));const en=new Date(st.getTime()+15*6e4);L.push('BEGIN:VEVENT','UID:note-'+x.id+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(st),'DTEND:'+dt(en),'SUMMARY:'+icsEsc('💌 Note from '+XN(duo?x.f||0:0)),'DESCRIPTION:'+icsEsc(x.x),'END:VEVENT')});
+ L.push('END:VCALENDAR');ICS=L.join('\r\n');if(re!==true)openExport()}
 let ICS='';const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 const inPreview=isIOS&&!/Safari/.test(navigator.userAgent)&&!navigator.standalone;
 function icsFile(){return new File([ICS],'firefighter-shifts.ics',{type:'text/calendar'})}
 function z(d){return d.toISOString().replace(/[-:]|\.\d{3}/g,'')}
-function calLinks(){const sh=curShift(),n=$('pname').value||'Firefighter';if(!sh){['lGoogle','lOutlook','lO365','lYahoo'].forEach(i=>$(i).removeAttribute('href'));return}
+function linkSet(p){const sh=curShift(p),n=XN(p);if(!sh)return null;
+ const t=(sh.parts.some(x=>x.k=='ot')?JOB(p).e+' '+n+' on shift + OT':JOB(p).e+' '+n+' on shift'),ns=S.notes.filter(x=>(!DUO()||(x.f||0)==p)&&(d=>d>=sh.st&&d<=sh.en)(new Date(x.d+'T'+(x.t||'00:00')))).map(x=>x.d+' '+x.t+' - '+x.x).join('\n');
+ const det='Home: '+sh.en.toLocaleString()+(ns?'\nNotes for the kids:\n'+ns:'')+'\n(Firehouse Tots shift calendar)',E=encodeURIComponent,oq='?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&subject='+E(t)+'&startdt='+E(sh.st.toISOString())+'&enddt='+E(sh.en.toISOString())+'&body='+E(det);
+ return{sh,g:'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+E(t)+'&dates='+z(sh.st)+'/'+z(sh.en)+'&details='+E(det),o:'https://outlook.live.com/calendar/0/deeplink/compose'+oq,o3:'https://outlook.office.com/calendar/0/deeplink/compose'+oq,y:'https://calendar.yahoo.com/?v=60&title='+E(t)+'&st='+z(sh.st)+'&et='+z(sh.en)+'&desc='+E(det)}}
+function calLinks(){if(DUO())$('lduo').innerHTML=[0,1].map(p=>{const L=linkSet(p);return `<div class="lrow" data-p="${p}" style="--pc:${COL(p)}"><b>${esc(NM(p))}'s next shift${L?' · '+fmtT(L.sh.st):''}</b>`+(L?`<a target="_blank" rel="noopener" class="lg" href="${L.g}">Google</a><a target="_blank" rel="noopener" class="lo" href="${L.o}">Outlook.com</a><a target="_blank" rel="noopener" class="l3" href="${L.o3}">Office 365</a><a target="_blank" rel="noopener" class="ly" href="${L.y}">Yahoo</a>`:'<small>No upcoming shift</small>')+'</div>'}).join('');
+ const sh=curShift(),n=$('pname').value||'Firefighter';if(!sh){['lGoogle','lOutlook','lO365','lYahoo'].forEach(i=>$(i).removeAttribute('href'));return}
  const t=(sh.parts.some(p=>p.k=='ot')?'🚒 '+n+' on shift + OT':'🚒 '+n+' on shift'),ns=S.notes.filter(x=>{const d=new Date(x.d+'T'+(x.t||'00:00'));return d>=sh.st&&d<=sh.en}).map(x=>x.d+' '+x.t+' - '+x.x).join('\n');
  const det='Home: '+sh.en.toLocaleString()+(ns?'\nNotes for the kids:\n'+ns:'')+'\n(Firehouse Tots shift calendar)',E=encodeURIComponent;
  $('lGoogle').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+E(t)+'&dates='+z(sh.st)+'/'+z(sh.en)+'&details='+E(det);
@@ -437,9 +534,11 @@ function expMsg(t){$('expmsg').textContent=t}
 
 // init
 importHash();const c=S.cfg||{};const t=new Date();
-$('pname').value=c.pname||'';$('pat').value=c.pat||'24on48';$('start').value=c.start||ymd(t);$('stime').value=c.stime||'07:00';$('etime').value=c.etime||'07:00';$('cust').value=c.cust||'1100';$('month').value=c.month||ymd(t).slice(0,7);$('bmode').value=c.bmode||'sleep';$('ndate').value=ymd(t);
-['pname','pat','start','stime','etime','cust','month'].forEach(i=>$(i).addEventListener('input',render));$('bmode').onchange=()=>{render();resetBub()};
+const c2=S.cfg2||{};[[c,0],[c2,1]].forEach(([q,p])=>{F('job',p).value=q.job||'fire';fillPat(p,q.pat||'24on48');const r=PRE[F('pat',p).value];setWd(p,q.wd!=null&&q.wd!==undefined?String(q.wd).split('').map(Number):(r.wk||[]));F('dep',p).value=q.dep||'';F('depe',p).value=q.depe||''});$('duo').checked=!!c.duo;$('pcolor').value=c.pcolor||'#B23A3A';$('pname2').value=c2.pname||'';$('pcolor2').value=c2.pcolor||'#2F5D8A';$('start2').value=c2.start||ymd(addD(t,1));$('stime2').value=c2.stime||'07:00';$('etime2').value=c2.etime||'07:00';$('cust2').value=c2.cust||'1100';
+$('pname').value=c.pname||'';$('start').value=c.start||ymd(t);$('stime').value=c.stime||'07:00';$('etime').value=c.etime||'07:00';$('cust').value=c.cust||'1100';$('month').value=c.month||ymd(t).slice(0,7);$('bmode').value=c.bmode||'sleep';$('ndate').value=ymd(t);
+['pname','pat','start','stime','etime','cust','month','pcolor','pname2','pcolor2','pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('input',render));[0,1].forEach(p=>{F('job',p).addEventListener('change',()=>{fillPat(p);applyPre(p);resetBub(p);render()});F('pat',p).addEventListener('change',()=>{applyPre(p);resetBub(p);render()});F('wd',p).addEventListener('change',()=>{resetBub(p);render()});['dep','depe'].forEach(i=>F(i,p).addEventListener('change',()=>{resetBub(p);render()}))});
+$('duo').onchange=()=>{render();if(DUO())resetBub(1)};['pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('change',()=>{resetBub(1);render()}));$('bmode').onchange=()=>{render();resetBub(0);if(DUO())resetBub(1)};
 document.querySelectorAll('.stkbar button').forEach(b=>b.onclick=()=>{cur=b.dataset.s;document.querySelectorAll('.stkbar button').forEach(x=>x.classList.toggle('sel',x==b))});
 $('exfile').onchange=e=>{if(e.target.files[0])importFile(e.target.files[0]);e.target.value=''};$('exproxy').value=S.proxy||'';
-render();S.ext.filter(c=>c.url).forEach(c=>refreshCal(c.id));setInterval(()=>{tick();renderNotes()},30000);
+render();S.ext.filter(c=>c.url).forEach(c=>refreshCal(c.id));setInterval(()=>{tick();renderNotes()},30000);window.__ready=true;
 </script></body></html>
