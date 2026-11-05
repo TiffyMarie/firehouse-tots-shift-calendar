@@ -44,7 +44,7 @@ button.red{background:var(--red)}button.yel{background:var(--yel);color:var(--na
 .fl .s{position:absolute;bottom:20px;left:50%;font-size:34px;transform:translateX(-50%);opacity:0}
 .fl.out .s{animation:smoke 1.2s ease-out forwards}
 @keyframes smoke{0%{opacity:.9;transform:translate(-50%,0) scale(.6)}100%{opacity:0;transform:translate(-50%,-50px) scale(1.6)}}
-.fl.done{cursor:default}.fl.done .log{background:#bbb}.fl.done .ok{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:30px}
+.fl.done{cursor:default}.fl.done .log{background:#bbb}
 .gauge{display:flex;align-items:center;gap:8px}.gauge .hose{font-size:30px}
 .prog{flex:1;height:26px;background:#e6eef7;border-radius:13px;overflow:hidden;border:3px solid var(--navy)}.prog i{display:block;height:100%;background:repeating-linear-gradient(45deg,#3a8eea 0 12px,#5fb0ff 12px 24px);background-size:34px 34px;animation:flow 1s linear infinite;transition:width .5s}
 @keyframes flow{to{background-position:34px 0}}
@@ -469,7 +469,7 @@ function resetBub(p=0){if(typeof p!='number')p=0;const s=curShift(p),now=new Dat
  S[BK(p)]={n:Math.min(n,40),popped:[],u};save();renderBub(p)}
 function renderBub(p=0){if(!S[BK(p)])return resetBub(p);const B=S[BK(p)],b=F('flames',p);b.innerHTML='';
  for(let i=0;i<B.n;i++){const done=B.popped.includes(i);const e=document.createElement('button');e.className='fl'+(done?' done':'');e.setAttribute('aria-label',(done?'flame out ':'flame ')+(i+1));e.dataset.i=i;
-  e.innerHTML=done?'<span class="log"></span><span class="ok">💧</span><span class="n">'+(i+1)+'</span>':'<span class="f"><svg aria-hidden="true"><use href="#flameart"/></svg></span><span class="log"></span><span class="s">💨</span><span class="w"></span><span class="n">'+(i+1)+'</span>';
+  e.innerHTML=done?'<span class="log"></span><span class="n">'+(i+1)+'</span>':'<span class="f"><svg aria-hidden="true"><use href="#flameart"/></svg></span><span class="log"></span><span class="s">💨</span><span class="w"></span><span class="n">'+(i+1)+'</span>';
   if(!done)e.onclick=()=>douse(e,i,p);b.appendChild(e)}
  F('fu',p).textContent='';const q=B.popped.length;F('pbar',p).style.width=(100*q/B.n)+'%';F('gtxt',p).textContent=q+'/'+B.n}
 function douse(e,i,p=0){if(e.classList.contains('out'))return;const w=e.querySelector('.w');
