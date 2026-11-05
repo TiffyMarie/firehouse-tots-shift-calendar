@@ -279,7 +279,7 @@ svg.ji{width:26px;height:26px;color:var(--navy);stroke-width:1.6}.day .ico .ji+.
 <button data-s="⭐" class="sel">⭐</button><button data-s="❤️">❤️</button><button data-s="🤗">🤗</button><button data-s="✖" title="Eraser"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></div>
 <div id="bothwarn" class="bothwarn hide"></div>
 <div class="cal" id="cal"></div>
-<p class="legend duoonly" id="duoleg"></p><p class="legend"><span><svg class="lg"><use href="#truck"/></svg> Shift day</span><span>💌 Note</span><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
+<p class="legend duoonly" id="duoleg"></p><p class="legend"><span class="li"><span class="lic"><svg class="lg"><use href="#truck"/></svg></span><span class="ltx">Shift day</span></span><span class="li"><span class="lic">💌</span><span class="ltx">Note</span></span><span class="li"><span class="lic"><span class="ovb " style="position:static">OT</span></span><span class="ltx">Extra shift / overtime</span></span><span class="li"><span class="lic"><span class="ovb swap" style="position:static">TRADE</span></span><span class="ltx">Working a traded shift</span></span><span class="li"><span class="lic"><span class="ovb give" style="position:static">TRADED</span></span><span class="ltx">Shift given away</span></span><span class="li"><span class="lic"><span class="ovb off" style="position:static">OFF</span></span><span class="ltx">Vacation, sick, or day off</span></span><span class="li"><span class="lic"><span class="ovb off kel" style="position:static">KELLY</span></span><span class="ltx">Kelly day (scheduled off)</span></span></p>
 </div>
 
 <div class="card panel" id="famcard">
@@ -313,14 +313,14 @@ svg.ji{width:26px;height:26px;color:var(--navy);stroke-width:1.6}.day .ico .ji+.
 </div></div>
 </main><footer><b>Firehouse Tots</b> · Made by a firefighter-paramedic family, for fire families.<br><small>Tip: on iPhone/iPad tap Share → "Add to Home Screen" to use it like an app. Your info stays on this device.</small></footer>
 <div id="ovmod"><div class="box"><h2 style="margin:0">Change this day</h2><p id="ovday" style="margin:4px 0 8px"></p><div class="duoonly ovwho" id="ovwho"><span>Whose shift?</span><label><input type="radio" name="ovp" value="0" onchange="ovPick(0)"><b id="ovp0">Parent 1</b></label><label><input type="radio" name="ovp" value="1" onchange="ovPick(1)"><b id="ovp1">Parent 2</b></label></div>
-<label class="ovopt"><input type="radio" name="ovt" value="ot" onchange="ovSync()">Extra shift / Overtime</label>
-<label class="ovopt"><input type="radio" name="ovt" value="swap" onchange="ovSync()">Trade: working someone's shift</label>
+<label class="ovopt"><input type="radio" name="ovt" value="ot" onchange="ovSync()"><span class="oic"><span class="ovb " style="position:static">OT</span></span><span class="otx">Extra shift / Overtime</span></label>
+<label class="ovopt"><input type="radio" name="ovt" value="swap" onchange="ovSync()"><span class="oic"><span class="ovb swap" style="position:static">TRADE</span></span><span class="otx">Trade: working someone's shift</span></label>
 <div id="ovtime" class="row hide" style="margin:4px 0 8px"><label>Starts at<input type="time" id="ovs"></label><label>Length<select id="ovh"><option value="8">8 hours</option><option value="10">10 hours</option><option value="12">12 hours</option><option value="24">24 hours</option><option value="48">48 hours</option></select></label></div>
-<label class="ovopt"><input type="radio" name="ovt" value="give" onchange="ovSync()">Trade: gave my shift away</label>
-<label class="ovopt"><input type="radio" name="ovt" value="off_vac" onchange="ovSync()">Vacation</label>
-<label class="ovopt"><input type="radio" name="ovt" value="off_sick" onchange="ovSync()">Sick day</label>
-<label class="ovopt"><input type="radio" name="ovt" value="off_off" onchange="ovSync()">Day off (other)</label>
-<label class="ovopt"><input type="radio" name="ovt" value="clear" onchange="ovSync()">Clear (back to regular schedule)</label>
+<label class="ovopt"><input type="radio" name="ovt" value="give" onchange="ovSync()"><span class="oic"><span class="ovb give" style="position:static">TRADED</span></span><span class="otx">Trade: gave my shift away</span></label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_vac" onchange="ovSync()"><span class="oic"><span class="ovb off" style="position:static">OFF</span></span><span class="otx">Vacation</span></label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_sick" onchange="ovSync()"><span class="oic"><span class="ovb off" style="position:static">OFF</span></span><span class="otx">Sick day</span></label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_off" onchange="ovSync()"><span class="oic"><span class="ovb off" style="position:static">OFF</span></span><span class="otx">Day off (other)</span></label>
+<label class="ovopt"><input type="radio" name="ovt" value="clear" onchange="ovSync()"><span class="oic"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></span><span class="otx">Clear (back to regular schedule)</span></label>
 <button id="bOvSave" class="btn primary wide" onclick="saveOv()">Save</button>
 <button class="btn ghost wide" onclick="$('ovmod').classList.remove('on')">Cancel</button></div></div>
 <div id="expmod"><div class="box"><h2 style="margin:0 0 6px">Add shifts to your calendar</h2>
@@ -394,7 +394,7 @@ function render(){extCache();
  [0,1].forEach(p=>{const r=PRE[F('pat',p).value]||{};F('custl',p).classList.toggle('hide',F('pat',p).value!='custom');F('wdl',p).classList.toggle('hide',!r.wk);F('depl',p).classList.toggle('hide',!r.dep);F('knl',p).classList.toggle('hide',!r.kn);F('platl',p).classList.toggle('hide',!r.pl)});
  const duo=DUO();document.body.classList.toggle('duo',duo);
  [0,1].forEach(p=>{$('nfrom').options[p].text=NM(p);$('ovp'+p).textContent=NM(p);$('expwho').options[p+1].text=NM(p)+' only';$('fh'+(p+1)).innerHTML=`<span class="pb" style="background:${COL(p)}">${INI(p)}</span>${esc(NM(p))}'s flames`});
- $('duoleg').innerHTML=duo?[0,1].map(p=>`<span><span class="pb" style="background:${COL(p)}">${INI(p)}</span> ${esc(NM(p))} on shift</span>`).join('')+'<span><span class="bothtag" style="position:static">BOTH</span> both on shift (plan childcare)</span>':'';
+ $('duoleg').innerHTML=duo?[0,1].map(p=>`<span class="li"><span class="lic"><span class="pb" style="background:${COL(p)}">${INI(p)}</span></span><span class="ltx">${esc(NM(p))} on shift</span></span>`).join('')+'<span class="li"><span class="lic"><span class="bothtag" style="position:static">BOTH</span></span><span class="ltx">Both on shift (plan childcare)</span></span>':'';
  if(duo){const now=new Date(),O=overlaps(new Date(now.getFullYear(),now.getMonth(),now.getDate()),addD(now,31)).filter(x=>x.en>now);
   $('bothwarn').innerHTML=O.length?`<b>Both on shift</b> in the next 30 days. Plan childcare for: `+O.slice(0,6).map(x=>fmtT(x.st)+' to '+x.en.toLocaleString(undefined,{weekday:'short',hour:'numeric',minute:'2-digit'})).join('; ')+(O.length>6?` (+${O.length-6} more)`:''):'<b>No overlap:</b> one of you is home every day for the next 30 days.';
   $('bothwarn').classList.remove('hide')}else $('bothwarn').classList.add('hide');
@@ -641,5 +641,19 @@ $('bkfile').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(restoreTxt
 .subs .btn{text-decoration:none}#feedurl{width:100%;margin-top:8px;font-size:13px}.privacy{margin-top:8px;font-style:italic}
 .bkbox{margin-top:12px;padding:12px;border:1px dashed var(--line);border-radius:12px;background:#FFFDF8}.bkbox>b{display:block}.bkbox small{display:block;color:var(--muted)}.bkbox .row{margin-top:8px}.bkmsg{margin-top:6px}
 .ovb.kel{background:#E9F1E6;color:#3F6B45}
+
+/* tidy rows: picker + legend */
+.ovopt{display:grid;grid-template-columns:22px 72px 1fr;align-items:center;column-gap:10px}
+.ovopt .oic,.legend .lic{display:flex;align-items:center;justify-content:center;width:72px;flex:none}
+.ovopt .oic .ovb,.legend .lic .ovb,.legend .lic .bothtag{margin:0;white-space:nowrap}
+.ovopt .otx{line-height:1.25}
+.ovopt:has(input:checked){box-shadow:0 0 0 2px var(--navy) inset}
+.ovopt:has(input:checked) .otx{font-weight:800}
+.legend{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px 18px!important;align-items:center}
+.legend:empty{display:none!important}
+.legend br{display:none}
+.legend .li{display:flex!important;align-items:center;gap:10px;min-height:26px}
+.legend .ltx{line-height:1.25}
+@media(max-width:420px){.legend{grid-template-columns:1fr}.ovopt{grid-template-columns:22px 64px 1fr}.ovopt .oic,.legend .lic{width:64px}}
 </style>
 </body></html>
