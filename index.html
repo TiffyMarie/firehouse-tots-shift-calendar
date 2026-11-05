@@ -254,8 +254,8 @@ main{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px
 <small>Export works with Google Calendar, Apple Calendar, and Outlook. Exports 3 months of shifts starting with the month shown.</small>
 <div class="bkbox hide" id="syncbox"><b>Auto-sync calendar</b><small>Subscribe Google, Apple, or Outlook to a live feed. Changes you make here update the subscribed calendars automatically (calendar apps check every few hours).</small>
 <div id="syncoff"><div class="row"><button class="btn primary" id="bSyncOn" onclick="syncOn()">Turn on sync</button></div></div>
-<div id="syncon" class="hide"><div class="row subs"><a class="btn ghost" id="subG" target="_blank" rel="noopener">Google Calendar</a><a class="btn ghost" id="subA">Apple / iPhone</a><a class="btn ghost" id="subO" target="_blank" rel="noopener">Outlook</a><button class="btn ghost" id="bCopyFeed" onclick="copyFeed()">Copy link</button></div>
-<input id="feedurl" readonly aria-label="Feed link"><div class="row"><button class="btn ghost" id="bSyncNow" onclick="syncPush(true)">Sync now</button><button class="btn ghost" id="bSyncOff" onclick="syncOff()">Turn off sync / delete my data</button></div></div>
+<div id="syncon" class="hide"><div id="syncfeeds"></div>
+<div class="row"><button class="btn ghost" id="bSyncNow" onclick="syncPush(true)">Sync now</button><button class="btn ghost" id="bSyncOff" onclick="syncOff()">Turn off sync / delete my data</button></div></div>
 <small id="syncmsg" class="bkmsg"></small><small class="privacy">Privacy: with sync on, your schedule, names, notes, and countdowns are stored online on the Firehouse Tots sync server so calendar apps can read the feed. Anyone with the feed link can see it, so share it only with family. Turning sync off deletes the online copy.</small></div>
 <div class="bkbox" id="backup"><b>Backup &amp; restore</b><small>Saves everything (both parents, shifts, overtime and trades, notes, countdowns, settings) to one file. Keep it safe, or use it to move to a new phone or tablet.</small><div class="row"><button class="btn ghost" id="bBackup" onclick="dlBackup()">Download backup</button><button class="btn ghost" id="bRestore" onclick="$('bkfile').click()">Restore from backup</button><input type="file" id="bkfile" accept=".json,application/json" style="display:none"></div><small id="bkmsg" class="bkmsg"></small></div>
 </div>
@@ -338,9 +338,7 @@ main{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px
 <div class="duoonly expwho"><label>Which schedule?<select id="expwho" onchange="exportICS(true)"><option value="all">Both firefighters (combined)</option><option value="0">Parent 1</option><option value="1">Parent 2</option></select></label></div>
 <div id="expPrev" class="tip hide" style="border-color:var(--red)"><b>Opened from Messages, Files, or a chat preview?</b> Tap <b>Share ⬆️ → Open in Safari</b> first, then tap Export again. Previews can't add to Calendar.</div>
 <div class="cals">
-<a class="cbtn red" id="bShare" href="#" onclick="return expApple(event)"><span><svg class="ci" aria-hidden="true"><use href="#i-cal"/></svg></span>Apple / iPhone Calendar<small>Subscribes: updates automatically</small></a>
-<a class="cbtn" id="subGm" href="#" target="_blank" rel="noopener" onclick="return expSub(event,'g')"><span class="g">G</span>Google Calendar (subscribe)<small>All shifts, updates automatically</small></a>
-<a class="cbtn" id="subOm" href="#" target="_blank" rel="noopener" onclick="return expSub(event,'o')"><span class="o">O</span>Outlook (subscribe)<small>All shifts, updates automatically</small></a>
+<div id="subBlocks"></div>
 <div id="lduo" class="duoonly lduo"></div>
 <a class="cbtn solo" id="lGoogle" target="_blank" rel="noopener"><span class="g">G</span>Google Calendar<small>Adds only the next shift</small></a>
 <a class="cbtn solo" id="lOutlook" target="_blank" rel="noopener"><span class="o">O</span>Outlook.com<small>Adds only the next shift</small></a>
@@ -559,14 +557,17 @@ function importHash(){const m=location.hash.match(/notes=([^&]+)/);if(!m)return;
 // ics
 function icsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n')}
 function dt(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00'}
+function icsHM(d){let h=d.getHours(),m=d.getMinutes(),ap=h>=12?'pm':'am';h=h%12;if(!h)h=12;return h+':'+String(m).padStart(2,'0')+ap}
 function exportICS(re){if(!$('start').value)return alert('Pick the first shift date first');const[y,m]=$('month').value.split('-').map(Number);
  const duo=DUO(),w=duo?$('expwho').value:'0',P=w=='all'?[0,1]:[+w];const cn=P.map(XN).join(' & ');const stamp=z(new Date());let L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Firehouse Tots//Shift Calendar//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsEsc(cn+' Shifts')];
  const end=new Date(y,m+2,1),from=new Date(y,m-1,1);
  P.forEach(q=>{const n=XN(q),nts=S.notes.filter(x=>!duo||(x.f||0)==q||w!='all');
  stints(from,end,q).filter(x=>x.en>from&&x.st<end).forEach(sx=>{const ns=nts.filter(x=>{const t=pd(x.d);return t>=new Date(sx.st.getFullYear(),sx.st.getMonth(),sx.st.getDate())&&t<=sx.en});
   const desc='Home: '+sx.en.toLocaleString()+(sx.parts.length>1?' (back-to-back shifts)':'')+(ns.length?'\nNotes for the kids:\n'+ns.map(x=>x.d+' '+x.t+' - '+x.x).join('\n'):'');
-  sx.parts.forEach(p=>{const E0=JOB(q).e,lab=p.k=='ot'?E0+' '+n+' overtime (OT)':p.k=='swap'?'🔁 '+n+' shift trade':p.k=='dep'?E0+' '+n+' deployed':E0+' '+n+' on shift';
-   L.push('BEGIN:VEVENT','UID:'+(duo?'p'+q+'-':'')+p.k+'-'+dt(p.st)+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(p.st),'DTEND:'+dt(p.en),'SUMMARY:'+icsEsc(lab),'DESCRIPTION:'+icsEsc(desc),'END:VEVENT')})})});
+  sx.parts.forEach(p=>{const E0=JOB(q).e,duty=new Date(p.st.getFullYear(),p.st.getMonth(),p.st.getDate()),a=ymd(duty).replace(/-/g,''),b=ymd(addD(duty,1)).replace(/-/g,'');
+   const base=p.k=='ot'?E0+' '+n+' overtime (OT)':p.k=='swap'?'🔁 '+n+' shift trade':p.k=='dep'?E0+' '+n+' deployed':E0+' '+n+' on shift';
+   const lab=base+' · '+icsHM(p.st)+'–'+icsHM(p.en);
+   L.push('BEGIN:VEVENT','UID:'+(duo?'p'+q+'-':'')+p.k+'-'+dt(p.st)+'@firehousetots','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+a,'DTEND;VALUE=DATE:'+b,'SUMMARY:'+icsEsc(lab),'DESCRIPTION:'+icsEsc(desc),'TRANSP:TRANSPARENT','END:VEVENT')})})});
  S.notes.filter(x=>!duo||w=='all'||(x.f||0)==+w).forEach(x=>{const st=new Date(x.d+'T'+(x.t||'08:00'));const en=new Date(st.getTime()+15*6e4);L.push('BEGIN:VEVENT','UID:note-'+x.id+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(st),'DTEND:'+dt(en),'SUMMARY:'+icsEsc('💌 Note from '+XN(duo?x.f||0:0)),'DESCRIPTION:'+icsEsc(x.x),'END:VEVENT')});
  (S.evs||[]).forEach(e=>{const a=e.d.replace(/-/g,''),b=ymd(addD(pd(e.d),1)).replace(/-/g,'');L.push('BEGIN:VEVENT','UID:ev-'+e.id+'@firehousetots','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+a,'DTEND;VALUE=DATE:'+b,'SUMMARY:'+icsEsc(e.e+' '+e.n),'END:VEVENT')});L.push('END:VCALENDAR');ICS=L.join('\r\n');if(re!==true)openExport()}
 let ICS='';const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -585,7 +586,7 @@ function calLinks(){if(DUO())$('lduo').innerHTML=[0,1].map(p=>{const L=linkSet(p
  const oq='?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&subject='+E(t)+'&startdt='+E(sh.st.toISOString())+'&enddt='+E(sh.en.toISOString())+'&body='+E(det);
  $('lOutlook').href='https://outlook.live.com/calendar/0/deeplink/compose'+oq;$('lO365').href='https://outlook.office.com/calendar/0/deeplink/compose'+oq;
  $('lYahoo').href='https://calendar.yahoo.com/?v=60&title='+E(t)+'&st='+z(sh.st)+'&et='+z(sh.en)+'&desc='+E(det)}
-function openExport(){calLinks();if(typeof expSetLinks=='function')expSetLinks();$('expIOS').classList.toggle('hide',!isIOS);$('expPrev').classList.toggle('hide',!inPreview);$('expmod').classList.add('on')}
+function openExport(){calLinks();if(typeof syncUI=='function')syncUI();if(typeof expSetLinks=='function')expSetLinks();$('expIOS').classList.toggle('hide',!isIOS);$('expPrev').classList.toggle('hide',!inPreview);$('expmod').classList.add('on')}
 async function expShare(){const f=icsFile();if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Firefighter shifts'});expMsg('Shared! Pick Calendar (or Save to Files, then open it).');return}catch(e){if(e.name==='AbortError')return}}expCal()}
 function expCal(){const url='data:text/calendar;charset=utf-8,'+encodeURIComponent(ICS);if(isIOS){window.__lastNav=url;location.href=url;expMsg('Calendar should open with "Add All". Nothing happened? Tap Share > Open in Safari, then try again.')}else expDl()}
 function expDl(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ICS],{type:'text/calendar'}));a.download='firefighter-shifts.ics';document.body.appendChild(a);a.click();a.remove();expMsg('Downloaded firefighter-shifts.ics. Open it, or import it in Google Calendar (Settings > Import) or Outlook.')}
@@ -596,7 +597,7 @@ importHash();const c=S.cfg||{};const t=new Date();
 const c2=S.cfg2||{};[[c,0],[c2,1]].forEach(([q,p])=>{F('job',p).value=q.job||'fire';fillPat(p,q.pat=='ca3'?'kelly':(q.pat||'24on48'));const r=PRE[F('pat',p).value];setWd(p,q.wd!=null&&q.wd!==undefined?String(q.wd).split('').map(Number):(r.wk||[]));F('dep',p).value=q.dep||'';F('depe',p).value=q.depe||'';F('kn',p).value=q.kn||'7';F('plat',p).value=q.plat||'0'});$('duo').checked=!!c.duo;$('pcolor').value=c.pcolor||'#B23A3A';$('pname2').value=c2.pname||'';$('pcolor2').value=c2.pcolor||'#2F5D8A';$('start2').value=c2.start||ymd(addD(t,1));$('stime2').value=c2.stime||'07:00';$('etime2').value=c2.etime||'07:00';$('cust2').value=c2.cust||'1100';
 $('pname').value=c.pname||'';$('start').value=c.start||ymd(t);$('stime').value=c.stime||'07:00';$('etime').value=c.etime||'07:00';$('cust').value=c.cust||'1100';setTimeout(()=>{cbInit(0);cbInit(1);render()},0);$('month').value=c.month||ymd(t).slice(0,7);$('bmode').value=c.bmode||'sleep';$('ndate').value=ymd(t);
 ['pname','pat','start','stime','etime','cust','month','pcolor','pname2','pcolor2','pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('input',render));[0,1].forEach(p=>{F('job',p).addEventListener('change',()=>{fillPat(p);applyPre(p);resetBub(p);render()});F('pat',p).addEventListener('change',()=>{applyPre(p);resetBub(p);render()});F('wd',p).addEventListener('change',()=>{resetBub(p);render()});['dep','depe','kn','plat'].forEach(i=>F(i,p).addEventListener('change',()=>{resetBub(p);render()}))});
-$('duo').onchange=()=>{render();if(DUO())resetBub(1)};['pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('change',()=>{resetBub(1);render()}));$('bmode').onchange=()=>{render();resetBub(0);if(DUO())resetBub(1)};
+$('duo').onchange=()=>{render();if(DUO())resetBub(1);if(typeof syncUI=='function')syncUI()};['pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('change',()=>{resetBub(1);render()}));$('bmode').onchange=()=>{render();resetBub(0);if(DUO())resetBub(1)};
 document.querySelectorAll('.stkbar button').forEach(b=>b.onclick=()=>{cur=b.dataset.s;document.querySelectorAll('.stkbar button').forEach(x=>x.classList.toggle('sel',x==b))});
 $('exfile').onchange=e=>{if(e.target.files[0])importFile(e.target.files[0]);e.target.value=''};$('exproxy').value=S.proxy||'';
 render();S.ext.filter(c=>c.url).forEach(c=>refreshCal(c.id));setInterval(()=>{tick();renderNotes();renderEv();if(document.body.classList.contains('kidsmode'))renderKids()},30000);window.__ready=true;
@@ -634,29 +635,45 @@ async function syncPush(force){const sy=S.sync;if(!SB()||!sy||!sy.on)return;cons
  catch(e){$('syncmsg').textContent='Sync failed ('+e.message+'). Will retry on the next change.';return false}}
 function syncSoon(){if(!S.sync||!S.sync.on)return;clearTimeout(syncT);syncT=setTimeout(()=>syncPush(false),1500)}
 const _save=save;save=function(){_save();syncSoon()};
-function feedURL(){return SB()+'/feed/'+S.sync.feed+'.ics'}
-function syncUI(){const b=SB();$('syncbox').classList.toggle('hide',!b);if(!b)return;const on=!!(S.sync&&S.sync.on);$('syncoff').classList.toggle('hide',on);$('syncon').classList.toggle('hide',!on);if(!on)return;
- const h=feedURL(),wc=h.replace(/^https?:\/\//,'webcal://'),nm=encodeURIComponent(NM(0)+' Shifts');$('feedurl').value=h;$('subA').href=wc;
- $('subG').href='https://calendar.google.com/calendar/r?cid='+encodeURIComponent(wc);$('subO').href='https://outlook.live.com/calendar/0/addfromweb?url='+encodeURIComponent(h)+'&name='+nm}
+function feedURL(p){const h=SB()+'/feed/'+S.sync.feed+'.ics';return (p===0||p===1)?h+'?p='+p:h}
+function subLinksFor(p){if(!S.sync||!S.sync.on||!SB())return null;const h=feedURL(p),wc=h.replace(/^https?:\/\//,'webcal://'),nm=encodeURIComponent(NM(p===0||p===1?p:0)+' Shifts');
+ return{h,a:wc,g:'https://calendar.google.com/calendar/r?cid='+encodeURIComponent(wc),o:'https://outlook.live.com/calendar/0/addfromweb?url='+encodeURIComponent(h)+'&name='+nm}}
+function subLinks(p){return subLinksFor(DUO()?(p===0||p===1?p:0):undefined)}
+function syncFeedHTML(p){const L=subLinksFor(p),id=(p===0||p===1)?String(p):'';
+ if(!L)return '';
+ const title=(p===0||p===1)?esc(NM(p))+"'s calendar":'Your calendar';
+ const style=(p===0||p===1)?` style="--pc:${COL(p)}"`:'';
+ return `<div class="syncfeed" data-p="${id}"${style}><b>${title}</b><div class="row subs"><a class="btn ghost" id="subG${id}" href="${L.g}" target="_blank" rel="noopener">Google Calendar</a><a class="btn ghost" id="subA${id}" href="${L.a}">Apple / iPhone</a><a class="btn ghost" id="subO${id}" href="${L.o}" target="_blank" rel="noopener">Outlook</a><button class="btn ghost" id="bCopyFeed${id}" onclick="copyFeed(${p===0||p===1?p:'undefined'})">Copy link</button></div><input id="feedurl${id||''}" class="feedurl" readonly aria-label="${title} feed link" value="${L.h}"></div>`}
+function syncUI(){const b=SB();$('syncbox').classList.toggle('hide',!b);if(!b)return;const on=!!(S.sync&&S.sync.on);$('syncoff').classList.toggle('hide',on);$('syncon').classList.toggle('hide',!on);if(!on){$('syncfeeds').innerHTML='';return}
+ const duo=DUO();$('syncfeeds').innerHTML=duo?[0,1].map(syncFeedHTML).join(''):syncFeedHTML();
+ // keep #feedurl alias for solo tests / copy
+ if(!duo){const inp=$('feedurl');if(inp)inp.id='feedurl'}}
 async function syncOn(){if(!SB())return;S.sync={on:true,tok:rnd(32),feed:rnd(18)};localStorage.setItem(K,JSON.stringify(S));syncUI();$('syncmsg').textContent='Turning on sync…';
- if(!await syncPush(true)){S.sync=null;localStorage.setItem(K,JSON.stringify(S));syncUI()}}
+ if(!await syncPush(true)){S.sync=null;localStorage.setItem(K,JSON.stringify(S));syncUI()}else syncUI()}
 
 // --- live-feed subscribe from the export menu (Apple uses webcal://, never a file download)
-function subLinks(){if(!S.sync||!S.sync.on||!SB())return null;const h=feedURL(),wc=h.replace(/^https?:\/\//,'webcal://');
- return{a:wc,g:'https://calendar.google.com/calendar/r?cid='+encodeURIComponent(wc),o:'https://outlook.live.com/calendar/0/addfromweb?url='+encodeURIComponent(h)+'&name='+encodeURIComponent(NM(0)+' Shifts')}}
-function expSetLinks(){const L=subLinks();$('bShare').href=L?L.a:'#';$('subGm').href=L?L.g:'#';$('subOm').href=L?L.o:'#';$('subGm').classList.toggle('hide',!SB());$('subOm').classList.toggle('hide',!SB())}
-async function expEnsureFeed(){if(subLinks())return true;if(!SB())return false;expMsg('Setting up your live calendar feed…');await syncOn();await new Promise(r=>setTimeout(r,0));const ok=!!subLinks();expSetLinks();
+function expSubBlock(p){const L=subLinksFor(p),id=(p===0||p===1)?String(p):'',who=(p===0||p===1)?esc(NM(p)):'';
+ const appleLabel=who?`Apple / iPhone · ${who}`:'Apple / iPhone Calendar';
+ const gLabel=who?`Google · ${who}`:'Google Calendar (subscribe)';
+ const oLabel=who?`Outlook · ${who}`:'Outlook (subscribe)';
+ const hrefA=L?L.a:'#',hrefG=L?L.g:'#',hrefO=L?L.o:'#';
+ const head=who?`<div class="subhead" style="--pc:${COL(p)}"><span class="pb" style="background:${COL(p)}">${INI(p)}</span><b>${who}</b><small>Separate calendar — pick a color in Google/Apple</small></div>`:'';
+ return head+`<a class="cbtn red" id="bShare${id}" href="${hrefA}" onclick="return expApple(event,${p===0||p===1?p:'undefined'})"><span><svg class="ci" aria-hidden="true"><use href="#i-cal"/></svg></span>${appleLabel}<small>Subscribes: updates automatically</small></a>
+<a class="cbtn${SB()?'':' hide'}" id="subGm${id}" href="${hrefG}" target="_blank" rel="noopener" onclick="return expSub(event,'g',${p===0||p===1?p:'undefined'})"><span class="g">G</span>${gLabel}<small>Shifts update automatically</small></a>
+<a class="cbtn${SB()?'':' hide'}" id="subOm${id}" href="${hrefO}" target="_blank" rel="noopener" onclick="return expSub(event,'o',${p===0||p===1?p:'undefined'})"><span class="o">O</span>${oLabel}<small>Shifts update automatically</small></a>`}
+function expSetLinks(){const box=$('subBlocks');if(!box)return;box.innerHTML=DUO()?[0,1].map(expSubBlock).join(''):expSubBlock()}
+async function expEnsureFeed(){if(S.sync&&S.sync.on&&SB())return true;if(!SB())return false;expMsg('Setting up your live calendar feed…');await syncOn();await new Promise(r=>setTimeout(r,0));const ok=!!(S.sync&&S.sync.on);expSetLinks();
  expMsg(ok?'Live feed ready. Tap the button again to subscribe.':'Could not reach the sync server. Check your connection, or use the one-time download.');return ok}
 function expGo(url,newTab){window.__lastNav=url;if(newTab){const w=window.open(url,'_blank','noopener');if(!w)location.href=url}else location.href=url}
-function expApple(e){const L=subLinks();if(L){expMsg('Calendar will ask to Subscribe. Tap Subscribe, then Add.');window.__lastNav=L.a;return true}
+function expApple(e,p){const L=subLinksFor(DUO()?(p===0||p===1?p:0):undefined);if(L){expMsg('Calendar will ask to Subscribe. Tap Subscribe, then Add.');window.__lastNav=L.a;return true}
  e.preventDefault();if(!SB()){expCal();return false}
- expEnsureFeed().then(ok=>{if(ok){const L2=subLinks();expGo(L2.a,false);expMsg('Calendar will ask to Subscribe. Nothing opened? Tap Apple / iPhone Calendar again.')}});return false}
-function expSub(e,k){const L=subLinks();if(L){window.__lastNav=L[k];return true}
- e.preventDefault();expEnsureFeed().then(ok=>{if(ok)expGo(subLinks()[k],true)});return false}
+ expEnsureFeed().then(ok=>{if(ok){const L2=subLinksFor(DUO()?(p===0||p===1?p:0):undefined);expGo(L2.a,false);expMsg('Calendar will ask to Subscribe. Nothing opened? Tap Apple / iPhone Calendar again.');expSetLinks()}});return false}
+function expSub(e,k,p){const L=subLinksFor(DUO()?(p===0||p===1?p:0):undefined);if(L){window.__lastNav=L[k];return true}
+ e.preventDefault();expEnsureFeed().then(ok=>{if(ok){expSetLinks();expGo(subLinksFor(DUO()?(p===0||p===1?p:0):undefined)[k],true)}});return false}
 async function syncOff(){if(!S.sync)return;if(!confirm('Turn off sync and delete the online copy? Subscribed calendars will stop updating.'))return;
  try{const r=await fetch(SB()+'/sync',{method:'DELETE',headers:{'Authorization':'Bearer '+S.sync.tok}});if(!r.ok)throw new Error(r.status)}catch(e){$('syncmsg').textContent='Could not reach the sync server ('+e.message+'). Try again.';return}
- S.sync=null;syncLast='';localStorage.setItem(K,JSON.stringify(S));syncUI();$('syncmsg').textContent='Sync is off and your online data was deleted.'}
-function copyFeed(){const v=$('feedurl').value;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>$('syncmsg').textContent='Link copied.',()=>{$('feedurl').select();document.execCommand('copy');$('syncmsg').textContent='Link copied.'})}
+ S.sync=null;syncLast='';localStorage.setItem(K,JSON.stringify(S));syncUI();expSetLinks();$('syncmsg').textContent='Sync is off and your online data was deleted.'}
+function copyFeed(p){const id=(p===0||p===1)?String(p):'';const el=$('feedurl'+id)||$('feedurl');if(!el)return;const v=el.value;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>$('syncmsg').textContent='Link copied.',()=>{el.select();document.execCommand('copy');$('syncmsg').textContent='Link copied.'})}
 syncUI();
 function bkData(){render();return JSON.stringify({app:'firehouse-tots-shift-calendar',v:1,saved:new Date().toISOString(),data:JSON.parse(localStorage.getItem(K)||'{}')},null,1)}
 async function dlBackup(){const name='shift-calendar-backup-'+ymd(new Date())+'.json',txt=bkData();let f=null;try{f=new File([txt],name,{type:'application/json'})}catch(e){}
@@ -682,7 +699,7 @@ $('bkfile').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(restoreTxt
 .evc .eve{font-size:30px}.evc>div{flex:1}.evt{display:block;font-size:17px;color:var(--navy)}.evx{color:var(--muted)}.evdel{border:0;background:none;font-size:22px;color:var(--muted);cursor:pointer}
 .evadd summary{cursor:pointer;color:var(--muted);font-weight:600}.evempty{color:var(--muted);margin:4px 0}
 #pat,#pat2{max-width:100%;min-width:0;text-overflow:ellipsis}label:has(>#pat),label:has(>#pat2){min-width:0;max-width:100%}
-.subs .btn{text-decoration:none}#feedurl{width:100%;margin-top:8px;font-size:13px}.privacy{margin-top:8px;font-style:italic}
+.subs .btn{text-decoration:none}.feedurl,#feedurl{width:100%;margin-top:8px;font-size:13px}.privacy{margin-top:8px;font-style:italic}.syncfeed{margin:8px 0;padding:10px;border:1px solid #CFC6B5;border-radius:12px;border-left:6px solid var(--pc,var(--red))}.syncfeed b{display:block;margin-bottom:6px}.subhead{display:flex;align-items:center;gap:8px;grid-column:1/-1;margin:8px 0 2px;padding:6px 0;border-top:1px solid #eee}.subhead:first-child{border-top:0;margin-top:0}.subhead small{color:#666;font-weight:400}
 .bkbox{margin-top:12px;padding:12px;border:1px dashed var(--line);border-radius:12px;background:#FFFDF8}.bkbox>b{display:block}.bkbox small{display:block;color:var(--muted)}.bkbox .row{margin-top:8px}.bkmsg{margin-top:6px}
 .ovb.kel{background:#E9F1E6;color:#3F6B45}
 
