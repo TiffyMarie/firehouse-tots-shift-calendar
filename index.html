@@ -334,27 +334,30 @@ main{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px
 <button id="bOvSave" class="btn primary wide" onclick="saveOv()">Save</button>
 <button class="btn ghost wide" onclick="$('ovmod').classList.remove('on')">Cancel</button></div></div>
 <div id="expmod"><div class="box"><h2 style="margin:0 0 6px">Add shifts to your calendar</h2>
-<p style="margin:0 0 8px;font-size:14px">Adds 3 months of shifts plus your notes. Works with Apple, Google, and Outlook calendars.</p>
+<p style="margin:0 0 8px;font-size:14px">Subscribe once and your shifts, OT, trades and notes stay up to date in Apple, Google, or Outlook.</p>
 <div class="duoonly expwho"><label>Which schedule?<select id="expwho" onchange="exportICS(true)"><option value="all">Both firefighters (combined)</option><option value="0">Parent 1</option><option value="1">Parent 2</option></select></label></div>
 <div id="expPrev" class="tip hide" style="border-color:var(--red)"><b>Opened from Messages, Files, or a chat preview?</b> Tap <b>Share ⬆️ → Open in Safari</b> first, then tap Export again. Previews can't add to Calendar.</div>
 <div class="cals">
-<button class="red" id="bShare" onclick="expShare()"><span><svg class="ci" aria-hidden="true"><use href="#i-cal"/></svg></span>Apple / iPhone Calendar<small>Adds every shift (Add All)</small></button>
+<a class="cbtn red" id="bShare" href="#" onclick="return expApple(event)"><span><svg class="ci" aria-hidden="true"><use href="#i-cal"/></svg></span>Apple / iPhone Calendar<small>Subscribes: updates automatically</small></a>
+<a class="cbtn" id="subGm" href="#" target="_blank" rel="noopener" onclick="return expSub(event,'g')"><span class="g">G</span>Google Calendar (subscribe)<small>All shifts, updates automatically</small></a>
+<a class="cbtn" id="subOm" href="#" target="_blank" rel="noopener" onclick="return expSub(event,'o')"><span class="o">O</span>Outlook (subscribe)<small>All shifts, updates automatically</small></a>
 <div id="lduo" class="duoonly lduo"></div>
-<a class="cbtn solo" id="lGoogle" target="_blank" rel="noopener"><span class="g">G</span>Google Calendar<small>Adds the next shift</small></a>
-<a class="cbtn solo" id="lOutlook" target="_blank" rel="noopener"><span class="o">O</span>Outlook.com<small>Adds the next shift</small></a>
-<a class="cbtn solo" id="lO365" target="_blank" rel="noopener"><span class="o">365</span>Office 365 / work Outlook<small>Adds the next shift</small></a>
-<a class="cbtn solo" id="lYahoo" target="_blank" rel="noopener"><span class="y">Y!</span>Yahoo Calendar<small>Adds the next shift</small></a>
-<button id="bDl" onclick="expDl()"><span><svg class="ci" aria-hidden="true"><use href="#i-file"/></svg></span>Other calendar apps (.ics file)<small>Whole schedule, any app</small></button>
+<a class="cbtn solo" id="lGoogle" target="_blank" rel="noopener"><span class="g">G</span>Google Calendar<small>Adds only the next shift</small></a>
+<a class="cbtn solo" id="lOutlook" target="_blank" rel="noopener"><span class="o">O</span>Outlook.com<small>Adds only the next shift</small></a>
+<a class="cbtn solo" id="lO365" target="_blank" rel="noopener"><span class="o">365</span>Office 365 / work Outlook<small>Adds only the next shift</small></a>
+<a class="cbtn solo" id="lYahoo" target="_blank" rel="noopener"><span class="y">Y!</span>Yahoo Calendar<small>Adds only the next shift</small></a>
+<button id="bDl" onclick="expDl()"><span><svg class="ci" aria-hidden="true"><use href="#i-file"/></svg></span>One-time download (.ics file)<small>Backup option: does not auto-update</small></button>
 </div>
 <details class="tip" style="margin-top:6px"><summary><b>Want ALL shifts in Google, Outlook, or Yahoo?</b></summary>
-Tap <b>Other calendar apps</b> to save the .ics file, then on a computer:<br>• <b>Google:</b> calendar.google.com → ⚙️ Settings → Import &amp; export → Import<br>• <b>Outlook:</b> Calendar → Add calendar → Upload from file<br>• <b>Yahoo:</b> Calendar → Actions → Import</details>
-<div id="expIOS" class="tip hide">iPhone/iPad: in Safari, "Apple / iPhone Calendar" shows Apple's <b>Add All</b> sheet. If you see a preview instead, tap Share → Open in Safari.</div>
+Use the <b>subscribe</b> buttons above (best), or tap <b>One-time download</b> to save the .ics file, then on a computer:<br>• <b>Google:</b> calendar.google.com → ⚙️ Settings → Import &amp; export → Import<br>• <b>Outlook:</b> Calendar → Add calendar → Upload from file<br>• <b>Yahoo:</b> Calendar → Actions → Import</details>
+<div id="expIOS" class="tip hide">iPhone/iPad: "Apple / iPhone Calendar" opens Calendar's <b>Subscribe</b> prompt. Tap Subscribe, then Add. Your shifts then update on their own.</div>
 <p id="expmsg" style="font-weight:700;min-height:1em"></p>
 <button class="close" onclick="$('expmod').classList.remove('on')">Close</button></div></div>
 <div id="cele" onclick="this.classList.remove('on')"><canvas id="conf"></canvas><div class="tk"><svg width="200" height="125"><use href="#truck"/></svg></div><h2 id="ctxt">Mom/Dad is home!</h2><p style="font-size:20px" id="csub">All the flames are out. Great job, junior firefighter! 🧑‍🚒</p><button class="yel">Yay! 🎉</button></div>
 <script>
 const $=id=>document.getElementById(id),K='ffcal_v1';
-let S=JSON.parse(localStorage.getItem(K)||'{}');S.stk=S.stk||{};S.notes=S.notes||[];S.bub=S.bub||null;
+let S;try{S=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){try{localStorage.setItem(K+'_corrupt',localStorage.getItem(K)||'')}catch(_){}S={}}if(!S||typeof S!='object'||Array.isArray(S))S={};
+S.stk=(S.stk&&typeof S.stk=='object')?S.stk:{};S.notes=Array.isArray(S.notes)?S.notes:[];S.evs=Array.isArray(S.evs)?S.evs:[];S.ext=Array.isArray(S.ext)?S.ext:[];S.bub=S.bub||null;
 let cur='⭐';
 const PRE={
 '24on48':{l:'24 on / 48 off',c:'100',st:'07:00',en:'07:00'},'4896':{l:'48 on / 96 off',c:'110000',st:'07:00',en:'07:00'},'kelly':{l:'Kelly (on-off-on-off-on, 4 off)',c:'101010000',st:'07:00',en:'07:00'},'2472':{l:'24 on / 72 off',c:'1000',st:'07:00',en:'07:00'},
@@ -389,9 +392,11 @@ function hm(v){return v.split(':').map(Number)}
 function addD(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n)}
 function dayInt(d,p=0){const o=OV(p)[ymd(d)],[sh,sm]=hm(F('stime',p).value);
  if(o&&(o.t=='off'||o.t=='give'))return null;
- if(o&&(o.t=='ot'||o.t=='swap')){const[a,b]=hm(o.s||F('stime',p).value),st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),a,b);return{st,en:new Date(st.getTime()+(o.h||24)*36e5),k:o.t}}
+ if(o&&(o.t=='ot'||o.t=='swap')){const[a,b]=hm(o.s||F('stime',p).value),st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),a,b);return{st,en:wallAdd(st,(o.h||24)*60),k:o.t}}
  if(inDep(d,p))return{st:new Date(d.getFullYear(),d.getMonth(),d.getDate()),en:addD(d,1),k:'dep'};
- const v=patShift(d,p);if(v){const st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),sh+(v=='N'?12:0),sm);return{st,en:new Date(st.getTime()+durMs(p)),k:'reg'}}return null}
+ const v=patShift(d,p);if(v){const st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),sh+(v=='N'?12:0),sm);return{st,en:wallAdd(st,durMs(p)/6e4),k:'reg'}}return null}
+// add wall-clock minutes (a 7am-7am shift ends at 7am even on DST change days)
+function wallAdd(st,min){return new Date(st.getFullYear(),st.getMonth(),st.getDate(),st.getHours(),st.getMinutes()+min)}
 function stints(from,to,p=0){const I=[];for(let d=addD(from,-3);d<=to;d=addD(d,1)){const i=dayInt(d,p);if(i)I.push(i)}I.sort((a,b)=>a.st-b.st);const R=[];
  I.forEach(i=>{const l=R[R.length-1];if(l&&i.st-l.en<=6e4){if(i.en>l.en)l.en=i.en;l.parts.push(i)}else R.push({st:i.st,en:i.en,parts:[i]})});return R}
 function isShift(d,p=0){if(dayInt(d,p))return true;const noon=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);return stints(addD(d,-2),addD(d,-1),p).some(x=>x.st<noon&&x.en>noon)}
@@ -555,7 +560,7 @@ function importHash(){const m=location.hash.match(/notes=([^&]+)/);if(!m)return;
 function icsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n')}
 function dt(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00'}
 function exportICS(re){if(!$('start').value)return alert('Pick the first shift date first');const[y,m]=$('month').value.split('-').map(Number);
- const duo=DUO(),w=duo?$('expwho').value:'0',P=w=='all'?[0,1]:[+w];const cn=P.map(XN).join(' & ');const stamp=dt(new Date());let L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Firehouse Tots//Shift Calendar//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsEsc(cn+' Shifts')];
+ const duo=DUO(),w=duo?$('expwho').value:'0',P=w=='all'?[0,1]:[+w];const cn=P.map(XN).join(' & ');const stamp=z(new Date());let L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Firehouse Tots//Shift Calendar//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsEsc(cn+' Shifts')];
  const end=new Date(y,m+2,1),from=new Date(y,m-1,1);
  P.forEach(q=>{const n=XN(q),nts=S.notes.filter(x=>!duo||(x.f||0)==q||w!='all');
  stints(from,end,q).filter(x=>x.en>from&&x.st<end).forEach(sx=>{const ns=nts.filter(x=>{const t=pd(x.d);return t>=new Date(sx.st.getFullYear(),sx.st.getMonth(),sx.st.getDate())&&t<=sx.en});
@@ -580,7 +585,7 @@ function calLinks(){if(DUO())$('lduo').innerHTML=[0,1].map(p=>{const L=linkSet(p
  const oq='?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&subject='+E(t)+'&startdt='+E(sh.st.toISOString())+'&enddt='+E(sh.en.toISOString())+'&body='+E(det);
  $('lOutlook').href='https://outlook.live.com/calendar/0/deeplink/compose'+oq;$('lO365').href='https://outlook.office.com/calendar/0/deeplink/compose'+oq;
  $('lYahoo').href='https://calendar.yahoo.com/?v=60&title='+E(t)+'&st='+z(sh.st)+'&et='+z(sh.en)+'&desc='+E(det)}
-function openExport(){calLinks();$('expIOS').classList.toggle('hide',!isIOS);$('expPrev').classList.toggle('hide',!inPreview);$('expmod').classList.add('on')}
+function openExport(){calLinks();if(typeof expSetLinks=='function')expSetLinks();$('expIOS').classList.toggle('hide',!isIOS);$('expPrev').classList.toggle('hide',!inPreview);$('expmod').classList.add('on')}
 async function expShare(){const f=icsFile();if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Firefighter shifts'});expMsg('Shared! Pick Calendar (or Save to Files, then open it).');return}catch(e){if(e.name==='AbortError')return}}expCal()}
 function expCal(){const url='data:text/calendar;charset=utf-8,'+encodeURIComponent(ICS);if(isIOS){window.__lastNav=url;location.href=url;expMsg('Calendar should open with "Add All". Nothing happened? Tap Share > Open in Safari, then try again.')}else expDl()}
 function expDl(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ICS],{type:'text/calendar'}));a.download='firefighter-shifts.ics';document.body.appendChild(a);a.click();a.remove();expMsg('Downloaded firefighter-shifts.ics. Open it, or import it in Google Calendar (Settings > Import) or Outlook.')}
@@ -635,6 +640,19 @@ function syncUI(){const b=SB();$('syncbox').classList.toggle('hide',!b);if(!b)re
  $('subG').href='https://calendar.google.com/calendar/r?cid='+encodeURIComponent(wc);$('subO').href='https://outlook.live.com/calendar/0/addfromweb?url='+encodeURIComponent(h)+'&name='+nm}
 async function syncOn(){if(!SB())return;S.sync={on:true,tok:rnd(32),feed:rnd(18)};localStorage.setItem(K,JSON.stringify(S));syncUI();$('syncmsg').textContent='Turning on sync…';
  if(!await syncPush(true)){S.sync=null;localStorage.setItem(K,JSON.stringify(S));syncUI()}}
+
+// --- live-feed subscribe from the export menu (Apple uses webcal://, never a file download)
+function subLinks(){if(!S.sync||!S.sync.on||!SB())return null;const h=feedURL(),wc=h.replace(/^https?:\/\//,'webcal://');
+ return{a:wc,g:'https://calendar.google.com/calendar/r?cid='+encodeURIComponent(wc),o:'https://outlook.live.com/calendar/0/addfromweb?url='+encodeURIComponent(h)+'&name='+encodeURIComponent(NM(0)+' Shifts')}}
+function expSetLinks(){const L=subLinks();$('bShare').href=L?L.a:'#';$('subGm').href=L?L.g:'#';$('subOm').href=L?L.o:'#';$('subGm').classList.toggle('hide',!SB());$('subOm').classList.toggle('hide',!SB())}
+async function expEnsureFeed(){if(subLinks())return true;if(!SB())return false;expMsg('Setting up your live calendar feed…');await syncOn();await new Promise(r=>setTimeout(r,0));const ok=!!subLinks();expSetLinks();
+ expMsg(ok?'Live feed ready. Tap the button again to subscribe.':'Could not reach the sync server. Check your connection, or use the one-time download.');return ok}
+function expGo(url,newTab){window.__lastNav=url;if(newTab){const w=window.open(url,'_blank','noopener');if(!w)location.href=url}else location.href=url}
+function expApple(e){const L=subLinks();if(L){expMsg('Calendar will ask to Subscribe. Tap Subscribe, then Add.');window.__lastNav=L.a;return true}
+ e.preventDefault();if(!SB()){expCal();return false}
+ expEnsureFeed().then(ok=>{if(ok){const L2=subLinks();expGo(L2.a,false);expMsg('Calendar will ask to Subscribe. Nothing opened? Tap Apple / iPhone Calendar again.')}});return false}
+function expSub(e,k){const L=subLinks();if(L){window.__lastNav=L[k];return true}
+ e.preventDefault();expEnsureFeed().then(ok=>{if(ok)expGo(subLinks()[k],true)});return false}
 async function syncOff(){if(!S.sync)return;if(!confirm('Turn off sync and delete the online copy? Subscribed calendars will stop updating.'))return;
  try{const r=await fetch(SB()+'/sync',{method:'DELETE',headers:{'Authorization':'Bearer '+S.sync.tok}});if(!r.ok)throw new Error(r.status)}catch(e){$('syncmsg').textContent='Could not reach the sync server ('+e.message+'). Try again.';return}
  S.sync=null;syncLast='';localStorage.setItem(K,JSON.stringify(S));syncUI();$('syncmsg').textContent='Sync is off and your online data was deleted.'}
@@ -695,6 +713,8 @@ $('bkfile').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(restoreTxt
 .cbd{display:flex;flex-direction:column;align-items:center;font-size:12px;padding:4px 0;border-radius:8px;background:#EFEBE3;color:var(--muted)}.cbd b{font-size:10px}
 .cbd.on{background:var(--navy);color:#fff}.cbd.nt{background:#3b2f6b;color:#fff}
 .legend .li.hide{display:none!important}
+.cals #bDl{background:#fff;color:var(--navy);border:1px dashed #CFC6B5}.cals #bDl span{background:#F4F6FA;color:var(--navy)}
+.cals .cbtn.red{background:var(--navy);color:#fff;border-color:var(--navy)}.cals .cbtn.red span{background:#ffffff22;color:#fff}
 .cbdel{color:var(--ink)!important;display:flex;align-items:center;justify-content:center}.cbdel svg{width:16px;height:16px}
 </style>
 <div id="pwatip" role="dialog" aria-label="Add to Home Screen tip"><button id="pwatipx" aria-label="Dismiss">×</button>📲 <b>Add it to your Home Screen:</b> tap the Share button <span aria-hidden="true">⬆︎</span>, then <b>“Add to Home Screen”</b> to open it like an app.</div>
