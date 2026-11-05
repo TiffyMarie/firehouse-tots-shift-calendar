@@ -58,6 +58,15 @@ button.red{background:var(--red)}button.yel{background:var(--yel);color:var(--na
 .cals .cbtn{background:#fff;color:var(--navy);border:3px solid var(--navy)}.cals span{font-size:30px}.cals small{font-weight:400;font-size:12px;color:inherit;opacity:.85}
 #expmod .close{width:100%;margin-top:8px;background:#888}@media(max-width:360px){.cals{grid-template-columns:1fr}}
 .tip{background:#fff5d6;border-left:5px solid var(--yel);padding:8px;border-radius:8px;font-size:14px}
+.day.ot{background:#ffd9b3;border-color:#e8590c;border-style:solid}.day.swap{background:#e3e0ff;border-color:#5a4fcf}
+.day.give,.day.off{background:#e6f7ec;border-color:#2f9e44}
+.ovb{position:absolute;bottom:3px;right:3px;font:800 10px system-ui;padding:1px 5px;border-radius:6px;color:#fff;background:#e8590c}.ovb.swap{background:#5a4fcf}.ovb.give,.ovb.off{background:#2f9e44}
+body.editing .day[data-k]{outline:2px dashed var(--red);outline-offset:-4px}
+#ovmod{position:fixed;inset:0;background:#1b2a4acc;display:none;z-index:45;align-items:center;justify-content:center;padding:16px}#ovmod.on{display:flex}
+#ovmod .box{background:#fff;border-radius:16px;padding:18px;max-width:440px;width:100%;border-top:8px solid #e8590c;max-height:92vh;overflow:auto}
+.ovopt{display:flex;flex-direction:row;align-items:center;gap:10px;font-weight:700;font-size:16px;padding:10px;border:2px solid #ddd;border-radius:12px;margin:6px 0;min-height:52px}.ovopt input{min-height:0;width:22px;height:22px}
+.ovopt:has(input:checked){border-color:var(--navy);background:#fff5d6}
+@media print{.ovb{border:1px solid #000}}
 footer{text-align:center;padding:16px;color:var(--navy);font-size:14px}footer b{color:var(--red)}
 .stkbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.stkbar span{width:100%;text-align:center}.stkbar button{font-size:28px;background:#fff;border:3px solid var(--navy);color:var(--navy);min-width:64px}
 .stkbar button.sel{background:var(--yel)}
@@ -103,10 +112,11 @@ small{color:#555}.hide{display:none}
 
 <div class="card">
 <h2 style="margin:0 0 6px" id="mtitle"></h2>
+<div class="noprint" style="text-align:center;margin-bottom:6px"><button id="bEdit" onclick="toggleEdit()" style="background:#e8590c">✏️ Edit shifts (parent)</button><div id="edhint" class="hide" style="font-weight:700;color:#e8590c;margin-top:4px">Parent mode: tap any day to add overtime, a trade, or a day off.</div></div>
 <div class="stkbar noprint" style="margin-bottom:8px"><span style="align-self:center;font-weight:700">Tap a sticker, then tap a day:</span>
 <button data-s="⭐" class="sel">⭐</button><button data-s="❤️">❤️</button><button data-s="🤗">🤗</button><button data-s="✖">🧽</button></div>
 <div class="cal" id="cal"></div>
-<p><b>🚒 = shift day &nbsp; 🏠 = home day &nbsp; 💌 = note from your firefighter</b></p>
+<p><b>🚒 = shift day &nbsp; 🏠 = home day &nbsp; 💌 = note from your firefighter</b><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
 </div>
 
 <div class="card">
@@ -120,6 +130,17 @@ small{color:#555}.hide{display:none}
 <input id="shareout" readonly class="hide" style="width:100%;margin-top:8px">
 </div></div>
 </main><footer><b>Firehouse Tots</b> · Made by a firefighter-paramedic family, for fire families ❤️<br><small>Tip: on iPhone/iPad tap Share → "Add to Home Screen" to use it like an app. Your info stays on this device.</small></footer>
+<div id="ovmod"><div class="box"><h2 style="margin:0">✏️ Change this day</h2><p id="ovday" style="margin:4px 0 8px"></p>
+<label class="ovopt"><input type="radio" name="ovt" value="ot" onchange="ovSync()">🚒 Extra shift / Overtime</label>
+<label class="ovopt"><input type="radio" name="ovt" value="swap" onchange="ovSync()">🔁 Trade: working someone's shift</label>
+<div id="ovtime" class="row hide" style="margin:4px 0 8px"><label>Starts at<input type="time" id="ovs"></label><label>Length<select id="ovh"><option value="8">8 hours</option><option value="10">10 hours</option><option value="12">12 hours</option><option value="24">24 hours</option><option value="48">48 hours</option></select></label></div>
+<label class="ovopt"><input type="radio" name="ovt" value="give" onchange="ovSync()">🤝 Trade: gave my shift away</label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_vac" onchange="ovSync()">🏖️ Vacation</label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_sick" onchange="ovSync()">🤒 Sick day</label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_off" onchange="ovSync()">🏠 Day off (other)</label>
+<label class="ovopt"><input type="radio" name="ovt" value="clear" onchange="ovSync()">↩️ Clear (back to regular schedule)</label>
+<button id="bOvSave" style="width:100%;margin-top:8px;background:#e8590c" onclick="saveOv()">Save</button>
+<button style="width:100%;margin-top:6px;background:#888" onclick="$('ovmod').classList.remove('on')">Cancel</button></div></div>
 <div id="expmod"><div class="box"><h2 style="margin:0 0 6px">📅 Add shifts to your calendar</h2>
 <p style="margin:0 0 8px;font-size:14px">Adds 3 months of shifts plus your notes. Works with Apple, Google, and Outlook calendars.</p>
 <div id="expPrev" class="tip hide" style="border-color:var(--red)"><b>Opened from Messages, Files, or a chat preview?</b> Tap <b>Share ⬆️ → Open in Safari</b> first, then tap Export again. Previews can't add to Calendar.</div>
@@ -146,16 +167,17 @@ function save(){localStorage.setItem(K,JSON.stringify(S))}
 function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function pd(s){const[a,b,c]=s.split('-').map(Number);return new Date(a,b-1,c)}
 function pattern(){return $('pat').value=='custom'?($('cust').value.replace(/[^01]/g,'').split('').map(Number)||[1,0]):PAT[$('pat').value]}
-function isShift(d){const p=pattern();if(!p.length||!$('start').value)return false;const n=Math.round((d-pd($('start').value))/864e5);if(n<0)return false;return p[n%p.length]==1}
-function shiftEnd(dayStart){ // returns Date when a shift starting that day ends (handles 48s)
- const[sh,sm]=$('stime').value.split(':').map(Number),[eh,em]=$('etime').value.split(':').map(Number);
- let d=new Date(dayStart);let len=1;while(isShift(new Date(d.getFullYear(),d.getMonth(),d.getDate()+len)))len++;
- const e=new Date(d.getFullYear(),d.getMonth(),d.getDate()+len,eh,em);return e}
-function curShift(){ // find shift block containing now, or next one
- const now=new Date();const[sh,sm]=$('stime').value.split(':').map(Number);
- for(let i=-3;i<60;i++){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()+i);
-  if(isShift(d)&&!isShift(new Date(d.getFullYear(),d.getMonth(),d.getDate()-1))){const st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),sh,sm),en=shiftEnd(d);
-   if(en>now)return{st,en}}}return null}
+function patShift(d){const p=pattern();if(!p.length||!$('start').value)return false;const n=Math.round((d-pd($('start').value))/864e5);if(n<0)return false;return p[n%p.length]==1}
+function hm(v){return v.split(':').map(Number)}
+function addD(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n)}
+function dayInt(d){const o=S.ov[ymd(d)],[sh,sm]=hm($('stime').value);
+ if(o&&(o.t=='off'||o.t=='give'))return null;
+ if(o&&(o.t=='ot'||o.t=='swap')){const[a,b]=hm(o.s||$('stime').value),st=new Date(d.getFullYear(),d.getMonth(),d.getDate(),a,b);return{st,en:new Date(st.getTime()+(o.h||24)*36e5),k:o.t}}
+ if(patShift(d)){const[eh,em]=hm($('etime').value),n=addD(d,1);return{st:new Date(d.getFullYear(),d.getMonth(),d.getDate(),sh,sm),en:new Date(n.getFullYear(),n.getMonth(),n.getDate(),eh,em),k:'reg'}}return null}
+function stints(from,to){const I=[];for(let d=addD(from,-3);d<=to;d=addD(d,1)){const i=dayInt(d);if(i)I.push(i)}I.sort((a,b)=>a.st-b.st);const R=[];
+ I.forEach(i=>{const l=R[R.length-1];if(l&&i.st-l.en<=6e4){if(i.en>l.en)l.en=i.en;l.parts.push(i)}else R.push({st:i.st,en:i.en,parts:[i]})});return R}
+function isShift(d){if(dayInt(d))return true;const noon=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);return stints(addD(d,-2),addD(d,-1)).some(x=>x.st<noon&&x.en>noon)}
+function curShift(){const now=new Date();return stints(addD(now,-3),addD(now,60)).find(x=>x.en>now)||null}
 function render(){
  S.cfg={pname:$('pname').value,pat:$('pat').value,start:$('start').value,stime:$('stime').value,etime:$('etime').value,cust:$('cust').value,month:$('month').value,bmode:$('bmode').value};save();
  $('custl').classList.toggle('hide',$('pat').value!='custom');
@@ -165,8 +187,9 @@ function render(){
  for(let i=0;i<first.getDay();i++)c.innerHTML+='<div class="day empty"></div>';
  const today=ymd(new Date());
  for(let d=1;d<=days;d++){const dt=new Date(y,m-1,d),k=ymd(dt),sh=isShift(dt);const hasN=S.notes.some(n=>n.d==k);
-  c.innerHTML+=`<div class="day ${sh?'shift':'home'} ${k==today?'today':''}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}<div class="ico">${sh?'🚒':'🏠'}</div><div class="stk">${(S.stk[k]||[]).join('')}</div></div>`}
- c.querySelectorAll('.day[data-k]').forEach(el=>el.onclick=()=>{const k=el.dataset.k;if(cur=='✖')delete S.stk[k];else{(S.stk[k]=S.stk[k]||[]).push(cur);if(S.stk[k].length>4)S.stk[k].shift()}save();render();chime(660)});
+  const o=S.ov[k],cls=o?OVC[o.t]:'',ico=o?OVI[o.t]:(sh?'🚒':'🏠'),bd=o?`<span class="ovb ${o.t}">${OVB(o)}</span>`:'';
+  c.innerHTML+=`<div class="day ${sh?'shift':'home'} ${cls} ${k==today?'today':''}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}${bd}<div class="ico">${ico}</div><div class="stk">${(S.stk[k]||[]).join('')}</div></div>`}
+ c.querySelectorAll('.day[data-k]').forEach(el=>el.onclick=()=>{const k=el.dataset.k;if(EDIT)return openOv(k);if(cur=='✖')delete S.stk[k];else{(S.stk[k]=S.stk[k]||[]).push(cur);if(S.stk[k].length>4)S.stk[k].shift()}save();render();chime(660)});
  tick();renderNotes();renderBub()}
 function tick(){const now=new Date(),s=curShift(),n=$('pname').value||'Mom/Dad';
  if(!s||!$('start').value){$('sleeps').textContent='Set the shift pattern above ⬆️';return}
@@ -197,6 +220,17 @@ function hiss(){try{const a=ac(),t=a.currentTime,len=a.sampleRate*1.1,buf=a.crea
  const n=a.createBufferSource();n.buffer=buf;const bp=a.createBiquadFilter();bp.type='bandpass';bp.Q.value=.8;bp.frequency.setValueAtTime(600,t);bp.frequency.exponentialRampToValueAtTime(5000,t+.3);bp.frequency.exponentialRampToValueAtTime(7000,t+1);
  const g=a.createGain();g.gain.setValueAtTime(.001,t);g.gain.exponentialRampToValueAtTime(.6,t+.08);g.gain.setValueAtTime(.35,t+.35);g.gain.exponentialRampToValueAtTime(.001,t+1.05);n.connect(bp).connect(g).connect(a.destination);n.start(t);n.stop(t+1.1)}catch(e){}}
 function chime(f,dl=0){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime+dl;o.frequency.value=f;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(a.destination);o.start(t);o.stop(t+.3)}catch(e){}}
+// overrides
+S.ov=S.ov||{};let EDIT=false,OVK=null;
+const OVC={ot:'ot',swap:'ot swap',give:'give',off:'off'},OVI={ot:'🚒',swap:'🔁',give:'🏠',off:'🏖️'};
+function OVB(o){return o.t=='ot'?'OT'+(o.h&&o.h!=24?' '+o.h+'h':''):o.t=='swap'?'TRADE':o.t=='give'?'TRADED':({vac:'VACATION',sick:'SICK'}[o.r]||'OFF')}
+function toggleEdit(){EDIT=!EDIT;document.body.classList.toggle('editing',EDIT);$('bEdit').textContent=EDIT?'✅ Done editing':'✏️ Edit shifts (parent)';$('edhint').classList.toggle('hide',!EDIT)}
+function openOv(k){OVK=k;const o=S.ov[k]||{};$('ovday').textContent=pd(k).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+(patShift(pd(k))?' · regular shift day':' · regular day off');
+ document.querySelectorAll('input[name=ovt]').forEach(r=>r.checked=r.value==(o.t?(o.t=='off'?'off_'+(o.r||'off'):o.t):'clear'));$('ovs').value=o.s||$('stime').value;$('ovh').value=String(o.h||24);ovSync();$('ovmod').classList.add('on')}
+function ovSync(){const v=(document.querySelector('input[name=ovt]:checked')||{}).value||'';$('ovtime').classList.toggle('hide',!(v=='ot'||v=='swap'))}
+function saveOv(){const v=(document.querySelector('input[name=ovt]:checked')||{}).value||'clear';
+ if(v=='clear')delete S.ov[OVK];else if(v=='ot'||v=='swap')S.ov[OVK]={t:v,s:$('ovs').value,h:+$('ovh').value};else if(v=='give')S.ov[OVK]={t:'give'};else S.ov[OVK]={t:'off',r:v.split('_')[1]};
+ $('ovmod').classList.remove('on');save();resetBub();render()}
 // notes
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function addNote(){if(!$('ndate').value||!$('ntext').value.trim())return alert('Pick a day and write a note');S.notes.push({id:Date.now()+''+Math.random().toString(36).slice(2,6),d:$('ndate').value,t:$('ntime').value,x:$('ntext').value.trim()});$('ntext').value='';save();render()}
@@ -204,22 +238,21 @@ function delNote(id){S.notes=S.notes.filter(n=>n.id!=id);save();render()}
 function renderNotes(){const now=new Date();const list=S.notes.slice().sort((a,b)=>(a.d+a.t).localeCompare(b.d+b.t));
  $('shownotes').innerHTML=list.length?list.map(n=>{const at=new Date(n.d+'T'+(n.t||'00:00'));const ready=at<=now;
   return `<div class="note"><b>${pd(n.d).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})} ${n.t||''}</b> ${ready?'💌 '+esc(n.x):'🔒 <i>A surprise note opens then!</i>'} <button class="noprint" style="min-height:32px;padding:2px 8px;float:right" onclick="delNote('${n.id}')">✕</button></div>`}).join(''):'<small>No notes yet.</small>'}
-function shareNotes(){const data={n:S.notes,c:S.cfg};const enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+function shareNotes(){const data={n:S.notes,c:S.cfg,o:S.ov};const enc=btoa(unescape(encodeURIComponent(JSON.stringify(data))));
  const url=location.href.split('#')[0]+'#notes='+enc;const o=$('shareout');o.value=url;o.classList.remove('hide');o.select();
  if(navigator.share)navigator.share({title:'Notes from your firefighter',url}).catch(()=>{});else navigator.clipboard&&navigator.clipboard.writeText(url).then(()=>alert('Link copied! Text it to home.'))}
 function importHash(){const m=location.hash.match(/notes=([^&]+)/);if(!m)return;try{const d=JSON.parse(decodeURIComponent(escape(atob(m[1]))));let add=0;
- (d.n||[]).forEach(n=>{if(!S.notes.some(x=>x.id==n.id)){S.notes.push(n);add++}});if(d.c&&!S.cfg)S.cfg=d.c;save();history.replaceState(null,'',location.pathname);if(add)alert(`💌 ${add} new note(s) from your firefighter!`)}catch(e){alert('That notes link looks broken.')}}
+ (d.n||[]).forEach(n=>{if(!S.notes.some(x=>x.id==n.id)){S.notes.push(n);add++}});if(d.c&&!S.cfg)S.cfg=d.c;let oc=0;if(d.o){S.ov=d.o;oc=Object.keys(d.o).length;S.bub=null}save();history.replaceState(null,'',location.pathname);if(add||oc)alert((add?`💌 ${add} new note(s) from your firefighter!`:'')+(oc?` 📅 Schedule updated (${oc} extra/changed day${oc>1?'s':''}).`:''))}catch(e){alert('That notes link looks broken.')}}
 // ics
 function icsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n')}
 function dt(d){return d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'T'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')+'00'}
 function exportICS(){if(!$('start').value)return alert('Pick the first shift date first');const[y,m]=$('month').value.split('-').map(Number);const[sh,sm]=$('stime').value.split(':').map(Number);
  const n=$('pname').value||'Firefighter';const stamp=dt(new Date());let L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Firehouse Tots//Shift Calendar//EN','CALSCALE:GREGORIAN','X-WR-CALNAME:'+icsEsc(n+' Shifts')];
- const end=new Date(y,m+2,1);
- for(let d=new Date(y,m-1,1);d<end;d.setDate(d.getDate()+1)){const day=new Date(d);
-  if(isShift(day)&&!isShift(new Date(day.getFullYear(),day.getMonth(),day.getDate()-1))){const st=new Date(day.getFullYear(),day.getMonth(),day.getDate(),sh,sm),en=shiftEnd(day);
-   const ns=S.notes.filter(x=>{const t=pd(x.d);return t>=new Date(st.getFullYear(),st.getMonth(),st.getDate())&&t<=en});
-   const desc='Home: '+en.toLocaleString()+(ns.length?'\nNotes for the kids:\n'+ns.map(x=>x.d+' '+x.t+' - '+x.x).join('\n'):'');
-   L.push('BEGIN:VEVENT','UID:shift-'+dt(st)+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(st),'DTEND:'+dt(en),'SUMMARY:'+icsEsc('🚒 '+n+' on shift'),'DESCRIPTION:'+icsEsc(desc),'END:VEVENT')}}
+ const end=new Date(y,m+2,1),from=new Date(y,m-1,1);
+ stints(from,end).filter(x=>x.en>from&&x.st<end).forEach(sx=>{const ns=S.notes.filter(x=>{const t=pd(x.d);return t>=new Date(sx.st.getFullYear(),sx.st.getMonth(),sx.st.getDate())&&t<=sx.en});
+  const desc='Home: '+sx.en.toLocaleString()+(sx.parts.length>1?' (back-to-back shifts)':'')+(ns.length?'\nNotes for the kids:\n'+ns.map(x=>x.d+' '+x.t+' - '+x.x).join('\n'):'');
+  sx.parts.forEach(p=>{const lab=p.k=='ot'?'🚒 '+n+' overtime (OT)':p.k=='swap'?'🔁 '+n+' shift trade':'🚒 '+n+' on shift';
+   L.push('BEGIN:VEVENT','UID:'+p.k+'-'+dt(p.st)+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(p.st),'DTEND:'+dt(p.en),'SUMMARY:'+icsEsc(lab),'DESCRIPTION:'+icsEsc(desc),'END:VEVENT')})});
  S.notes.forEach(x=>{const st=new Date(x.d+'T'+(x.t||'08:00'));const en=new Date(st.getTime()+15*6e4);L.push('BEGIN:VEVENT','UID:note-'+x.id+'@firehousetots','DTSTAMP:'+stamp,'DTSTART:'+dt(st),'DTEND:'+dt(en),'SUMMARY:'+icsEsc('💌 Note from '+n),'DESCRIPTION:'+icsEsc(x.x),'END:VEVENT')});
  L.push('END:VCALENDAR');ICS=L.join('\r\n');openExport()}
 let ICS='';const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
@@ -227,7 +260,7 @@ const inPreview=isIOS&&!/Safari/.test(navigator.userAgent)&&!navigator.standalon
 function icsFile(){return new File([ICS],'firefighter-shifts.ics',{type:'text/calendar'})}
 function z(d){return d.toISOString().replace(/[-:]|\.\d{3}/g,'')}
 function calLinks(){const sh=curShift(),n=$('pname').value||'Firefighter';if(!sh){['lGoogle','lOutlook','lO365','lYahoo'].forEach(i=>$(i).removeAttribute('href'));return}
- const t='🚒 '+n+' on shift',ns=S.notes.filter(x=>{const d=new Date(x.d+'T'+(x.t||'00:00'));return d>=sh.st&&d<=sh.en}).map(x=>x.d+' '+x.t+' - '+x.x).join('\n');
+ const t=(sh.parts.some(p=>p.k=='ot')?'🚒 '+n+' on shift + OT':'🚒 '+n+' on shift'),ns=S.notes.filter(x=>{const d=new Date(x.d+'T'+(x.t||'00:00'));return d>=sh.st&&d<=sh.en}).map(x=>x.d+' '+x.t+' - '+x.x).join('\n');
  const det='Home: '+sh.en.toLocaleString()+(ns?'\nNotes for the kids:\n'+ns:'')+'\n(Firehouse Tots shift calendar)',E=encodeURIComponent;
  $('lGoogle').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+E(t)+'&dates='+z(sh.st)+'/'+z(sh.en)+'&details='+E(det);
  const oq='?path=%2Fcalendar%2Faction%2Fcompose&rru=addevent&subject='+E(t)+'&startdt='+E(sh.st.toISOString())+'&enddt='+E(sh.en.toISOString())+'&body='+E(det);
