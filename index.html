@@ -242,6 +242,11 @@ svg.ji{width:26px;height:26px;color:var(--navy);stroke-width:1.6}.day .ico .ji+.
 <button class="btn ghost" onclick="window.print()"><svg class="i" aria-hidden="true"><use href="#i-print"/></svg>Print</button>
 </div>
 <small>Export works with Google Calendar, Apple Calendar, and Outlook. Exports 3 months of shifts starting with the month shown.</small>
+<div class="bkbox hide" id="syncbox"><b>Auto-sync calendar</b><small>Subscribe Google, Apple, or Outlook to a live feed. Changes you make here update the subscribed calendars automatically (calendar apps check every few hours).</small>
+<div id="syncoff"><div class="row"><button class="btn primary" id="bSyncOn" onclick="syncOn()">Turn on sync</button></div></div>
+<div id="syncon" class="hide"><div class="row subs"><a class="btn ghost" id="subG" target="_blank" rel="noopener">Google Calendar</a><a class="btn ghost" id="subA">Apple / iPhone</a><a class="btn ghost" id="subO" target="_blank" rel="noopener">Outlook</a><button class="btn ghost" id="bCopyFeed" onclick="copyFeed()">Copy link</button></div>
+<input id="feedurl" readonly aria-label="Feed link"><div class="row"><button class="btn ghost" id="bSyncNow" onclick="syncPush(true)">Sync now</button><button class="btn ghost" id="bSyncOff" onclick="syncOff()">Turn off sync / delete my data</button></div></div>
+<small id="syncmsg" class="bkmsg"></small><small class="privacy">Privacy: with sync on, your schedule, names, notes, and countdowns are stored online on the Firehouse Tots sync server so calendar apps can read the feed. Anyone with the feed link can see it, so share it only with family. Turning sync off deletes the online copy.</small></div>
 <div class="bkbox" id="backup"><b>Backup &amp; restore</b><small>Saves everything (both parents, shifts, overtime and trades, notes, countdowns, settings) to one file. Keep it safe, or use it to move to a new phone or tablet.</small><div class="row"><button class="btn ghost" id="bBackup" onclick="dlBackup()">Download backup</button><button class="btn ghost" id="bRestore" onclick="$('bkfile').click()">Restore from backup</button><input type="file" id="bkfile" accept=".json,application/json" style="display:none"></div><small id="bkmsg" class="bkmsg"></small></div>
 </div>
 
@@ -587,6 +592,28 @@ function renderEv(){const L=(S.evs||[]).slice().sort((a,b)=>a.d.localeCompare(b.
   const ex=e.k=='ret'&&n>0?`<small class="evx">${n} days and ${shiftsLeft(e.d)} shifts left</small>`:`<small class="evx">${pd(e.d).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric',year:'numeric'})}</small>`;
   return `<div class="evc" data-id="${e.id}" data-k="${e.k}"><span class="eve">${e.e}</span><div><b class="evt">${t}</b>${ex}</div><button class="evdel" title="Remove" onclick="delEv('${e.id}')">×</button></div>`}).join(''):'<p class="evempty">No countdowns yet. Add a vacation, birthday, or retirement below.</p>'}
 renderEv();
+const SYNC_BASE='https://firehouse-tots-sync.firehousetots.workers.dev'; // ← set to your deployed Worker URL, e.g. 'https://firehouse-tots-sync.<you>.workers.dev'
+function SB(){return (SYNC_BASE||localStorage.getItem('ffcal_sync_dev')||'').replace(/\/+$/,'')}
+function rnd(n){const a=new Uint8Array(n);crypto.getRandomValues(a);return btoa(String.fromCharCode(...a)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function syncPayload(){return {tz:Intl.DateTimeFormat().resolvedOptions().timeZone||'',cfg:S.cfg,cfg2:S.cfg2,ov:S.ov,ov2:S.ov2,notes:S.notes,evs:S.evs||[]}}
+let syncT=null,syncLast='';
+async function syncPush(force){const sy=S.sync;if(!SB()||!sy||!sy.on)return;const body=JSON.stringify({feedId:sy.feed,data:syncPayload()});if(!force&&body==syncLast)return;
+ try{const r=await fetch(SB()+'/sync',{method:'POST',headers:{'Authorization':'Bearer '+sy.tok,'Content-Type':'application/json'},body});const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.error||r.status);syncLast=body;sy.last=new Date().toISOString();localStorage.setItem(K,JSON.stringify(S));$('syncmsg').textContent='Synced '+new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});return true}
+ catch(e){$('syncmsg').textContent='Sync failed ('+e.message+'). Will retry on the next change.';return false}}
+function syncSoon(){if(!S.sync||!S.sync.on)return;clearTimeout(syncT);syncT=setTimeout(()=>syncPush(false),1500)}
+const _save=save;save=function(){_save();syncSoon()};
+function feedURL(){return SB()+'/feed/'+S.sync.feed+'.ics'}
+function syncUI(){const b=SB();$('syncbox').classList.toggle('hide',!b);if(!b)return;const on=!!(S.sync&&S.sync.on);$('syncoff').classList.toggle('hide',on);$('syncon').classList.toggle('hide',!on);if(!on)return;
+ const h=feedURL(),wc=h.replace(/^https?:\/\//,'webcal://'),nm=encodeURIComponent(NM(0)+' Shifts');$('feedurl').value=h;$('subA').href=wc;
+ $('subG').href='https://calendar.google.com/calendar/r?cid='+encodeURIComponent(wc);$('subO').href='https://outlook.live.com/calendar/0/addfromweb?url='+encodeURIComponent(h)+'&name='+nm}
+async function syncOn(){if(!SB())return;S.sync={on:true,tok:rnd(32),feed:rnd(18)};localStorage.setItem(K,JSON.stringify(S));syncUI();$('syncmsg').textContent='Turning on sync…';
+ if(!await syncPush(true)){S.sync=null;localStorage.setItem(K,JSON.stringify(S));syncUI()}}
+async function syncOff(){if(!S.sync)return;if(!confirm('Turn off sync and delete the online copy? Subscribed calendars will stop updating.'))return;
+ try{const r=await fetch(SB()+'/sync',{method:'DELETE',headers:{'Authorization':'Bearer '+S.sync.tok}});if(!r.ok)throw new Error(r.status)}catch(e){$('syncmsg').textContent='Could not reach the sync server ('+e.message+'). Try again.';return}
+ S.sync=null;syncLast='';localStorage.setItem(K,JSON.stringify(S));syncUI();$('syncmsg').textContent='Sync is off and your online data was deleted.'}
+function copyFeed(){const v=$('feedurl').value;(navigator.clipboard?navigator.clipboard.writeText(v):Promise.reject()).then(()=>$('syncmsg').textContent='Link copied.',()=>{$('feedurl').select();document.execCommand('copy');$('syncmsg').textContent='Link copied.'})}
+syncUI();
 function bkData(){render();return JSON.stringify({app:'firehouse-tots-shift-calendar',v:1,saved:new Date().toISOString(),data:JSON.parse(localStorage.getItem(K)||'{}')},null,1)}
 async function dlBackup(){const name='shift-calendar-backup-'+ymd(new Date())+'.json',txt=bkData();let f=null;try{f=new File([txt],name,{type:'application/json'})}catch(e){}
  if(f&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Shift calendar backup'});$('bkmsg').textContent='Backup shared. Save it to Files or send it to yourself.';return}catch(e){if(e.name==='AbortError')return}}
@@ -611,6 +638,7 @@ $('bkfile').onchange=e=>{const f=e.target.files[0];if(f)f.text().then(restoreTxt
 .evc .eve{font-size:30px}.evc>div{flex:1}.evt{display:block;font-size:17px;color:var(--navy)}.evx{color:var(--muted)}.evdel{border:0;background:none;font-size:22px;color:var(--muted);cursor:pointer}
 .evadd summary{cursor:pointer;color:var(--muted);font-weight:600}.evempty{color:var(--muted);margin:4px 0}
 #pat,#pat2{max-width:100%;min-width:0;text-overflow:ellipsis}label:has(>#pat),label:has(>#pat2){min-width:0;max-width:100%}
+.subs .btn{text-decoration:none}#feedurl{width:100%;margin-top:8px;font-size:13px}.privacy{margin-top:8px;font-style:italic}
 .bkbox{margin-top:12px;padding:12px;border:1px dashed var(--line);border-radius:12px;background:#FFFDF8}.bkbox>b{display:block}.bkbox small{display:block;color:var(--muted)}.bkbox .row{margin-top:8px}.bkmsg{margin-top:6px}
 .ovb.kel{background:#E9F1E6;color:#3F6B45}
 </style>
