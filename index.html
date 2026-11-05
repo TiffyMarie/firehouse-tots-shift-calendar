@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Shift Calendar"><meta name="theme-color" content="#D7263D">
+<meta name="apple-mobile-web-app-title" content="Shift Calendar"><meta name="theme-color" content="#1F2A44">
 <title>Firehouse Tots · Firefighter Family Shift Calendar</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚒</text></svg>">
@@ -67,6 +67,10 @@ body.editing .day[data-k]{outline:2px dashed var(--red);outline-offset:-4px}
 .ovopt{display:flex;flex-direction:row;align-items:center;gap:10px;font-weight:700;font-size:16px;padding:10px;border:2px solid #ddd;border-radius:12px;margin:6px 0;min-height:52px}.ovopt input{min-height:0;width:22px;height:22px}
 .ovopt:has(input:checked){border-color:var(--navy);background:#fff5d6}
 @media print{.ovb{border:1px solid #000}}
+.day{min-width:0;overflow:hidden}.cal{grid-template-columns:repeat(7,minmax(0,1fr))}.chips{display:flex;flex-direction:column;gap:2px;margin-top:2px}.chip{font-size:10px;line-height:1.25;color:#fff;border-radius:5px;padding:1px 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.chip.more{background:#888}.extrow{display:flex;align-items:center;gap:8px;padding:8px;border:2px solid #eee;border-radius:10px;margin:6px 0;flex-wrap:wrap}
+.extrow .sw{width:22px;height:22px;border-radius:6px;flex:none}.extrow .nm{font-weight:800;flex:1}.extrow small{width:100%}.extrow button{min-height:40px;padding:6px 10px;font-size:14px}
+input[type=file]{max-width:100%;font-size:14px}.err{color:#b00020;font-weight:700}.tl{display:flex;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid #eee}.tl i{width:12px;height:12px;border-radius:50%;flex:none}
 footer{text-align:center;padding:16px;color:var(--navy);font-size:14px}footer b{color:var(--red)}
 .stkbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.stkbar span{width:100%;text-align:center}.stkbar button{font-size:28px;background:#fff;border:3px solid var(--navy);color:var(--navy);min-width:64px}
 .stkbar button.sel{background:var(--yel)}
@@ -74,10 +78,102 @@ footer{text-align:center;padding:16px;color:var(--navy);font-size:14px}footer b{
 small{color:#555}.hide{display:none}
 @media(max-width:600px){.day{min-height:64px}.ico{font-size:20px}.fl{width:64px;height:84px}}
 @media print{.noprint{display:none!important}body{background:#fff}.card{border:0}.day{min-height:90px}}
+
+/* ===== Refined vintage firehouse theme ===== */
+:root{--red:#B23A3A;--red2:#8E2C2C;--yel:#E9C46A;--brass:#C9A24A;--navy:#1F2A44;--ink:#2B2F38;--cream:#F7F1E3;--line:#E4DACA;--muted:#6B6F7A}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased;
+ background-image:radial-gradient(#e9dfcb 1px,transparent 1px);background-size:22px 22px}
+header{background:var(--navy);color:#F7F1E3;border-bottom:4px solid var(--brass);padding:22px 12px 18px;box-shadow:inset 0 -1px 0 #0003}
+header h1{font-family:"Rockwell","Roboto Slab","Georgia",serif;font-weight:700;letter-spacing:.3px;font-size:clamp(22px,3.6vw,32px)}
+header p{opacity:.8;font-size:15px}
+.brand{background:transparent;color:var(--brass);border:1.5px solid var(--brass);border-radius:4px;font-size:12px;letter-spacing:3px;padding:4px 12px;font-weight:700;gap:10px}
+.brand span{font-size:9px;letter-spacing:1px;opacity:.8}
+main{max-width:1000px;padding:16px}
+.card{background:#FFFDF8;border:1px solid var(--line);border-radius:14px;padding:18px;margin:16px 0;box-shadow:0 1px 2px #1f2a440d,0 6px 20px #1f2a440a}
+.panel{background:#fff}
+.ph{display:flex;gap:12px;align-items:flex-start;padding-bottom:12px;margin-bottom:12px;border-bottom:1px solid var(--line)}
+.ph>svg.i{width:22px;height:22px;color:var(--red);flex:none;margin-top:2px}.ph h3{margin:0;font-size:17px;color:var(--navy);font-weight:700}.ph small{color:var(--muted);font-size:13px}
+h2{color:var(--navy);font-family:"Rockwell","Roboto Slab",Georgia,serif;font-weight:700}
+.kidh{margin:0 0 4px;font-size:22px}
+label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+input,select,textarea{font:inherit;font-size:16px;color:var(--ink);background:#fff;border:1px solid #CFC6B5;border-radius:8px;padding:10px 12px;transition:border-color .15s,box-shadow .15s;text-transform:none;letter-spacing:0}
+input:focus,select:focus{outline:0;border-color:var(--navy);box-shadow:0 0 0 3px #1f2a4422}
+.row{gap:14px}
+button{font:inherit;font-weight:600;font-size:15px;border-radius:8px;background:var(--navy);transition:transform .1s,background .15s,box-shadow .15s;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+button:active{transform:translateY(1px)}
+.btn.primary{background:var(--navy);color:#fff}.btn.primary:hover{background:#2a3858}
+.btn.accent{background:var(--red);color:#fff}.btn.accent:hover{background:var(--red2)}
+.btn.ghost,button.ghost{background:#fff;color:var(--navy);border:1px solid #CFC6B5}.btn.ghost:hover{border-color:var(--navy)}
+.btn.wide{width:100%;margin-top:8px}.btn.sm{min-height:40px;padding:6px 14px;display:inline-flex;cursor:pointer;list-style:none;border-radius:8px}
+summary.btn::-webkit-details-marker{display:none}
+svg.i{width:18px;height:18px;flex:none}
+small{color:var(--muted)}
+.tip{background:#FBF6EA;border:1px solid #EADFC6;border-left:3px solid var(--brass);border-radius:8px;font-size:13px;color:var(--ink)}
+details summary{cursor:pointer}
+/* kid areas */
+.big{font-family:"Rockwell","Roboto Slab",Georgia,serif;color:var(--red);font-weight:700;letter-spacing:.2px}
+.timer div{background:var(--navy);border-radius:10px;border-bottom:3px solid var(--brass);min-width:86px}
+.timer b{font-variant-numeric:tabular-nums}
+.flames{background:linear-gradient(#FFFDF8,#F6EAD3);border:1px solid var(--line)}
+.fl .f{width:46px;height:46px;margin-left:-23px;background:radial-gradient(circle at 70% 30%,#F6D88A,#E59A4B 50%,#B23A3A 88%);box-shadow:0 0 14px #e59a4b55;animation-duration:1.4s!important;animation-timing-function:ease-in-out}
+@keyframes flick{0%{transform:rotate(-45deg) scale(1)}50%{transform:rotate(-43deg) scale(1.03,.98)}100%{transform:rotate(-47deg) scale(.98,1.03)}}
+.fl .f::after{background:#FBEFC8}.fl .log{background:#6B4A2F;height:8px;border-radius:4px}.fl .n{color:var(--muted);font-weight:600}
+.prog{border:1px solid #B9C6D8;background:#EEF2F7;height:18px}.prog i{background:repeating-linear-gradient(45deg,#4E79A7 0 10px,#5B88B8 10px 20px)}
+.gauge .hose{display:none}
+.stkbar button{background:#fff;border:1px solid #CFC6B5;font-size:24px;min-width:56px;border-radius:10px}.stkbar button.sel{background:#FBF1D6;border-color:var(--brass);box-shadow:0 0 0 2px #c9a24a44}
+.stkbar span{font-size:13px;color:var(--muted);font-weight:600}
+.cal{gap:6px}.dow{background:transparent;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--line);border-radius:0}
+.day{background:#fff;border:1px solid var(--line);border-radius:10px;transition:box-shadow .15s}.day:hover{box-shadow:0 2px 8px #1f2a4414}
+.day.home{background:#FFFDF8;border-color:var(--line)}.day.shift{background:#FBEDEA;border-color:#E4B9B2}
+.day.today{outline:2px solid var(--navy);outline-offset:1px}
+.num{font-weight:700;font-size:13px;color:var(--navy)}
+.ico{line-height:1}.dico{width:40px;height:28px;display:inline-block}
+.day.ot{background:#FCEBD9;border-color:#E3A86B}.day.swap{background:#EEEBF7;border-color:#B3ABD9}.day.give,.day.off{background:#EAF3EC;border-color:#B6D3BE}
+.ovb{background:#C26A1E;border-radius:4px;font-weight:700;letter-spacing:.4px;font-size:9px}.ovb.swap{background:#5A4FA0}.ovb.give,.ovb.off{background:#3E7D56}
+body.editing .day[data-k]{outline:1.5px dashed var(--red);outline-offset:-3px}
+.edhint{font-size:13px;color:var(--red);font-weight:600;margin-top:6px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);align-items:center}.legend>span:not(.ovb){display:inline-flex;align-items:center;gap:4px}.legend br{flex-basis:100%;content:""}
+.lg{width:26px;height:18px}
+.chip{font-weight:600;border-radius:4px}
+.note{background:#FBF6EA;border-left:3px solid var(--red);border-radius:6px}
+/* modals */
+#ovmod .box,#expmod .box{border-top:4px solid var(--red);border-radius:14px;box-shadow:0 20px 60px #0004}
+.ovopt{text-transform:none;letter-spacing:0;color:var(--ink);font-weight:600;font-size:15px;border:1px solid var(--line);border-radius:10px}.ovopt:has(input:checked){border-color:var(--navy);background:#F4F6FA}
+.cals button,.cals .cbtn{border-radius:12px;font-weight:600;min-height:88px}.cals .cbtn{border:1px solid #CFC6B5}
+.cals span{font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:10px;background:#F4F6FA;color:var(--navy)}
+.cals button span{background:#ffffff22;color:#fff}.cals .ci{width:22px;height:22px}
+.cals .g{color:#1a73e8}.cals .o{color:#0f6cbd;font-size:15px}.cals .y{color:#6001d2;font-size:16px}
+#expmod .close{background:#fff;color:var(--navy);border:1px solid #CFC6B5}
+.extrow{border:1px solid var(--line)}.extrow button{background:#fff;color:var(--navy);border:1px solid #CFC6B5}
+#cele{background:#1f2a44ee}#cele h2{color:var(--yel);font-family:"Rockwell","Roboto Slab",Georgia,serif}#cele button{background:var(--yel);color:var(--navy)}
+footer{color:var(--muted)}footer b{color:var(--red)}
+@media(max-width:600px){.dico{width:30px;height:21px}.card{padding:14px}.cal{gap:3px}}
+@media print{body{background:#fff}.day{border:1px solid #999}}
 </style></head><body>
-<header><div class="brand">🚒 FIREHOUSE TOTS</div><h1>🚒 Our Firefighter Family Shift Calendar</h1><p>Pick a pattern, see when your hero is home, and help put out the flames!</p></header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M6 14h12v7H6z"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M14 6l4 4"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></symbol>
+<symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/></symbol>
+<symbol id="i-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2A5 5 0 0 1 21.5 19"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-eyeoff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 12s4-7 10-7c2 0 3.8.7 5.3 1.7M22 12s-4 7-10 7c-2 0-3.8-.7-5.3-1.7M3 3l18 18"/></symbol>
+<symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 22c4 0 7-3 7-7 0-5-5-7-5-12-3 2-5 5-5 8-1-1-2-2-2-4-1.5 2-2 4-2 8 0 4 3 7 7 7z"/></symbol>
+<symbol id="truck" viewBox="0 0 64 40"><rect x="2" y="12" width="38" height="18" rx="3" fill="#B23A3A"/><path d="M40 16h12l8 8v6H40z" fill="#B23A3A"/><path d="M44 18h7l5 6H44z" fill="#F4EBD9"/><rect x="6" y="6" width="30" height="3" rx="1.5" fill="#C9A24A"/><path d="M8 9v3M16 9v3M24 9v3M32 9v3" stroke="#C9A24A" stroke-width="2"/><rect x="2" y="24" width="58" height="3" fill="#8E2C2C"/><circle cx="14" cy="32" r="5" fill="#1F2A44"/><circle cx="14" cy="32" r="2" fill="#C9A24A"/><circle cx="48" cy="32" r="5" fill="#1F2A44"/><circle cx="48" cy="32" r="2" fill="#C9A24A"/><rect x="50" y="11" width="5" height="3" rx="1" fill="#C9A24A"/></symbol>
+<symbol id="house" viewBox="0 0 48 40"><path d="M6 19L24 5l18 14" fill="none" stroke="#1F2A44" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 17v19h28V17L24 7z" fill="#E9C46A"/><rect x="20" y="24" width="8" height="12" rx="1" fill="#1F2A44"/><rect x="13" y="21" width="5" height="5" fill="#F7F1E3"/><rect x="30" y="21" width="5" height="5" fill="#F7F1E3"/><rect x="31" y="6" width="4" height="8" fill="#B23A3A"/></symbol>
+<symbol id="swap" viewBox="0 0 48 40" fill="none" stroke="#5A4FA0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14h26l-6-6M38 26H12l6 6"/></symbol>
+<symbol id="sun" viewBox="0 0 48 40" fill="none" stroke="#3E7D56" stroke-width="3" stroke-linecap="round"><circle cx="24" cy="20" r="7" fill="#E9C46A" stroke="#C9A24A"/><path d="M24 4v5M24 31v5M8 20h5M35 20h5M12.7 8.7l3.5 3.5M31.8 27.8l3.5 3.5M12.7 31.3l3.5-3.5M31.8 12.2l3.5-3.5"/></symbol>
+</defs></svg>
+<header><div class="brand"><span>EST.</span> FIREHOUSE TOTS <span>CO.</span></div><h1>Firefighter Family Shift Calendar</h1><p>See when your hero is home, and help put out the flames.</p></header>
 <main>
-<div class="card noprint" id="setup">
+<div class="card noprint panel" id="setup"><div class="ph"><svg class="i" aria-hidden="true"><use href="#i-gear"/></svg><div><h3>Schedule settings</h3><small>Set the regular rotation once. Use Edit shifts on the calendar for overtime, trades, or time off.</small></div></div>
 <div class="row">
 <label>Firefighter name<input id="pname" placeholder="Mom / Dad"></label>
 <label>Shift pattern<select id="pat">
@@ -91,8 +187,8 @@ small{color:#555}.hide{display:none}
 </div>
 <div class="row" style="margin-top:10px">
 <label>Month<input type="month" id="month"></label>
-<button class="yel" onclick="exportICS()">📅 Export to calendar (.ics)</button>
-<button onclick="window.print()">🖨️ Print</button>
+<button class="btn primary" onclick="exportICS()"><svg class="i" aria-hidden="true"><use href="#i-cal"/></svg>Export to calendar (.ics)</button>
+<button class="btn ghost" onclick="window.print()"><svg class="i" aria-hidden="true"><use href="#i-print"/></svg>Print</button>
 </div>
 <small>Export works with Google Calendar, Apple Calendar, and Outlook. Exports 3 months of shifts starting with the month shown.</small>
 </div>
@@ -103,61 +199,80 @@ small{color:#555}.hide{display:none}
 </div>
 
 <div class="card noprint">
-<h2 style="margin:0 0 6px">🔥 Put out the flames! 🧯</h2>
+<h2 class="kidh">Put out the flames!</h2>
 <p style="margin:0 0 8px">Tap one flame each night (or every 2 hours). When every flame is out, your firefighter is home!</p>
-<div class="row"><label>One flame for each<select id="bmode"><option value="sleep">sleep</option><option value="hour">2 hours</option></select></label><button class="red" onclick="resetBub()">Light new flames</button></div>
+<div class="row"><label>One flame for each<select id="bmode"><option value="sleep">sleep</option><option value="hour">2 hours</option></select></label><button class="btn ghost" onclick="resetBub()"><svg class="i" aria-hidden="true"><use href="#i-flame"/></svg>Light new flames</button></div>
 <div class="gauge" style="margin-top:10px"><span class="hose">🧑‍🚒</span><div class="prog"><i id="pbar" style="width:0"></i></div><b id="gtxt">0/0</b></div>
 <div class="flames" id="flames"></div>
 </div>
 
 <div class="card">
 <h2 style="margin:0 0 6px" id="mtitle"></h2>
-<div class="noprint" style="text-align:center;margin-bottom:6px"><button id="bEdit" onclick="toggleEdit()" style="background:#e8590c">✏️ Edit shifts (parent)</button><div id="edhint" class="hide" style="font-weight:700;color:#e8590c;margin-top:4px">Parent mode: tap any day to add overtime, a trade, or a day off.</div></div>
+<div class="noprint" style="text-align:center;margin-bottom:6px"><button id="bEdit" class="btn ghost" onclick="toggleEdit()"><svg class="i" aria-hidden="true"><use href="#i-edit"/></svg><span>Edit shifts (parent)</span></button><div id="edhint" class="hide" class="edhint">Parent mode: tap any day to add overtime, a trade, or a day off.</div></div>
 <div class="stkbar noprint" style="margin-bottom:8px"><span style="align-self:center;font-weight:700">Tap a sticker, then tap a day:</span>
-<button data-s="⭐" class="sel">⭐</button><button data-s="❤️">❤️</button><button data-s="🤗">🤗</button><button data-s="✖">🧽</button></div>
+<button data-s="⭐" class="sel">⭐</button><button data-s="❤️">❤️</button><button data-s="🤗">🤗</button><button data-s="✖" title="Eraser"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></div>
 <div class="cal" id="cal"></div>
-<p><b>🚒 = shift day &nbsp; 🏠 = home day &nbsp; 💌 = note from your firefighter</b><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
+<p class="legend"><span><svg class="lg"><use href="#truck"/></svg> Shift day</span><span><svg class="lg"><use href="#house"/></svg> Home day</span><span>💌 Note</span><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
 </div>
 
-<div class="card">
-<h2 style="margin:0 0 6px">💌 Notes from my firefighter</h2>
+<div class="card panel" id="famcard">
+<div class="ph"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg><div><h3>Family calendars</h3><small>School, practices, birthdays. Shown as small colored labels on the calendar.</small></div></div>
+<div id="todaylist"></div>
+<div class="noprint">
+<div id="extlist"></div>
+<details style="margin-top:8px"><summary class="btn ghost sm">+ Add a calendar</summary>
+<div class="row" style="margin-top:8px"><label>Name<input id="exname" placeholder="School"></label><label>Color<input type="color" id="excolor" value="#2b8a3e" style="width:64px;padding:2px"></label></div>
+<p style="margin:10px 0 4px"><b>Option 1 – Import a .ics file</b> (always works, even offline)</p>
+<input type="file" id="exfile" accept=".ics,text/calendar">
+<p style="margin:12px 0 4px"><b>Option 2 – Link a calendar URL</b> (Google "Secret address in iCal format" or Apple public calendar webcal:// link)</p>
+<div class="row"><label style="flex:1">Calendar URL<input id="exurl" placeholder="webcal://… or https://calendar.google.com/…/basic.ics"></label><button id="bLink" class="btn primary" onclick="linkCal()"><svg class="i" aria-hidden="true"><use href="#i-link"/></svg>Link</button></div>
+<p class="tip" style="margin-top:8px">Heads up: Google and Apple don't let websites read calendar links directly (a browser safety rule called CORS), so a link usually won't load here on its own. If it fails, use Option 1. In Google Calendar: Settings → Import &amp; export → <b>Export</b>, then unzip and import the .ics. In Apple Calendar on a Mac: File → Export.</p>
+<details><summary>Advanced: calendar helper (proxy) URL</summary>
+<p style="font-size:14px">Optional. Paste the address of <b>your own</b> calendar helper (for example, a free Cloudflare Worker you or a trusted helper set up). Your private calendar link is sent to this helper, so only use one you control. Never use a random public "CORS proxy". Your secret link would be visible to whoever runs it.</p>
+<input id="exproxy" placeholder="https://my-cal-helper.example.workers.dev" style="width:100%"></details>
+<p id="exmsg" class="err"></p>
+</details>
+<small>Family calendars stay on this device. They are not included in the share link or calendar export.</small>
+</div></div>
+<div class="card panel">
+<div class="ph"><svg class="i" aria-hidden="true"><use href="#i-note"/></svg><div><h3>Notes from my firefighter</h3><small>Locked until the time you choose, then revealed to the kids.</small></div></div>
 <div id="shownotes"></div>
 <div class="noprint" style="margin-top:10px">
 <div class="row"><label>For day<input type="date" id="ndate"></label><label>Show at<input type="time" id="ntime" value="17:00"></label>
 <label style="flex:1">Note<input id="ntext" placeholder="Brush your teeth, superstar! Love you!"></label>
-<button onclick="addNote()">Add note</button></div>
-<div class="row" style="margin-top:10px"><button class="red" onclick="shareNotes()">🔗 Share notes link</button><small style="flex:1">Text this link to the home phone/tablet. Opening it adds the notes there. (No internet server is used; notes travel inside the link.)</small></div>
+<button class="btn primary" onclick="addNote()">Add note</button></div>
+<div class="row" style="margin-top:10px"><button class="btn accent" onclick="shareNotes()"><svg class="i" aria-hidden="true"><use href="#i-share"/></svg>Share notes link</button><small style="flex:1">Text this link to the home phone/tablet. Opening it adds the notes there. (No internet server is used; notes travel inside the link.)</small></div>
 <input id="shareout" readonly class="hide" style="width:100%;margin-top:8px">
 </div></div>
-</main><footer><b>Firehouse Tots</b> · Made by a firefighter-paramedic family, for fire families ❤️<br><small>Tip: on iPhone/iPad tap Share → "Add to Home Screen" to use it like an app. Your info stays on this device.</small></footer>
-<div id="ovmod"><div class="box"><h2 style="margin:0">✏️ Change this day</h2><p id="ovday" style="margin:4px 0 8px"></p>
-<label class="ovopt"><input type="radio" name="ovt" value="ot" onchange="ovSync()">🚒 Extra shift / Overtime</label>
-<label class="ovopt"><input type="radio" name="ovt" value="swap" onchange="ovSync()">🔁 Trade: working someone's shift</label>
+</main><footer><b>Firehouse Tots</b> · Made by a firefighter-paramedic family, for fire families.<br><small>Tip: on iPhone/iPad tap Share → "Add to Home Screen" to use it like an app. Your info stays on this device.</small></footer>
+<div id="ovmod"><div class="box"><h2 style="margin:0">Change this day</h2><p id="ovday" style="margin:4px 0 8px"></p>
+<label class="ovopt"><input type="radio" name="ovt" value="ot" onchange="ovSync()">Extra shift / Overtime</label>
+<label class="ovopt"><input type="radio" name="ovt" value="swap" onchange="ovSync()">Trade: working someone's shift</label>
 <div id="ovtime" class="row hide" style="margin:4px 0 8px"><label>Starts at<input type="time" id="ovs"></label><label>Length<select id="ovh"><option value="8">8 hours</option><option value="10">10 hours</option><option value="12">12 hours</option><option value="24">24 hours</option><option value="48">48 hours</option></select></label></div>
-<label class="ovopt"><input type="radio" name="ovt" value="give" onchange="ovSync()">🤝 Trade: gave my shift away</label>
-<label class="ovopt"><input type="radio" name="ovt" value="off_vac" onchange="ovSync()">🏖️ Vacation</label>
-<label class="ovopt"><input type="radio" name="ovt" value="off_sick" onchange="ovSync()">🤒 Sick day</label>
-<label class="ovopt"><input type="radio" name="ovt" value="off_off" onchange="ovSync()">🏠 Day off (other)</label>
-<label class="ovopt"><input type="radio" name="ovt" value="clear" onchange="ovSync()">↩️ Clear (back to regular schedule)</label>
-<button id="bOvSave" style="width:100%;margin-top:8px;background:#e8590c" onclick="saveOv()">Save</button>
-<button style="width:100%;margin-top:6px;background:#888" onclick="$('ovmod').classList.remove('on')">Cancel</button></div></div>
-<div id="expmod"><div class="box"><h2 style="margin:0 0 6px">📅 Add shifts to your calendar</h2>
+<label class="ovopt"><input type="radio" name="ovt" value="give" onchange="ovSync()">Trade: gave my shift away</label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_vac" onchange="ovSync()">Vacation</label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_sick" onchange="ovSync()">Sick day</label>
+<label class="ovopt"><input type="radio" name="ovt" value="off_off" onchange="ovSync()">Day off (other)</label>
+<label class="ovopt"><input type="radio" name="ovt" value="clear" onchange="ovSync()">Clear (back to regular schedule)</label>
+<button id="bOvSave" class="btn primary wide" onclick="saveOv()">Save</button>
+<button class="btn ghost wide" onclick="$('ovmod').classList.remove('on')">Cancel</button></div></div>
+<div id="expmod"><div class="box"><h2 style="margin:0 0 6px">Add shifts to your calendar</h2>
 <p style="margin:0 0 8px;font-size:14px">Adds 3 months of shifts plus your notes. Works with Apple, Google, and Outlook calendars.</p>
 <div id="expPrev" class="tip hide" style="border-color:var(--red)"><b>Opened from Messages, Files, or a chat preview?</b> Tap <b>Share ⬆️ → Open in Safari</b> first, then tap Export again. Previews can't add to Calendar.</div>
 <div class="cals">
-<button class="red" id="bShare" onclick="expShare()"><span>🍎</span>Apple / iPhone Calendar<small>Adds every shift (Add All)</small></button>
-<a class="cbtn" id="lGoogle" target="_blank" rel="noopener"><span>🟦</span>Google Calendar<small>Adds the next shift</small></a>
-<a class="cbtn" id="lOutlook" target="_blank" rel="noopener"><span>📧</span>Outlook.com<small>Adds the next shift</small></a>
-<a class="cbtn" id="lO365" target="_blank" rel="noopener"><span>💼</span>Office 365 / work Outlook<small>Adds the next shift</small></a>
-<a class="cbtn" id="lYahoo" target="_blank" rel="noopener"><span>🟪</span>Yahoo Calendar<small>Adds the next shift</small></a>
-<button id="bDl" onclick="expDl()"><span>📁</span>Other calendar apps (.ics file)<small>Whole schedule, any app</small></button>
+<button class="red" id="bShare" onclick="expShare()"><span><svg class="ci" aria-hidden="true"><use href="#i-cal"/></svg></span>Apple / iPhone Calendar<small>Adds every shift (Add All)</small></button>
+<a class="cbtn" id="lGoogle" target="_blank" rel="noopener"><span class="g">G</span>Google Calendar<small>Adds the next shift</small></a>
+<a class="cbtn" id="lOutlook" target="_blank" rel="noopener"><span class="o">O</span>Outlook.com<small>Adds the next shift</small></a>
+<a class="cbtn" id="lO365" target="_blank" rel="noopener"><span class="o">365</span>Office 365 / work Outlook<small>Adds the next shift</small></a>
+<a class="cbtn" id="lYahoo" target="_blank" rel="noopener"><span class="y">Y!</span>Yahoo Calendar<small>Adds the next shift</small></a>
+<button id="bDl" onclick="expDl()"><span><svg class="ci" aria-hidden="true"><use href="#i-file"/></svg></span>Other calendar apps (.ics file)<small>Whole schedule, any app</small></button>
 </div>
 <details class="tip" style="margin-top:6px"><summary><b>Want ALL shifts in Google, Outlook, or Yahoo?</b></summary>
 Tap <b>Other calendar apps</b> to save the .ics file, then on a computer:<br>• <b>Google:</b> calendar.google.com → ⚙️ Settings → Import &amp; export → Import<br>• <b>Outlook:</b> Calendar → Add calendar → Upload from file<br>• <b>Yahoo:</b> Calendar → Actions → Import</details>
 <div id="expIOS" class="tip hide">iPhone/iPad: in Safari, "Apple / iPhone Calendar" shows Apple's <b>Add All</b> sheet. If you see a preview instead, tap Share → Open in Safari.</div>
 <p id="expmsg" style="font-weight:700;min-height:1em"></p>
 <button class="close" onclick="$('expmod').classList.remove('on')">Close</button></div></div>
-<div id="cele" onclick="this.classList.remove('on')"><canvas id="conf"></canvas><div class="tk">🚒💨</div><h2 id="ctxt">Mom/Dad is home!</h2><p style="font-size:20px">All the flames are out. Great job, junior firefighter! 🧑‍🚒</p><button class="yel">Yay! 🎉</button></div>
+<div id="cele" onclick="this.classList.remove('on')"><canvas id="conf"></canvas><div class="tk"><svg width="200" height="125"><use href="#truck"/></svg></div><h2 id="ctxt">Mom/Dad is home!</h2><p style="font-size:20px">All the flames are out. Great job, junior firefighter! 🧑‍🚒</p><button class="yel">Yay! 🎉</button></div>
 <script>
 const $=id=>document.getElementById(id),K='ffcal_v1';
 let S=JSON.parse(localStorage.getItem(K)||'{}');S.stk=S.stk||{};S.notes=S.notes||[];S.bub=S.bub||null;
@@ -178,7 +293,7 @@ function stints(from,to){const I=[];for(let d=addD(from,-3);d<=to;d=addD(d,1)){c
  I.forEach(i=>{const l=R[R.length-1];if(l&&i.st-l.en<=6e4){if(i.en>l.en)l.en=i.en;l.parts.push(i)}else R.push({st:i.st,en:i.en,parts:[i]})});return R}
 function isShift(d){if(dayInt(d))return true;const noon=new Date(d.getFullYear(),d.getMonth(),d.getDate(),12);return stints(addD(d,-2),addD(d,-1)).some(x=>x.st<noon&&x.en>noon)}
 function curShift(){const now=new Date();return stints(addD(now,-3),addD(now,60)).find(x=>x.en>now)||null}
-function render(){
+function render(){extCache();
  S.cfg={pname:$('pname').value,pat:$('pat').value,start:$('start').value,stime:$('stime').value,etime:$('etime').value,cust:$('cust').value,month:$('month').value,bmode:$('bmode').value};save();
  $('custl').classList.toggle('hide',$('pat').value!='custom');
  const[y,m]=$('month').value.split('-').map(Number);const first=new Date(y,m-1,1),days=new Date(y,m,0).getDate();
@@ -187,15 +302,15 @@ function render(){
  for(let i=0;i<first.getDay();i++)c.innerHTML+='<div class="day empty"></div>';
  const today=ymd(new Date());
  for(let d=1;d<=days;d++){const dt=new Date(y,m-1,d),k=ymd(dt),sh=isShift(dt);const hasN=S.notes.some(n=>n.d==k);
-  const o=S.ov[k],cls=o?OVC[o.t]:'',ico=o?OVI[o.t]:(sh?'🚒':'🏠'),bd=o?`<span class="ovb ${o.t}">${OVB(o)}</span>`:'';
-  c.innerHTML+=`<div class="day ${sh?'shift':'home'} ${cls} ${k==today?'today':''}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}${bd}<div class="ico">${ico}</div><div class="stk">${(S.stk[k]||[]).join('')}</div></div>`}
+  const o=S.ov[k],cls=o?OVC[o.t]:'',ico=o?OVI[o.t]:(sh?TRUCK:HOUSE),bd=o?`<span class="ovb ${o.t}">${OVB(o)}</span>`:'';
+  c.innerHTML+=`<div class="day ${sh?'shift':'home'} ${cls} ${k==today?'today':''}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}${bd}<div class="ico">${ico}</div><div class="stk">${(S.stk[k]||[]).join('')}</div>${chipsFor(dt)}</div>`}
  c.querySelectorAll('.day[data-k]').forEach(el=>el.onclick=()=>{const k=el.dataset.k;if(EDIT)return openOv(k);if(cur=='✖')delete S.stk[k];else{(S.stk[k]=S.stk[k]||[]).push(cur);if(S.stk[k].length>4)S.stk[k].shift()}save();render();chime(660)});
- tick();renderNotes();renderBub()}
+ tick();renderNotes();renderBub();renderExt()}
 function tick(){const now=new Date(),s=curShift(),n=$('pname').value||'Mom/Dad';
- if(!s||!$('start').value){$('sleeps').textContent='Set the shift pattern above ⬆️';return}
- if(s.st>now){$('sleeps').textContent=`🏠 ${n} is home today! Next shift: ${s.st.toLocaleDateString(undefined,{weekday:'long'})}`;setT(0);return}
+ if(!s||!$('start').value){$('sleeps').textContent='Set the shift pattern above';return}
+ if(s.st>now){$('sleeps').textContent=`${n} is home today! Next shift: ${s.st.toLocaleDateString(undefined,{weekday:'long'})}`;setT(0);return}
  const ms=s.en-now;let sl=0;for(let d=new Date(now.getFullYear(),now.getMonth(),now.getDate());d<new Date(s.en.getFullYear(),s.en.getMonth(),s.en.getDate());d.setDate(d.getDate()+1))sl++;
- $('sleeps').textContent=sl?`${sl} sleep${sl>1?'s':''} until ${n} is home! 🚒➡️🏠`:`${n} comes home today! 🎉`;setT(ms)}
+ $('sleeps').textContent=sl?`${sl} sleep${sl>1?'s':''} until ${n} is home!`:`${n} comes home today!`;setT(ms)}
 function setT(ms){$('td').textContent=Math.floor(ms/864e5);$('th').textContent=Math.floor(ms/36e5)%24;$('tm').textContent=Math.floor(ms/6e4)%60}
 // flames
 function resetBub(){const s=curShift(),now=new Date();let n=2;
@@ -222,15 +337,63 @@ function hiss(){try{const a=ac(),t=a.currentTime,len=a.sampleRate*1.1,buf=a.crea
 function chime(f,dl=0){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime+dl;o.frequency.value=f;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(a.destination);o.start(t);o.stop(t+.3)}catch(e){}}
 // overrides
 S.ov=S.ov||{};let EDIT=false,OVK=null;
-const OVC={ot:'ot',swap:'ot swap',give:'give',off:'off'},OVI={ot:'🚒',swap:'🔁',give:'🏠',off:'🏖️'};
+const TRUCK='<svg class="dico"><use href="#truck"/></svg>',HOUSE='<svg class="dico"><use href="#house"/></svg>';const OVC={ot:'ot',swap:'ot swap',give:'give',off:'off'},OVI={ot:TRUCK,swap:'<svg class="dico"><use href="#swap"/></svg>',give:HOUSE,off:'<svg class="dico"><use href="#sun"/></svg>'};
 function OVB(o){return o.t=='ot'?'OT'+(o.h&&o.h!=24?' '+o.h+'h':''):o.t=='swap'?'TRADE':o.t=='give'?'TRADED':({vac:'VACATION',sick:'SICK'}[o.r]||'OFF')}
-function toggleEdit(){EDIT=!EDIT;document.body.classList.toggle('editing',EDIT);$('bEdit').textContent=EDIT?'✅ Done editing':'✏️ Edit shifts (parent)';$('edhint').classList.toggle('hide',!EDIT)}
+function toggleEdit(){EDIT=!EDIT;document.body.classList.toggle('editing',EDIT);$('bEdit').innerHTML=EDIT?'<svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span>Done editing</span>':'<svg class="i" aria-hidden="true"><use href="#i-edit"/></svg><span>Edit shifts (parent)</span>';$('edhint').classList.toggle('hide',!EDIT)}
 function openOv(k){OVK=k;const o=S.ov[k]||{};$('ovday').textContent=pd(k).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+(patShift(pd(k))?' · regular shift day':' · regular day off');
  document.querySelectorAll('input[name=ovt]').forEach(r=>r.checked=r.value==(o.t?(o.t=='off'?'off_'+(o.r||'off'):o.t):'clear'));$('ovs').value=o.s||$('stime').value;$('ovh').value=String(o.h||24);ovSync();$('ovmod').classList.add('on')}
 function ovSync(){const v=(document.querySelector('input[name=ovt]:checked')||{}).value||'';$('ovtime').classList.toggle('hide',!(v=='ot'||v=='swap'))}
 function saveOv(){const v=(document.querySelector('input[name=ovt]:checked')||{}).value||'clear';
  if(v=='clear')delete S.ov[OVK];else if(v=='ot'||v=='swap')S.ov[OVK]={t:v,s:$('ovs').value,h:+$('ovh').value};else if(v=='give')S.ov[OVK]={t:'give'};else S.ov[OVK]={t:'off',r:v.split('_')[1]};
  $('ovmod').classList.remove('on');save();resetBub();render()}
+// family calendars (external .ics)
+S.ext=S.ext||[];S.proxy=S.proxy||'';
+function icsParse(txt){const L=txt.replace(/\r\n[ \t]/g,'').replace(/\n[ \t]/g,'').split(/\r?\n/),E=[];let e=null;
+ const val=l=>l.slice(l.indexOf(':')+1),un=v=>v.replace(/\\n/gi,' ').replace(/\\([,;\\])/g,'$1');
+ for(const l of L){if(l=='BEGIN:VEVENT'){e={ex:[]};continue}if(l=='END:VEVENT'){if(e&&e.st)E.push(e);e=null;continue}if(!e)continue;
+  const nm=l.split(/[;:]/)[0].toUpperCase();
+  if(nm=='SUMMARY')e.t=un(val(l));else if(nm=='DTSTART'){e.st=icsDate(l);e.ad=/VALUE=DATE[:;]/.test(l)||/:\d{8}$/.test(l)}else if(nm=='DTEND')e.en=icsDate(l);
+  else if(nm=='RRULE')e.rr=Object.fromEntries(val(l).split(';').map(p=>p.split('=')));else if(nm=='EXDATE')val(l).split(',').forEach(x=>e.ex.push(ymd(icsDate('X:'+x))));
+  else if(nm=='STATUS'&&/CANCELLED/i.test(val(l)))e.cx=1;else if(nm=='RECURRENCE-ID')e.rid=1}
+ return E.filter(x=>!x.cx)}
+function icsDate(l){const v=l.slice(l.lastIndexOf(':')+1).trim(),m=v.match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2})(\d{2})?(Z)?)?/);if(!m)return null;
+ if(!m[4])return new Date(+m[1],m[2]-1,+m[3]);if(m[7])return new Date(Date.UTC(+m[1],m[2]-1,+m[3],+m[4],+m[5]));return new Date(+m[1],m[2]-1,+m[3],+m[4],+m[5])}
+const WD={SU:0,MO:1,TU:2,WE:3,TH:4,FR:5,SA:6};
+function occurs(e,from,to){const out=[],dur=e.en?e.en-e.st:(e.ad?864e5:36e5);
+ const push=d=>{if(d>=addD(from,-1)&&d<to&&!e.ex.includes(ymd(d)))out.push({s:d,e:new Date(d.getTime()+dur)})};
+ if(!e.rr){push(e.st);return out}
+ const r=e.rr,iv=+(r.INTERVAL||1),cnt=r.COUNT?+r.COUNT:1e9,until=r.UNTIL?icsDate('X:'+r.UNTIL):null;let n=0;
+ const ok=d=>(!until||d<=until)&&n<cnt&&d<to;
+ if(r.FREQ=='WEEKLY'){const days=r.BYDAY?r.BYDAY.split(',').map(x=>WD[x.slice(-2)]):[e.st.getDay()];
+  let wk=addD(e.st,-e.st.getDay());for(let g=0;g<600;g++){for(const wd of days.sort()){const d=addD(wk,wd);d.setHours(e.st.getHours(),e.st.getMinutes());if(d<e.st)continue;if(!ok(d))return out;n++;push(d)}wk=addD(wk,7*iv)}}
+ else{let d=new Date(e.st);for(let g=0;g<3000&&ok(d);g++){n++;push(new Date(d));
+  if(r.FREQ=='DAILY')d=addD(d,iv),d.setHours(e.st.getHours(),e.st.getMinutes());else if(r.FREQ=='MONTHLY')d=new Date(d.getFullYear(),d.getMonth()+iv,d.getDate(),d.getHours(),d.getMinutes());else if(r.FREQ=='YEARLY')d=new Date(d.getFullYear()+iv,d.getMonth(),d.getDate(),d.getHours(),d.getMinutes());else break}}
+ return out}
+let EXC={};function extCache(){EXC={};const[y,m]=$('month').value.split('-').map(Number),from=addD(new Date(y,m-1,1),-7),to=new Date(y,m+1,7);const t0=new Date(),tf=new Date(t0.getFullYear(),t0.getMonth(),t0.getDate()),tt=addD(tf,1);
+ S.ext.filter(c=>c.on&&c.ics).forEach(c=>{let ev;try{ev=icsParse(c.ics)}catch(_){return}ev.forEach(e=>[...occurs(e,from,to),...occurs(e,tf,tt)].forEach(o=>{
+  for(let d=new Date(o.s.getFullYear(),o.s.getMonth(),o.s.getDate());d<o.e||ymd(d)==ymd(o.s);d=addD(d,1)){const k=ymd(d);(EXC[k]=EXC[k]||[]);if(!EXC[k].some(x=>x.t==e.t&&x.c==c.color))EXC[k].push({t:e.t||'(event)',c:c.color,n:c.name,tm:e.ad?'':o.s.toTimeString().slice(0,5),ad:e.ad})}}))});
+ Object.values(EXC).forEach(a=>a.sort((x,y)=>(x.tm||'').localeCompare(y.tm||'')))}
+function chipsFor(d){const a=EXC[ymd(d)]||[];if(!a.length)return '';return '<div class="chips">'+a.slice(0,2).map(x=>`<span class="chip" style="background:${x.c}" title="${esc(x.n+': '+x.t)}">${x.tm?x.tm+' ':''}${esc(x.t)}</span>`).join('')+(a.length>2?`<span class="chip more">+${a.length-2} more</span>`:'')+'</div>'}
+function renderExt(){const t=EXC[ymd(new Date())]||[];
+ $('todaylist').innerHTML=S.ext.length?'<b>Today:</b>'+(t.length?t.map(x=>`<div class="tl"><i style="background:${x.c}"></i><b>${x.tm||'All day'}</b> ${esc(x.t)} <small style="color:#777">· ${esc(x.n)}</small></div>`).join(''):' <small>Nothing on the family calendars today.</small>'):'';
+ $('extlist').innerHTML=S.ext.map(c=>`<div class="extrow" data-id="${c.id}"><span class="sw" style="background:${c.color}"></span><span class="nm">${esc(c.name)}</span>
+ <input type="color" value="${c.color}" onchange="extSet('${c.id}','color',this.value)" style="width:44px;min-height:40px;padding:2px" aria-label="color">
+ <button onclick="extSet('${c.id}','on',${!c.on})">${c.on?'<svg class="i" aria-hidden="true"><use href="#i-eye"/></svg> Showing':'<svg class="i" aria-hidden="true"><use href="#i-eyeoff"/></svg> Hidden'}</button>${c.url?`<button title="Refresh" onclick="refreshCal('${c.id}',true)"><svg class="i" aria-hidden="true"><use href="#i-refresh"/></svg></button>`:''}<button title="Remove" class="ghost" onclick="extDel('${c.id}')"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+ <small>${c.url?'Linked URL':'Imported file'} · ${c.ics?icsParse(c.ics).length+' events':'no data yet'}${c.ts?' · updated '+new Date(c.ts).toLocaleString():''}${c.err?` <span class="err">${esc(c.err)}</span>`:''}</small></div>`).join('')}
+function extSet(id,k,v){const c=S.ext.find(x=>x.id==id);c[k]=v;save();render()}
+function extDel(id){S.ext=S.ext.filter(x=>x.id!=id);save();render()}
+function newCal(extra){const c={id:'c'+Date.now().toString(36),name:$('exname').value.trim()||'Family',color:$('excolor').value,on:true,...extra};S.ext.push(c);$('exname').value='';return c}
+function importFile(f){const r=new FileReader();r.onload=()=>{const txt=String(r.result);if(!/BEGIN:VCALENDAR/.test(txt)){$('exmsg').textContent='That file is not a calendar (.ics) file.';return}
+ newCal({ics:txt,ts:Date.now()});$('exmsg').textContent='';save();render()};r.readAsText(f)}
+const CORS_MSG="Couldn't load this link. Google and Apple block websites from reading calendar links directly (CORS). Import a .ics file instead, or add your own calendar helper under Advanced.";
+async function fetchICS(url){url=url.trim().replace(/^webcal:\/\//i,'https://');const px=($('exproxy').value||S.proxy||'').trim();
+ const tries=[url];if(px)tries.push(px.replace(/\/$/,'')+'/?url='+encodeURIComponent(url));let last;
+ for(const u of tries){try{const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);const t=await r.text();if(!/BEGIN:VCALENDAR/.test(t))throw new Error('not a calendar');return t}catch(e){last=e}}
+ throw last}
+async function linkCal(){const url=$('exurl').value.trim();if(!/^(webcal|https?):\/\//i.test(url)){$('exmsg').textContent='Paste a link that starts with webcal:// or https://';return}
+ S.proxy=$('exproxy').value.trim();const c=newCal({url});$('exurl').value='';save();await refreshCal(c.id,true)}
+async function refreshCal(id,show){const c=S.ext.find(x=>x.id==id);if(!c||!c.url)return;try{c.ics=await fetchICS(c.url);c.ts=Date.now();c.err=''}catch(e){c.err=CORS_MSG+(c.ics?' (showing last saved copy)':'')}
+ save();render();if(show)$('exmsg').textContent=c.err||''}
 // notes
 function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function addNote(){if(!$('ndate').value||!$('ntext').value.trim())return alert('Pick a day and write a note');S.notes.push({id:Date.now()+''+Math.random().toString(36).slice(2,6),d:$('ndate').value,t:$('ntime').value,x:$('ntext').value.trim()});$('ntext').value='';save();render()}
@@ -277,5 +440,6 @@ importHash();const c=S.cfg||{};const t=new Date();
 $('pname').value=c.pname||'';$('pat').value=c.pat||'24on48';$('start').value=c.start||ymd(t);$('stime').value=c.stime||'07:00';$('etime').value=c.etime||'07:00';$('cust').value=c.cust||'1100';$('month').value=c.month||ymd(t).slice(0,7);$('bmode').value=c.bmode||'sleep';$('ndate').value=ymd(t);
 ['pname','pat','start','stime','etime','cust','month'].forEach(i=>$(i).addEventListener('input',render));$('bmode').onchange=()=>{render();resetBub()};
 document.querySelectorAll('.stkbar button').forEach(b=>b.onclick=()=>{cur=b.dataset.s;document.querySelectorAll('.stkbar button').forEach(x=>x.classList.toggle('sel',x==b))});
-render();setInterval(()=>{tick();renderNotes()},30000);
+$('exfile').onchange=e=>{if(e.target.files[0])importFile(e.target.files[0]);e.target.value=''};$('exproxy').value=S.proxy||'';
+render();S.ext.filter(c=>c.url).forEach(c=>refreshCal(c.id));setInterval(()=>{tick();renderNotes()},30000);
 </script></body></html>
