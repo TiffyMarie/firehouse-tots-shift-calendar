@@ -202,6 +202,10 @@ main{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px
 #pwatip{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;background:#1B2A4A;color:#fff;border-radius:14px;padding:12px 40px 12px 14px;font-size:14px;box-shadow:0 6px 20px #0004;display:none;max-width:480px;margin:auto}
 #pwatip.on{display:block}#pwatip b{color:#FFC93C}#pwatip button{position:absolute;top:6px;right:6px;background:none;border:0;color:#fff;font-size:20px;padding:4px 8px;cursor:pointer}
 #pwainst{display:none;margin-top:8px;background:#FFC93C;color:#1B2A4A;border:0;border-radius:999px;padding:6px 14px;font-weight:700;cursor:pointer}#pwainst.on{display:inline-block}
+#thx{position:fixed;inset:0;background:#1f2a4499;display:none;z-index:55;align-items:center;justify-content:center;padding:18px}#thx.on{display:flex}
+#thx .card{background:#F7F1E3;color:#1F2A44;border:3px solid #C9A227;border-radius:20px;max-width:440px;padding:26px 24px;text-align:center;box-shadow:0 12px 40px #0005;animation:thxin .35s ease-out}
+#thx h2{font-family:"Rockwell","Roboto Slab",Georgia,serif;margin:8px 0 10px;color:#1F2A44}#thx p{font-size:17px;line-height:1.5;margin:8px 0}#thx button{margin-top:14px;background:#1F2A44;color:#F7F1E3;border:0;border-radius:999px;padding:11px 26px;font-size:17px;cursor:pointer}
+@keyframes thxin{from{transform:scale(.92);opacity:0}to{transform:none;opacity:1}}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
@@ -230,7 +234,7 @@ main{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px
 <div class="row">
 <label>Parent name<input id="pname" placeholder="Mom / Dad"></label>
 <label class="duoonly">Color<input type="color" id="pcolor" value="#B23A3A" class="sw"></label>
-<label>Job<select id="job"><option value="fire">Firefighter</option><option value="nurse">Nurse / Hospital</option><option value="police">Police / Law enforcement</option><option value="ems">EMS / Paramedic</option><option value="dispatch">Dispatcher / 911</option><option value="teacher">Teacher / School</option><option value="military">Military</option><option value="office">Standard 9–5</option><option value="custom">Custom</option></select></label><label>Schedule<select id="pat"></select></label>
+<label>Job<select id="job"><option value="fire">Firefighter</option><option value="nurse">Nurse / Hospital</option><option value="police">Police / Law enforcement</option><option value="ems">EMS / Paramedic</option><option value="dispatch">Dispatcher / 911</option><option value="teacher">Teacher / School</option><option value="military">Military</option><option value="office">Standard 9–5</option><option value="sahm">Stay-at-home mom</option><option value="custom">Custom</option></select></label><label>Schedule<select id="pat"></select></label>
 <label>First shift start date<input type="date" id="start"></label>
 <label>Shift starts at<input type="time" id="stime" value="07:00"></label>
 <label>Shift ends at<input type="time" id="etime" value="07:00"></label>
@@ -240,7 +244,7 @@ main{padding-left:calc(12px + env(safe-area-inset-left));padding-right:calc(12px
 <div id="p2box" class="duoonly p2box"><div class="p2h">Second parent</div><div class="row">
 <label>Name<input id="pname2" placeholder="Dad"></label>
 <label>Color<input type="color" id="pcolor2" value="#2F5D8A" class="sw"></label>
-<label>Job<select id="job2"><option value="fire">Firefighter</option><option value="nurse">Nurse / Hospital</option><option value="police">Police / Law enforcement</option><option value="ems">EMS / Paramedic</option><option value="dispatch">Dispatcher / 911</option><option value="teacher">Teacher / School</option><option value="military">Military</option><option value="office">Standard 9–5</option><option value="custom">Custom</option></select></label><label>Schedule<select id="pat2"></select></label>
+<label>Job<select id="job2"><option value="fire">Firefighter</option><option value="nurse">Nurse / Hospital</option><option value="police">Police / Law enforcement</option><option value="ems">EMS / Paramedic</option><option value="dispatch">Dispatcher / 911</option><option value="teacher">Teacher / School</option><option value="military">Military</option><option value="office">Standard 9–5</option><option value="sahm">Stay-at-home mom</option><option value="custom">Custom</option></select></label><label>Schedule<select id="pat2"></select></label>
 <label>First shift start date<input type="date" id="start2"></label>
 <label>Shift starts at<input type="time" id="stime2" value="07:00"></label>
 <label>Shift ends at<input type="time" id="etime2" value="07:00"></label>
@@ -351,6 +355,7 @@ Use the <b>subscribe</b> buttons above (best), or tap <b>One-time download</b> t
 <div id="expIOS" class="tip hide">iPhone/iPad: "Apple / iPhone Calendar" opens Calendar's <b>Subscribe</b> prompt. Tap Subscribe, then Add. Your shifts then update on their own.</div>
 <p id="expmsg" style="font-weight:700;min-height:1em"></p>
 <button class="close" onclick="$('expmod').classList.remove('on')">Close</button></div></div>
+<div id="thx" onclick="if(event.target==this)this.classList.remove('on')"><div class="card" role="dialog" aria-labelledby="thxh"><svg width="90" height="75" aria-hidden="true"><use href="#house"/></svg><h2 id="thxh">Thank you, <span id="thxn">Mama</span> 💛</h2><p>Running a home and caring for a family is real, full-time work — the early mornings, the late nights, and all the little things no one sees.</p><p>You are doing a great job. Your love is the heart of this home, and you deserve so much more credit than you get.</p><button onclick="$('thx').classList.remove('on')">Thank you 💛</button></div></div>
 <div id="cele" onclick="this.classList.remove('on')"><canvas id="conf"></canvas><div class="tk"><svg width="200" height="125"><use href="#truck"/></svg></div><h2 id="ctxt">Mom/Dad is home!</h2><p style="font-size:20px" id="csub">All the flames are out. Great job, junior firefighter! 🧑‍🚒</p><button class="yel">Yay! 🎉</button></div>
 <script>
 const $=id=>document.getElementById(id),K='ffcal_v1';
@@ -363,8 +368,8 @@ const PRE={
 'p44':{l:'4 on / 4 off (12h)',c:'11110000',st:'06:00',en:'18:00'},'pitman':{l:'Pitman 2-2-3 (12h)',c:'11001110011000',st:'06:00',en:'18:00'},'dupont':{l:'DuPont (12h days & nights, 4 weeks)',c:'NNNN000DDD0NNN000DDDD0000000',st:'06:00',en:'18:00'},'p52':{l:'5 on / 2 off (pick days + shift time)',wk:[1,2,3,4,5],st:'08:00',en:'16:00'},
 'd8':{l:'8-hour shifts (pick days)',wk:[1,2,3,4,5],st:'07:00',en:'15:00'},'kellyN':{l:'24/48 + Kelly day every Nth shift',c:'100',st:'07:00',en:'07:00',kn:1},'abc':{l:'A/B/C platoon (24/48, pick your shift)',c:'100',st:'07:00',en:'07:00',pl:1},'e12':{l:'12h 2-2-3 (Pitman)',c:'11001110011000',st:'07:00',en:'19:00'},
 'school':{l:'Mon–Fri school hours',wk:[1,2,3,4,5],st:'07:30',en:'15:30'},'mil':{l:'Duty days + deployment',wk:[1,2,3,4,5],st:'07:00',en:'16:00',dep:1},
-'m95':{l:'Weekdays 9–5 (pick days)',wk:[1,2,3,4,5],st:'09:00',en:'17:00'},'wk':{l:'Custom: pick weekdays',wk:[1,2,3,4,5],st:'09:00',en:'17:00'},'custom':{l:'Custom: repeating on/off cycle',c:'',st:'07:00',en:'07:00'}};
-const JOBS={fire:{n:'Firefighter',ic:'truck',e:'🚒',p:['24on48','abc','kellyN','4896','2472','kelly','pitman','dupont','custom']},nurse:{n:'Nurse',ic:'j-cross',e:'🏥',p:['n3d','n3n','n410','nrot','wk','custom']},police:{n:'Police',ic:'j-badge',e:'👮',p:['p44','pitman','dupont','p52','custom']},ems:{n:'EMS',ic:'j-ems',e:'🚑',p:['24on48','e12','n410','custom']},dispatch:{n:'Dispatcher',ic:'j-head',e:'🎧',p:['24on48','2472','pitman','p44','n410','d8','custom']},teacher:{n:'Teacher',ic:'j-apple',e:'🍎',p:['school','wk']},military:{n:'Military',ic:'j-star',e:'🎖️',p:['mil','custom']},office:{n:'9–5',ic:'j-brief',e:'💼',p:['m95','wk']},custom:{n:'Custom',ic:'j-clock',e:'🗓️',p:['wk','custom']}};
+'m95':{l:'Weekdays 9–5 (pick days)',wk:[1,2,3,4,5],st:'09:00',en:'17:00'},'wk':{l:'Custom: pick weekdays',wk:[1,2,3,4,5],st:'09:00',en:'17:00'},'home':{l:'Home days (pick any)',wk:[],st:'08:00',en:'20:00'},'custom':{l:'Custom: repeating on/off cycle',c:'',st:'07:00',en:'07:00'}};
+const JOBS={fire:{n:'Firefighter',ic:'truck',e:'🚒',p:['24on48','abc','kellyN','4896','2472','kelly','pitman','dupont','custom']},nurse:{n:'Nurse',ic:'j-cross',e:'🏥',p:['n3d','n3n','n410','nrot','wk','custom']},police:{n:'Police',ic:'j-badge',e:'👮',p:['p44','pitman','dupont','p52','custom']},ems:{n:'EMS',ic:'j-ems',e:'🚑',p:['24on48','e12','n410','custom']},dispatch:{n:'Dispatcher',ic:'j-head',e:'🎧',p:['24on48','2472','pitman','p44','n410','d8','custom']},teacher:{n:'Teacher',ic:'j-apple',e:'🍎',p:['school','wk']},military:{n:'Military',ic:'j-star',e:'🎖️',p:['mil','custom']},office:{n:'9–5',ic:'j-brief',e:'💼',p:['m95','wk']},sahm:{n:'Stay-at-home mom',ic:'house',e:'🏠',p:['home','wk','custom']},custom:{n:'Custom',ic:'j-clock',e:'🗓️',p:['wk','custom']}};
 function fillPat(p,val){const j=JOBS[F('job',p).value]||JOBS.fire,sel=F('pat',p);sel.innerHTML=j.p.map(k=>`<option value="${k}">${PRE[k].l}</option>`).join('');if(val&&j.p.includes(val))sel.value=val}
 function setWd(p,a){F('wd',p).querySelectorAll('input').forEach(x=>x.checked=a.includes(+x.value))}
 function wdays(p){return[...F('wd',p).querySelectorAll('input:checked')].map(x=>+x.value)}
@@ -596,7 +601,7 @@ function expMsg(t){$('expmsg').textContent=t}
 importHash();const c=S.cfg||{};const t=new Date();
 const c2=S.cfg2||{};[[c,0],[c2,1]].forEach(([q,p])=>{F('job',p).value=q.job||'fire';fillPat(p,q.pat=='ca3'?'kelly':(q.pat||'24on48'));const r=PRE[F('pat',p).value];setWd(p,q.wd!=null&&q.wd!==undefined?String(q.wd).split('').map(Number):(r.wk||[]));F('dep',p).value=q.dep||'';F('depe',p).value=q.depe||'';F('kn',p).value=q.kn||'7';F('plat',p).value=q.plat||'0'});$('duo').checked=!!c.duo;$('pcolor').value=c.pcolor||'#B23A3A';$('pname2').value=c2.pname||'';$('pcolor2').value=c2.pcolor||'#2F5D8A';$('start2').value=c2.start||ymd(addD(t,1));$('stime2').value=c2.stime||'07:00';$('etime2').value=c2.etime||'07:00';$('cust2').value=c2.cust||'1100';
 $('pname').value=c.pname||'';$('start').value=c.start||ymd(t);$('stime').value=c.stime||'07:00';$('etime').value=c.etime||'07:00';$('cust').value=c.cust||'1100';setTimeout(()=>{cbInit(0);cbInit(1);render()},0);$('month').value=c.month||ymd(t).slice(0,7);$('bmode').value=c.bmode||'sleep';$('ndate').value=ymd(t);
-['pname','pat','start','stime','etime','cust','month','pcolor','pname2','pcolor2','pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('input',render));[0,1].forEach(p=>{F('job',p).addEventListener('change',()=>{fillPat(p);applyPre(p);resetBub(p);render()});F('pat',p).addEventListener('change',()=>{applyPre(p);resetBub(p);render()});F('wd',p).addEventListener('change',()=>{resetBub(p);render()});['dep','depe','kn','plat'].forEach(i=>F(i,p).addEventListener('change',()=>{resetBub(p);render()}))});
+['pname','pat','start','stime','etime','cust','month','pcolor','pname2','pcolor2','pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('input',render));[0,1].forEach(p=>{F('job',p).addEventListener('change',()=>{if(F('job',p).value=='sahm')thanksSahm(p);fillPat(p);applyPre(p);resetBub(p);render()});F('pat',p).addEventListener('change',()=>{applyPre(p);resetBub(p);render()});F('wd',p).addEventListener('change',()=>{resetBub(p);render()});['dep','depe','kn','plat'].forEach(i=>F(i,p).addEventListener('change',()=>{resetBub(p);render()}))});
 $('duo').onchange=()=>{render();if(DUO())resetBub(1);if(typeof syncUI=='function')syncUI()};['pat2','start2','stime2','etime2','cust2'].forEach(i=>$(i).addEventListener('change',()=>{resetBub(1);render()}));$('bmode').onchange=()=>{render();resetBub(0);if(DUO())resetBub(1)};
 document.querySelectorAll('.stkbar button').forEach(b=>b.onclick=()=>{cur=b.dataset.s;document.querySelectorAll('.stkbar button').forEach(x=>x.classList.toggle('sel',x==b))});
 $('exfile').onchange=e=>{if(e.target.files[0])importFile(e.target.files[0]);e.target.value=''};$('exproxy').value=S.proxy||'';
@@ -606,11 +611,12 @@ render();S.ext.filter(c=>c.url).forEach(c=>refreshCal(c.id));setInterval(()=>{ti
 <script>
 function kidsOn(){document.body.classList.add('kidsmode');renderKids();scrollTo(0,0)}
 function kidsOff(){document.body.classList.remove('kidsmode')}
+function thanksSahm(p){const n=(F('pname',p).value||'').trim();$('thxn').textContent=n||'Mama';$('thx').classList.add('on')}
 function bigIco(p){const j=JOB(p);return `<svg class="kico" aria-hidden="true"><use href="#${j.ic}"/></svg>`}
 function renderKids(){const now=new Date(),today=ymd(now),duo=DUO(),P=duo?[0,1]:[0];
- $('kidsbody').innerHTML=`<h2 class="ktitle">${duo?"Where's everyone?":"Where's "+esc(NM(0))+"?"}</h2>`+P.map(p=>{const x=cd(p),n=esc(NM(p)),fire=F('job',p).value=='fire';
-  const place=x.home?'Home':(fire?'At the station':'At work');
-  const msg=x.home?`${n} is home with you. Big hugs!`:`${n} is ${fire?'at the station keeping people safe':'at work helping people'}, and thinking of you. ${n} always comes back home.`;
+ $('kidsbody').innerHTML=`<h2 class="ktitle">${duo?"Where's everyone?":"Where's "+esc(NM(0))+"?"}</h2>`+P.map(p=>{const x=cd(p),n=esc(NM(p)),fire=F('job',p).value=='fire',sahm=F('job',p).value=='sahm';
+  const place=x.home?'Home':(fire?'At the station':sahm?'Busy at home':'At work');
+  const msg=x.home?`${n} is home with you. Big hugs!`:`${n} is ${fire?'at the station keeping people safe':sahm?'busy taking care of our home':'at work helping people'}, and thinking of you. ${n} always comes back home.`;
   const nt=S.notes.filter(q=>q.d==today&&(!duo||(q.f||0)==p)&&new Date(q.d+'T'+(q.t||'00:00'))<=now);
   return `<div class="kcard ${x.home?'khome':'kaway'}" data-p="${p}" style="--pc:${COL(p)}">${x.home?'<svg class="kico kheart" aria-hidden="true"><use href="#j-heart"/></svg>':bigIco(p)}<div class="kplace">${place}</div><div class="kmsg">${msg}</div>${x.home?'':`<div class="ksleep">${esc(x.t)}</div>`}${nt.length?nt.map(q=>`<div class="knote">💌 ${esc(q.x)}</div>`).join(''):''}</div>`}).join('');
  $('bKids').textContent=duo?"Where's everyone?":"Where's "+NM(0)+"?"}
