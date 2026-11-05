@@ -178,6 +178,7 @@ svg.ji{width:26px;height:26px;color:var(--navy);stroke-width:1.6}.day .ico .ji+.
 .day .ico svg.ji.p0{color:var(--jc0,var(--navy))}.day .ico svg.ji.p1{color:var(--jc1,var(--navy))}
 .wdl.hide,.depl.hide{display:none!important}
 @media(max-width:520px){.ovbs .ovb{font-size:8px;padding:1px 3px;white-space:nowrap}}
+.fu{display:block;color:var(--muted);font-size:13px;margin:4px 0 0}.nexts{font:600 clamp(15px,3.6vw,20px) Inter,system-ui,sans-serif;color:var(--navy);margin-top:4px}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
@@ -235,16 +236,16 @@ svg.ji{width:26px;height:26px;color:var(--navy);stroke-width:1.6}.day .ico .ji+.
 <div class="timer noprint"><div><b id="td">0</b>days</div><div><b id="th">0</b>hours</div><div><b id="tm">0</b>min</div></div>
 </div>
 
-<div class="card noprint">
+<div class="card noprint" id="flamecard">
 <h2 class="kidh">Put out the flames!</h2>
 <p style="margin:0 0 8px">Tap one flame each night (or every 2 hours). When every flame is out, your firefighter is home!</p>
 <div class="row"><label>One flame for each<select id="bmode"><option value="sleep">sleep</option><option value="hour">2 hours</option></select></label><button class="btn ghost" onclick="resetBub()"><svg class="i" aria-hidden="true"><use href="#i-flame"/></svg>Light new flames</button></div>
-<div class="fset"><div class="fh duoonly" id="fh1"></div>
+<div class="fset" id="fset1"><div class="fh duoonly" id="fh1"></div>
 <div class="gauge" style="margin-top:10px"><span class="hose">🧑‍🚒</span><div class="prog"><i id="pbar" style="width:0"></i></div><b id="gtxt">0/0</b></div>
-<div class="flames" id="flames"></div></div>
+<small class="fu" id="fu"></small><div class="flames" id="flames"></div></div>
 <div class="fset duoonly" id="fset2"><div class="fh" id="fh2"></div>
 <div class="gauge" style="margin-top:10px"><span class="hose">🧑‍🚒</span><div class="prog"><i id="pbar2" style="width:0"></i></div><b id="gtxt2">0/0</b></div>
-<div class="flames" id="flames2"></div></div>
+<small class="fu" id="fu2"></small><div class="flames" id="flames2"></div></div>
 </div>
 
 <div class="card">
@@ -385,31 +386,32 @@ function render(){extCache();
    bd=`<span class="pbs">${on.map((x,p)=>x?`<span class="pb" style="background:${COL(p)}" title="${esc(NM(p))} on shift">${INI(p)}</span>`:'').join('')}</span>`+(both?'<span class="bothtag">BOTH</span>':'')+(obs.length?`<span class="ovbs">${obs.map(([x,p])=>`<span class="ovb ${x.t}" data-p="${p}">${INI(p)} ${OVB(x).replace('VACATION','VAC')}</span>`).join('')}</span>`:'')}
   c.innerHTML+=`<div class="day ${sh||(duo&&isShift(dt,1))?'shift':'home'} ${cls} ${k==today?'today':''}" style="${sty}" data-k="${k}"><div class="num">${d}</div>${hasN?'<span class="nd">💌</span>':''}${bd}<div class="ico">${ico}</div><div class="stk">${(S.stk[k]||[]).join('')}</div>${chipsFor(dt)}</div>`}
  c.querySelectorAll('.day[data-k]').forEach(el=>el.onclick=()=>{const k=el.dataset.k;if(EDIT)return openOv(k);if(cur=='✖')delete S.stk[k];else{(S.stk[k]=S.stk[k]||[]).push(cur);if(S.stk[k].length>4)S.stk[k].shift()}save();render();chime(660)});
- $('cal').style.setProperty('--jc0',COL(0));$('cal').style.setProperty('--jc1',COL(1));tick();renderNotes();renderBub(0);if(duo)renderBub(1);renderExt()}
+ $('cal').style.setProperty('--jc0',COL(0));$('cal').style.setProperty('--jc1',COL(1));tick();renderNotes();const fl=[flOn(0),duo&&flOn(1)];$('flamecard').classList.toggle('hide',!fl[0]&&!fl[1]);$('fset1').classList.toggle('hide',!fl[0]);$('fset2').classList.toggle('hide',!fl[1]);if(fl[0])renderBub(0);if(fl[1])renderBub(1);renderExt()}
 function cd(p){const now=new Date(),s=curShift(p),n=NM(p);if(!s||!F('start',p).value)return{t:`Set ${n}'s shift pattern above`,ms:0,home:true};
- if(s.st>now)return{t:`${n} is home today!`,ms:0,home:true,next:s.st};
+ if(s.st>now)return{t:`${n} is home now`,ms:0,home:true,next:s.st};
+ if(s.en-s.st<=432e5){const ms=s.en-now;return{t:`${n} is home in ${hmTxt(ms)}`,ms,home:false,short:true}}
  let sl=0;for(let d=new Date(now.getFullYear(),now.getMonth(),now.getDate());d<new Date(s.en.getFullYear(),s.en.getMonth(),s.en.getDate());d.setDate(d.getDate()+1))sl++;
  return{t:sl?`${sl} sleep${sl>1?'s':''} until ${n} is home!`:`${n} comes home today!`,ms:s.en-now,home:false}}
+function hmTxt(ms){const m=Math.max(1,Math.ceil(ms/6e4)),h=Math.floor(m/60),mm=m%60;return (h?h+' hour'+(h>1?'s':''):'')+(h&&mm?' ':'')+(mm||!h?mm+' minute'+(mm!=1?'s':''):'')}
+function nxt(d){return d.toLocaleString(undefined,{weekday:'short',hour:'numeric',minute:'2-digit'})}
+function unitFor(s){const d=s.en-s.st;return d<=288e5?36e5:d<=432e5?72e5:0}
+function flOn(p){if(F('job',p).value!='fire')return false;const s=curShift(p);return !!s&&(s.en-s.st)>=864e5}
 function dhm(ms){return Math.floor(ms/864e5)+'d '+Math.floor(ms/36e5)%24+'h '+Math.floor(ms/6e4)%60+'m'}
-function tick(){if(DUO())return tickDuo();const now=new Date(),s=curShift(),n=$('pname').value||'Mom/Dad';
- if(!s||!$('start').value){$('sleeps').textContent='Set the shift pattern above';return}
- if(s.st>now){$('sleeps').textContent=`${n} is home today! Next shift: ${s.st.toLocaleDateString(undefined,{weekday:'long'})}`;setT(0);return}
- const ms=s.en-now;let sl=0;for(let d=new Date(now.getFullYear(),now.getMonth(),now.getDate());d<new Date(s.en.getFullYear(),s.en.getMonth(),s.en.getDate());d.setDate(d.getDate()+1))sl++;
- $('sleeps').textContent=sl?`${sl} sleep${sl>1?'s':''} until ${n} is home!`:`${n} comes home today!`;setT(ms)}
+function tick(){if(DUO())return tickDuo();document.body.classList.remove('allhome');const x=cd(0);$('sleeps').innerHTML=esc(x.t)+(x.home&&x.next?`<div class="nexts">Next shift: ${nxt(x.next)}</div>`:'');setT(x.ms)}
 function tickDuo(){const C=[cd(0),cd(1)],all=C[0].home&&C[1].home;document.body.classList.toggle('allhome',all);
- $('sleeps').innerHTML=all?'':'';$('duocd').innerHTML=(all?`<div class="everyone">Everyone's home!</div>`:'')+C.map((x,p)=>`<div class="cdrow" data-p="${p}" style="--pc:${COL(p)}"><span class="pb" style="background:${COL(p)}">${INI(p)}</span><span class="t">${esc(x.t)}</span><small>${x.home?(x.next?'next shift '+x.next.toLocaleDateString(undefined,{weekday:'short'}):''):dhm(x.ms)}</small></div>`).join('')}
+ $('sleeps').innerHTML=all?'':'';$('duocd').innerHTML=(all?`<div class="everyone">Everyone's home!</div>`:'')+C.map((x,p)=>`<div class="cdrow" data-p="${p}" style="--pc:${COL(p)}"><span class="pb" style="background:${COL(p)}">${INI(p)}</span><span class="t">${esc(x.t)}</span><small>${x.home?(x.next?'Next shift: '+nxt(x.next):''):dhm(x.ms)}</small></div>`).join('')}
 function setT(ms){$('td').textContent=Math.floor(ms/864e5);$('th').textContent=Math.floor(ms/36e5)%24;$('tm').textContent=Math.floor(ms/6e4)%60}
 // flames
 function BK(p){return p?'bub2':'bub'}
 function resetBub(p=0){if(typeof p!='number')p=0;const s=curShift(p),now=new Date();let n=2;
- if(s&&s.st<=now){const ms=s.en-now;n=$('bmode').value=='hour'?Math.max(1,Math.ceil(ms/72e5)):Math.max(1,Math.ceil(ms/864e5))}
- else if(s){n=$('bmode').value=='hour'?Math.ceil((s.en-s.st)/72e5):Math.ceil((s.en-s.st)/864e5)}
- S[BK(p)]={n:Math.min(n,40),popped:[]};save();renderBub(p)}
+ const u=$('bmode').value=='hour'?72e5:864e5;
+ if(s&&s.st<=now)n=Math.max(1,Math.ceil((s.en-now)/u));else if(s)n=Math.max(1,Math.ceil((s.en-s.st)/u));
+ S[BK(p)]={n:Math.min(n,40),popped:[],u};save();renderBub(p)}
 function renderBub(p=0){if(!S[BK(p)])return resetBub(p);const B=S[BK(p)],b=F('flames',p);b.innerHTML='';
  for(let i=0;i<B.n;i++){const done=B.popped.includes(i);const e=document.createElement('button');e.className='fl'+(done?' done':'');e.setAttribute('aria-label',(done?'flame out ':'flame ')+(i+1));e.dataset.i=i;
   e.innerHTML=done?'<span class="log"></span><span class="ok">💧</span><span class="n">'+(i+1)+'</span>':'<span class="f"></span><span class="log"></span><span class="s">💨</span><span class="w"></span><span class="n">'+(i+1)+'</span>';
   if(!done)e.onclick=()=>douse(e,i,p);b.appendChild(e)}
- const q=B.popped.length;F('pbar',p).style.width=(100*q/B.n)+'%';F('gtxt',p).textContent=q+'/'+B.n}
+ F('fu',p).textContent='';const q=B.popped.length;F('pbar',p).style.width=(100*q/B.n)+'%';F('gtxt',p).textContent=q+'/'+B.n}
 function douse(e,i,p=0){if(e.classList.contains('out'))return;const w=e.querySelector('.w');
  for(let k=0;k<12;k++){const d=document.createElement('i');d.style.setProperty('--x',(Math.random()*50-25)+'px');d.style.animationDelay=(k*35)+'ms';w.appendChild(d)}
  hiss();setTimeout(()=>e.classList.add('out'),300);const B=S[BK(p)];B.popped.push(i);save();
