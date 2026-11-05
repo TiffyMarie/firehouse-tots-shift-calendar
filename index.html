@@ -268,7 +268,7 @@ svg.ji{width:26px;height:26px;color:var(--navy);stroke-width:1.6}.day .ico .ji+.
 <button data-s="⭐" class="sel">⭐</button><button data-s="❤️">❤️</button><button data-s="🤗">🤗</button><button data-s="✖" title="Eraser"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button></div>
 <div id="bothwarn" class="bothwarn hide"></div>
 <div class="cal" id="cal"></div>
-<p class="legend duoonly" id="duoleg"></p><p class="legend"><span><svg class="lg"><use href="#truck"/></svg> Shift day</span><span><svg class="lg"><use href="#house"/></svg> Home day</span><span>💌 Note</span><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
+<p class="legend duoonly" id="duoleg"></p><p class="legend"><span><svg class="lg"><use href="#truck"/></svg> Shift day</span><span>💌 Note</span><br><span class="ovb" style="position:static">OT</span> extra shift / overtime &nbsp; <span class="ovb swap" style="position:static">TRADE</span> working a traded shift &nbsp; <span class="ovb give" style="position:static">TRADED</span> / <span class="ovb off" style="position:static">OFF</span> shift given away, vacation, or sick</p>
 </div>
 
 <div class="card panel" id="famcard">
@@ -442,7 +442,7 @@ function hiss(){try{const a=ac(),t=a.currentTime,len=a.sampleRate*1.1,buf=a.crea
 function chime(f,dl=0){try{const a=ac(),o=a.createOscillator(),g=a.createGain(),t=a.currentTime+dl;o.frequency.value=f;g.gain.setValueAtTime(.25,t);g.gain.exponentialRampToValueAtTime(.001,t+.3);o.connect(g).connect(a.destination);o.start(t);o.stop(t+.3)}catch(e){}}
 // overrides
 S.ov=S.ov||{};S.ov2=S.ov2||{};S.bub2=S.bub2||null;let EDIT=false,OVK=null,OVP=0;
-const TRUCK='<svg class="dico"><use href="#truck"/></svg>',HOUSE='<svg class="dico"><use href="#house"/></svg>';const OVC={ot:'ot',swap:'ot swap',give:'give',off:'off'},OVI={ot:TRUCK,swap:'<svg class="dico"><use href="#swap"/></svg>',give:HOUSE,off:'<svg class="dico"><use href="#sun"/></svg>'};
+const TRUCK='<svg class="dico"><use href="#truck"/></svg>',HOUSE='';const OVC={ot:'ot',swap:'ot swap',give:'give',off:'off'},OVI={ot:TRUCK,swap:'<svg class="dico"><use href="#swap"/></svg>',give:HOUSE,off:'<svg class="dico"><use href="#sun"/></svg>'};
 function OVB(o){return o.t=='ot'?'OT'+(o.h&&o.h!=24?' '+o.h+'h':''):o.t=='swap'?'TRADE':o.t=='give'?'TRADED':({vac:'VACATION',sick:'SICK'}[o.r]||'OFF')}
 function toggleEdit(){EDIT=!EDIT;document.body.classList.toggle('editing',EDIT);$('bEdit').innerHTML=EDIT?'<svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span>Done editing</span>':'<svg class="i" aria-hidden="true"><use href="#i-edit"/></svg><span>Edit shifts (parent)</span>';$('edhint').classList.toggle('hide',!EDIT)}
 function openOv(k,p){OVK=k;if(p!==undefined)OVP=p;else if(!DUO())OVP=0;document.querySelectorAll('input[name=ovp]').forEach(r=>r.checked=+r.value==OVP);const o=OV(OVP)[k]||{};$('ovday').textContent=pd(k).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'})+(DUO()?' · '+NM(OVP):'')+(patShift(pd(k),OVP)?' · regular shift day':' · regular day off');
